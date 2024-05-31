@@ -326,7 +326,7 @@ async def play(client: Client, message):
        if not message.reply_to_message.media:
          return
        rep = await message.reply_text("**⎆┊ چاوەڕێ بکە پەخشدەکرێت 🎸•**") 
-       photo = "Uploaded to https://graph.org/file/ffb9ba387b686493f06cb.jpg"
+       photo = "Uploaded to https://graph.org/file/c8d0d49f5e13290314807.jpg"
        if message.reply_to_message.video or message.reply_to_message.document:
            vid = True
        else:
