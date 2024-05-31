@@ -264,7 +264,7 @@ async def play(client: Client, message):
          position = len(db.get(chat)) - 1
          chatname = f"[{message.chat.title}](https://t.me/{message.chat.username})" if message.chat.username else f"{message.chat.title}"
          chatname = f"{message.author_signature}" if message.author_signature else chatname
-         requester = chatname if SEMO.views else f"[{message.from_user.first_name}](tg://user?id={message.from_user.id})"
+         requester = chatname if ALINA.views else f"[{message.from_user.first_name}](tg://user?id={message.from_user.id})"
          if message.from_user:
           if message.from_user.photo:
            photo_id = message.from_user.photo.big_file_id
