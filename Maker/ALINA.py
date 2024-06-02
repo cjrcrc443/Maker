@@ -1,8 +1,8 @@
 from pyrogram import filters, Client
 from pyrogram import Client as app
 from config import API_ID, API_HASH, MONGO_DB_URL, appp, user as usr, helper as ass, call, OWNER, OWNER_NAME, CHANNEL, GROUP, VIDEO
-from SEMO.info import Call, activecall, helper, active
-from SEMO.Data import db, dev, devname, set_must, get_data
+from ALINA.info import Call, activecall, helper, active
+from ALINA.Data import db, dev, devname, set_must, get_data
 from pyrogram.raw.types import InputPeerChannel
 from pyrogram.raw.functions.phone import CreateGroupCall
 from pytgcalls import PyTgCalls
@@ -50,8 +50,8 @@ async def auto_bot():
         devo = i["dev"]
         Done.append(bot_username)
         logger = i["logger"]
-        bot = Client("SEMO", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN, in_memory=True, plugins=dict(root="SEMO"))
-        user = Client("SEMO", api_id=API_ID, api_hash=API_HASH, session_string=SESSION, in_memory=True)
+        bot = Client("ALINA", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN, in_memory=True, plugins=dict(root="ALINA"))
+        user = Client("ALINA", api_id=API_ID, api_hash=API_HASH, session_string=SESSION, in_memory=True)
         await bot.start()
         await user.start()
         appp[bot_username] = bot
@@ -225,7 +225,7 @@ async def stratmaked(client, message):
     return
   if OFF:
       if not message.chat.username in OWNER:
-         return await message.reply_text(f"**👋🏻 ꒐ بۆت ناچالاککراوە \n👾 ꒐ نامە بۆ گەشەپێدەر بنێرە\n🧑🏻‍💻 ꒐ گەشەپێدەر : @{OWNER[0]}**",reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("˼  گەشەپێدەر  🧑🏻‍💻 ˹", url=f"https://t.me/IQ7amo")]]))
+         return await message.reply_text(f"**👋🏻 ꒐ بۆت ناچالاککراوە \n👾 ꒐ نامە بۆ گەشەپێدەر بنێرە\n🧑🏻‍💻 ꒐ گەشەپێدەر : @{OWNER[0]}**",reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("˼  گەشەپێدەر  🧑🏻‍💻 ˹", url=f"https://t.me/{OWNER[0]}")]]))
   if message.chat.username in OWNER:
     kep = ReplyKeyboardMarkup([
 ["دەرهێنانی کۆد","نوێکردنەوەی ڕێکخەر"],
@@ -246,7 +246,7 @@ async def stratmaked(client, message):
 ["• سەرچاوە •", "• دەرهێنانی کۆد •"],
 ["• فێرکاری دروستکردن •"]],resize_keyboard=True)
     await message.reply_text(f"**👋🏻 ꒐ بەخێربێی {message.from_user.mention} ⚡.\n🤖 ꒐ بۆ ڕێکخەری بۆتی گۆرانی ئەلینا ⚡.**", reply_markup=kep,quote=True)
-    
+
 @Client.on_message(
     filters.command(["/alive", "/source", "سەرچاوە", "• سەرچاوە •"], "")
 )
@@ -265,7 +265,7 @@ async def alive(client: Client, message):
     )
     alive = f"""**╭──── • ◈ • ────╮
 么 [𝑺𝒐𝒖𝒓𝒄𝒆 𝑯𝒂𝒘𝒂𝒍](t.me/Haawall) 💎 .
-么  [𝒅𝒆𝒗 𝑴𝒖𝒉𝒂𝒎𝒎𝒆𝒅](t.me/Hawaall) 💎 .
+么  [𝒅𝒆𝒗 𝑯𝒂𝒘𝒂𝒍](t.me/Hawaall) 💎 .
 ╰──── • ◈ • ────╯
 🚦 𝚃𝙷𝙴 𝙱𝙴𝚂𝚃 𝚂𝙾𝚄𝚁𝙲𝙴 𝙾𝙽 𝚃𝙴𝙻𝙴𝙶𝚁𝙰𝙼  💎 .**"""
 
@@ -296,13 +296,13 @@ async def activeee(client, message):
 
 @app.on_message(filters.command("• فێرکاری دروستکردن •", ""))
 async def createbot(client, message):
- await message.reply_text("**👋🏻 ꒐ بەخێربێیت بۆ بەشی فێرکاری\n🤖 ꒐ لە ڕێگای ڤیدیۆوە فێری دروستکردنی بۆت بە\n💻 ꒐ بۆ بینینی ڤیدیۆ دووگمە دابگرە**",reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("فێرکاری دروستکردن", url=f"https://t.me/ferkaredrustkrdnebot")]]))
+ await message.reply_text("**👋🏻 ꒐ بەخێربێیت بۆ بەشی فێرکاری\n🤖 ꒐ لە ڕێگای ڤیدیۆوە فێری دروستکردنی بۆت بە\n💻 ꒐ بۆ بینینی ڤیدیۆ دووگمە دابگرە**",reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("فێرکاری دروستکردن", url=f"https://t.me/MGIMT/639")]]))
 
 @app.on_message(filters.command(["• دەرهێنانی کۆد •","دەرهێنانی کۆد"], ""))
 async def codev2(client, message):
   photo="https://graph.org/file/5f052fa9418a10c5f9542.jpg"
   await message.reply_photo(photo, caption=f"**👋🏻 ꒐ {message.from_user.mention} بەخێربێیت بۆ بەشی کۆد\n🤖 ꒐ لە ڕێگای ئەم بۆت کۆد دەربهێنە\n🛡 ꒐ ئاگادربە تەنیا جۆری 𝗣𝘆𝗿𝗼𝗴𝗿𝗮𝗺 𝗩𝟮 بەکاردێت\n💻 ꒐ بۆت : @IQSGBOT دووگمە دابگرە**",reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("˹s ᴛ ʀ ɪ ɴ ɢ  ✗ s ᴇ s s ɪ ᴏ ɴ˼", url=f"https://t.me/IQSGBOT")]]))
-      
+
 @app.on_message(filters.command(["دروستکردنی بۆت","• دروستکردنی بۆت •"], ""))
 async def cloner(app: app, message):
     if await is_block_user(message.from_user.id):
@@ -330,7 +330,7 @@ async def cloner(app: app, message):
     session = await app.ask(chat_id=user_id, text="**◗⋮◖ ئێستا کۆدی ئەکاونتی یاریدەدەر بنێرە 💎.**", timeout=200)
     await app.send_message(user_id, "**◗⋮◖ بۆت چالاک دەکرێت کەمێك چاوەڕێ بکە ..⚡.**")
     session = session.text
-    user = Client("SEMO", api_id=API_ID, api_hash=API_HASH, session_string=session, in_memory=True)
+    user = Client("ALINA", api_id=API_ID, api_hash=API_HASH, session_string=session, in_memory=True)
     try:       
        await user.start()
     except:
@@ -432,9 +432,9 @@ async def delbot(client: app, message):
      await message.reply_text("**◗⋮◖ بە سەرکەوتوویی بۆتەکەت سڕدرایەوە ⚡.**")
     except:
      await message.reply_text("**◗⋮◖ هەنێك هەڵە هەیە نامە بۆ گەشەپێدەر بنێرە ⚡.\n◗⋮◖ گەشەپێدەر : @{OWNER[0]} ⚡.**")
-   
 
-    
+
+
 @app.on_message(filters.command("بۆتەکان", ""))
 async def botsmaked(client, message):
   if message.chat.username in OWNER:
@@ -544,7 +544,7 @@ async def blockk(client: app, message):
          return await ask.reply_text("**♪ پێشتر باندکراوە 🚦⚡.**") 
       await add_block_user(user_id)
       return await ask.reply_text("**♪ بە سەرکەوتوویی بەکارهێنەر باندکرا 🚦⚡.**")
-   
+
 
 
 @app.on_message(filters.command(["فۆرواردی گشتی", "ڕێکڵامی گشتی"], ""))
@@ -657,7 +657,7 @@ async def casttoall(client: app, message):
            print(es)
            await message.reply_text(es)
    try:
-      await message.reply_text(f"**تم الاذاعه لجميع المصنوعات بنجاح**\n**تم الاذاعه باستخدام {b} بوت**\n**الي {c} مجموعة و {u} مستخدم**\n**تم الاذعه باستخدام {s} مساعد**\n**الي {sc} مجموعة و {su} مستخدم**")
+      await message.reply_text(f"**بەسەرکەوتووی نێردرا**\n**نێردرا بە بەکارهێنانی {b} بۆت**\n**بۆ {c} گرووپ و {u} بەکارهێنەر**\n**نێردرا بە بکارهێنانی {s} یاریدەدەر**\n**بۆ {sc} گرووپ و {su} بەکارهێنەر**")
    except Exception as es:
       await message.reply_text(es)
 
