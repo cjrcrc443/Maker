@@ -68,27 +68,27 @@ async def auto_bot():
         await helper(bot_username)
         await Call(bot_username)
         try:
-           await user.join_chat("IQQUR")
+           await user.join_chat("Hawaall")
         except:
            pass
         try:
-          await user.join_chat("MGIMT")
+          await user.join_chat("ipceeoflifee7")
         except:
           pass
         try:
-          await user.join_chat("EHS4SS")
+          await user.join_chat("pieceoflife00")
         except:
           pass
         try:
-          await user.join_chat("IQSUPP")
+          await user.join_chat("aramii_dll")
         except:
           pass
         try:
-          await user.join_chat("xv7amo")
+          await user.join_chat("pieceofsad0")
         except:
           pass
         try:
-          await user.join_chat("IQBOTT")
+          await user.join_chat("Haawall")
         except:
           pass
       except Exception as e:
