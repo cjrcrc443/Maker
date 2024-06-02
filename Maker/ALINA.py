@@ -225,7 +225,7 @@ async def stratmaked(client, message):
     return
   if OFF:
       if not message.chat.username in OWNER:
-         return await message.reply_text(f"**👋🏻 ꒐ بۆت ناچالاککراوە \n👾 ꒐ نامە بۆ گەشەپێدەر بنێرە\n🧑🏻‍💻 ꒐ گەشەپێدەر : @{OWNER[0]}**",reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("˼  گەشەپێدەر  🧑🏻‍💻 ˹", url=f"https://t.me/IQ7amo")]]))
+         return await message.reply_text(f"**👋🏻 ꒐ بۆت ناچالاککراوە \n👾 ꒐ نامە بۆ گەشەپێدەر بنێرە\n🧑🏻‍💻 ꒐ گەشەپێدەر : @{OWNER[0]}**",reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("˼  گەشەپێدەر  🧑🏻‍💻 ˹", url=f"https://t.me/{OWNER}")]]))
   if message.chat.username in OWNER:
     kep = ReplyKeyboardMarkup([
 ["دەرهێنانی کۆد","نوێکردنەوەی ڕێکخەر"],
@@ -309,7 +309,7 @@ async def cloner(app: app, message):
       return
     if OFF:
       if not message.chat.username in OWNER:
-         return await message.reply_text(f"**👋🏻 ꒐ بۆت ناچالاککراوە \n👾 ꒐ نامە بۆ گەشەپێدەر بنێرە\n🧑🏻‍💻 ꒐ گەشەپێدەر : @{OWNER[0]}**",reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("˼  گەشەپێدەر  🧑🏻‍💻 ˹", url=f"https://t.me/IQ7amo")]]))
+         return await message.reply_text(f"**👋🏻 ꒐ بۆت ناچالاککراوە \n👾 ꒐ نامە بۆ گەشەپێدەر بنێرە\n🧑🏻‍💻 ꒐ گەشەپێدەر : @{OWNER[0]}**",reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("˼  گەشەپێدەر  🧑🏻‍💻 ˹", url=f"https://t.me/{OWNER}")]]))
     user_id = message.chat.id
     tokenn = await app.ask(chat_id=user_id, text="**◗⋮◖ تۆکنی بۆت بنێرە 💎.**", timeout=200)
     token = tokenn.text
@@ -371,7 +371,7 @@ async def delbot(client: app, message):
     return
   if OFF:
       if not message.chat.username in OWNER:
-         return await message.reply_text(f"**👋🏻 ꒐ بۆت ناچالاککراوە \n👾 ꒐ نامە بۆ گەشەپێدەر بنێرە\n🧑🏻‍💻 ꒐ گەشەپێدەر : @{OWNER[0]}**",reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("˼  گەشەپێدەر  🧑🏻‍💻 ˹", url=f"https://t.me/IQ7amo")]]))
+         return await message.reply_text(f"**👋🏻 ꒐ بۆت ناچالاککراوە \n👾 ꒐ نامە بۆ گەشەپێدەر بنێرە\n🧑🏻‍💻 ꒐ گەشەپێدەر : @{OWNER[0]}**",reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("˼  گەشەپێدەر  🧑🏻‍💻 ˹", url=f"https://t.me/{OWNER}")]]))
   if message.chat.username in OWNER:
    ask = await client.ask(message.chat.id, "**◗⋮◖ یوزەری بۆت بنێرە 💎.**", timeout=200)
    bot_username = ask.text
