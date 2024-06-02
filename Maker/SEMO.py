@@ -68,27 +68,27 @@ async def auto_bot():
         await helper(bot_username)
         await Call(bot_username)
         try:
-           await user.join_chat("IQQUR")
+           await user.join_chat("Hawaall")
         except:
            pass
         try:
-          await user.join_chat("MGIMT")
+          await user.join_chat("ipceeoflifee7")
         except:
           pass
         try:
-          await user.join_chat("EHS4SS")
+          await user.join_chat("pieceoflife00")
         except:
           pass
         try:
-          await user.join_chat("IQSUPP")
+          await user.join_chat("aramii_dll")
         except:
           pass
         try:
-          await user.join_chat("xv7amo")
+          await user.join_chat("pieceofsad0")
         except:
           pass
         try:
-          await user.join_chat("IQBOTT")
+          await user.join_chat("Haawall")
         except:
           pass
       except Exception as e:
@@ -125,7 +125,7 @@ from pyrogram.errors import ChatAdminRequired, UserNotParticipant, ChatWriteForb
 
 #--------------------------
 
-MUST_JOIN = "EHS4SS"
+MUST_JOIN = "Haawall"
 #------------------------
 @app.on_message(filters.incoming & filters.private, group=-1)
 async def must_join_channel(app: Client, msg: Message):
@@ -142,7 +142,7 @@ async def must_join_channel(app: Client, msg: Message):
                 link = chat_info.invite_link
             try:
                 await msg.reply_photo(
-                    photo="https://graph.org/file/d43f056ca2a5e2e598fd2.jpg", caption=f"**🧑🏻‍💻︙ببوورە ئەزیزم تۆ جۆین نیت؛\n🔰︙سەرەتا پێویستە جۆینی کەناڵی بۆت ♥️؛\n👾︙بکەیت بۆ بەکارهێنانم جۆین بە ⚜️؛\n💎︙کەناڵی بۆت: @EHS4SS\n\n👾︙کاتێ جۆینت کرد ستارت بکە /start , /help 📛!**",
+                    photo="https://graph.org/file/c8d0d49f5e13290314807.jpg", caption=f"**🧑🏻‍💻︙ببوورە ئەزیزم تۆ جۆین نیت؛\n🔰︙سەرەتا پێویستە جۆینی کەناڵی بۆت ♥️؛\n👾︙بکەیت بۆ بەکارهێنانم جۆین بە ⚜️؛\n💎︙کەناڵی بۆت: @Haawall\n\n👾︙کاتێ جۆینت کرد ستارت بکە /start , /help 📛!**",
                     reply_markup=InlineKeyboardMarkup(
                         [
                             [
@@ -255,8 +255,8 @@ async def alive(client: Client, message):
     keyboard = InlineKeyboardMarkup(
         [
             [
-                InlineKeyboardButton("𝗚𝗿𝗼𝘂𝗽 🖱️", url=f"https://t.me/IQSUPP"),
-                InlineKeyboardButton("𝗖𝗵𝗮𝗻𝗻𝗲𝗹 🖱️", url=f"https://t.me/MGIMT"),
+                InlineKeyboardButton("𝗚𝗿𝗼𝘂𝗽 🖱️", url=f"https://t.me/pieceofsad0"),
+                InlineKeyboardButton("𝗖𝗵𝗮𝗻𝗻𝗲𝗹 🖱️", url=f"https://t.me/Haawall"),
             ],
             [
                  InlineKeyboardButton(f"{OWNER_NAME}", url=f"https://t.me/{OWNER[0]}")
@@ -264,8 +264,8 @@ async def alive(client: Client, message):
         ]
     )
     alive = f"""**╭──── • ◈ • ────╮
-么 [𝑺𝒐𝒖𝒓𝒄𝒆 𝑨𝒍𝒊𝒏𝒂](t.me/MGIMT) 💎 .
-么  [𝒅𝒆𝒗 𝑴𝒖𝒉𝒂𝒎𝒎𝒆𝒅](t.me/IQ7amo) 💎 .
+么 [𝑺𝒐𝒖𝒓𝒄𝒆 𝑯𝒂𝒘𝒂𝒍](t.me/Haawall) 💎 .
+么  [𝒅𝒆𝒗 𝑴𝒖𝒉𝒂𝒎𝒎𝒆𝒅](t.me/Hawaall) 💎 .
 ╰──── • ◈ • ────╯
 🚦 𝚃𝙷𝙴 𝙱𝙴𝚂𝚃 𝚂𝙾𝚄𝚁𝙲𝙴 𝙾𝙽 𝚃𝙴𝙻𝙴𝙶𝚁𝙰𝙼  💎 .**"""
 
@@ -296,7 +296,7 @@ async def activeee(client, message):
 
 @app.on_message(filters.command("• فێرکاری دروستکردن •", ""))
 async def createbot(client, message):
- await message.reply_text("**👋🏻 ꒐ بەخێربێیت بۆ بەشی فێرکاری\n🤖 ꒐ لە ڕێگای ڤیدیۆوە فێری دروستکردنی بۆت بە\n💻 ꒐ بۆ بینینی ڤیدیۆ دووگمە دابگرە**",reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("فێرکاری دروستکردن", url=f"https://t.me/MGIMT/639")]]))
+ await message.reply_text("**👋🏻 ꒐ بەخێربێیت بۆ بەشی فێرکاری\n🤖 ꒐ لە ڕێگای ڤیدیۆوە فێری دروستکردنی بۆت بە\n💻 ꒐ بۆ بینینی ڤیدیۆ دووگمە دابگرە**",reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("فێرکاری دروستکردن", url=f"https://t.me/ferkaredrustkrdnebot")]]))
 
 @app.on_message(filters.command(["• دەرهێنانی کۆد •","دەرهێنانی کۆد"], ""))
 async def codev2(client, message):
@@ -309,7 +309,7 @@ async def cloner(app: app, message):
       return
     if OFF:
       if not message.chat.username in OWNER:
-         return await message.reply_text(f"**👋🏻 ꒐ بۆت ناچالاککراوە \n👾 ꒐ نامە بۆ گەشەپێدەر بنێرە\n🧑🏻‍💻 ꒐ گەشەپێدەر : @{OWNER[0]}**",reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("˼  گەشەپێدەر  🧑🏻‍💻 ˹", url=f"https://t.me/IQ7amo")]]))
+         return await message.reply_text(f"**👋🏻 ꒐ بۆت ناچالاککراوە \n👾 ꒐ نامە بۆ گەشەپێدەر بنێرە\n🧑🏻‍💻 ꒐ گەشەپێدەر : @{OWNER[0]}**",reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("˼  گەشەپێدەر  🧑🏻‍💻 ˹", url=f"https://t.me/{OWNER[0]}")]]))
     user_id = message.chat.id
     tokenn = await app.ask(chat_id=user_id, text="**◗⋮◖ تۆکنی بۆت بنێرە 💎.**", timeout=200)
     token = tokenn.text
@@ -371,7 +371,7 @@ async def delbot(client: app, message):
     return
   if OFF:
       if not message.chat.username in OWNER:
-         return await message.reply_text(f"**👋🏻 ꒐ بۆت ناچالاککراوە \n👾 ꒐ نامە بۆ گەشەپێدەر بنێرە\n🧑🏻‍💻 ꒐ گەشەپێدەر : @{OWNER[0]}**",reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("˼  گەشەپێدەر  🧑🏻‍💻 ˹", url=f"https://t.me/IQ7amo")]]))
+         return await message.reply_text(f"**👋🏻 ꒐ بۆت ناچالاککراوە \n👾 ꒐ نامە بۆ گەشەپێدەر بنێرە\n🧑🏻‍💻 ꒐ گەشەپێدەر : @{OWNER[0]}**",reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("˼  گەشەپێدەر  🧑🏻‍💻 ˹", url=f"https://t.me/{OWNER[0]}")]]))
   if message.chat.username in OWNER:
    ask = await client.ask(message.chat.id, "**◗⋮◖ یوزەری بۆت بنێرە 💎.**", timeout=200)
    bot_username = ask.text
