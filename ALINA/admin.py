@@ -156,7 +156,7 @@ async def admin_risght(client: Client, message):
        gr = await get_group(bot_username)
        ch = await get_channel(bot_username)
        button = [[InlineKeyboardButton(text="END", callback_data=f"stop"), InlineKeyboardButton(text="RESUME", callback_data=f"resume"), InlineKeyboardButton(text="PAUSE", callback_data=f"pause")], [InlineKeyboardButton(text="𝗖𝗵𝗮𝗻𝗻𝗲𝗹 🌐", url=f"{ch}"), InlineKeyboardButton(text="𝗚𝗿𝗼𝘂𝗽 ♻️", url=f"{gr}")], [InlineKeyboardButton(text=f"{OWNER_NAME}", url="https://t.me/IQ7amo")], [InlineKeyboardButton(text="زیادم بکە بۆ گرووپ یان کەناڵت ⚡", url=f"https://t.me/{bot_username}?startgroup=True")]]
-       await message.reply_photo(photo=img, caption=f"**⭓ᴍᴜˢɪᴄ✘ᴀʟɪɴᴀ 🎻\n\n╮◉ ناونیشان : {title}\n│᚜⦿ ماوەکەی : {duration} ⌚\n╯◉ لەلایەن : {requester}**", reply_markup=InlineKeyboardMarkup(button))
+       await message.reply_photo(photo=img, caption=f"**⭓ᴍᴜˢɪᴄ✘ʜᴀᴡᴀʟ 🎻\n\n╮◉ ناونیشان : {title}\n│᚜⦿ ماوەکەی : {duration} ⌚\n╯◉ لەلایەن : {requester}**", reply_markup=InlineKeyboardMarkup(button))
        try:
            os.remove(file_path)
            os.remove(img)
