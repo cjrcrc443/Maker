@@ -283,7 +283,7 @@ async def play(client: Client, message):
           ahmedphoto = ahmed.photo.big_file_id
           photo = await client.download_media(ahmedphoto)
          photo = await gen_thumb(videoid, photo)
-         await message.reply_photo(photo=photo, caption=f"**⭓ᴍᴜˢɪᴄ✘ᴀʟɪɴᴀ ᴘʟᴀʏʟɪsᴛ : {position} 🎻\n\n╮◉ ناونیشان : {title[:18]}\n│᚜⦿ ماوەکەی : {duration} ⌚\n╯◉ لەلایەن : {requester}**", reply_markup=InlineKeyboardMarkup(button))
+         await message.reply_photo(photo=photo, caption=f"**⭓ᴍᴜˢɪᴄ✘ʜᴀᴡᴀʟ ᴘʟᴀʏʟɪsᴛ : {position} 🎻\n\n╮◉ ناونیشان : {title[:18]}\n│᚜⦿ ماوەکەی : {duration} ⌚\n╯◉ لەلایەن : {requester}**", reply_markup=InlineKeyboardMarkup(button))
          await logs(bot_username, client, message)
      else:
          chat_id = message.chat.id
@@ -319,7 +319,7 @@ async def play(client: Client, message):
           ahmedphoto = ahmed.photo.big_file_id
           photo = await client.download_media(ahmedphoto)
          photo = await gen_thumb(videoid, photo)
-         await message.reply_photo(photo=photo, caption=f"**⭓ᴍᴜˢɪᴄ✘ᴀʟɪɴᴀ 🎻\n\n╮◉ ناونیشان : {title}\n│᚜⦿ ماوەکەی : {duration} ⌚\n╯◉ لەلایەن : {requester}**", reply_markup=InlineKeyboardMarkup(button))
+         await message.reply_photo(photo=photo, caption=f"**⭓ᴍᴜˢɪᴄ✘ʜᴀᴡᴀʟ 🎻\n\n╮◉ ناونیشان : {title}\n│᚜⦿ ماوەکەی : {duration} ⌚\n╯◉ لەلایەن : {requester}**", reply_markup=InlineKeyboardMarkup(button))
          await logs(bot_username, client, message)
      await rep.delete()
   else:
@@ -352,7 +352,7 @@ async def play(client: Client, message):
          chatname = f"[{message.chat.title}](https://t.me/{message.chat.username})" if message.chat.username else f"{message.chat.title}"
          chatname = f"{message.author_signature}" if message.author_signature else chatname
          requester = chatname if ALINA.views else f"[{message.from_user.first_name}](tg://user?id={message.from_user.id})"
-         await message.reply_photo(photo=photo, caption=f"**⭓ᴍᴜˢɪᴄ✘ᴀʟɪɴᴀ ᴘʟᴀʏʟɪsᴛ : {position} 🎻\n\n╮◉ ناونیشان : {title[:18]}\n│᚜⦿ ماوەکەی : {duration} ⌚\n╯◉ لەلایەن : {requester}**", reply_markup=InlineKeyboardMarkup(button))
+         await message.reply_photo(photo=photo, caption=f"**⭓ᴍᴜˢɪᴄ✘ʜᴀᴡᴀʟ ᴘʟᴀʏʟɪsᴛ : {position} 🎻\n\n╮◉ ناونیشان : {title[:18]}\n│᚜⦿ ماوەکەی : {duration} ⌚\n╯◉ لەلایەن : {requester}**", reply_markup=InlineKeyboardMarkup(button))
          await logs(bot_username, client, message)
        else:
          chat_id = message.chat.id
@@ -369,7 +369,7 @@ async def play(client: Client, message):
          chatname = f"[{message.chat.title}](https://t.me/{message.chat.username})" if message.chat.username else f"{message.chat.title}"
          chatname = f"{message.author_signature}" if message.author_signature else chatname
          requester = chatname if ALINA.views else f"[{message.from_user.first_name}](tg://user?id={message.from_user.id})"
-         await message.reply_photo(photo=photo, caption=f"**⭓ᴍᴜˢɪᴄ✘ᴀʟɪɴᴀ 🎻\n\n╮◉ ناونیشان : {title}\n│᚜⦿ ماوەکەی : {duration} ⌚\n╯◉ لەلایەن : {requester}**", reply_markup=InlineKeyboardMarkup(button))
+         await message.reply_photo(photo=photo, caption=f"**⭓ᴍᴜˢɪᴄ✘ʜᴀᴡᴀʟ 🎻\n\n╮◉ ناونیشان : {title}\n│᚜⦿ ماوەکەی : {duration} ⌚\n╯◉ لەلایەن : {requester}**", reply_markup=InlineKeyboardMarkup(button))
          await logs(bot_username, client, message)
   try:
      os.remove(file_path)
