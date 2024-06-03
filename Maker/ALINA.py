@@ -294,9 +294,9 @@ async def activeee(client, message):
   await message.reply_text(f"**♪ ژمارەی پەخشەکان {nn} 🚦⚡.**")
 
 
-@app.on_message(filters.command("• فێرکاری دروستکردن •", ""))
+@app.on_message(filters.command(["• فێرکاری دروستکردن •","فێرکاری دروستکردن"], ""))
 async def createbot(client, message):
- await message.reply_text("**👋🏻 ꒐ بەخێربێیت بۆ بەشی فێرکاری\n🤖 ꒐ لە ڕێگای ڤیدیۆوە فێری دروستکردنی بۆت بە\n💻 ꒐ بۆ بینینی ڤیدیۆ دووگمە دابگرە**",reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("فێرکاری دروستکردن", url=f"https://t.me/MGIMT/639")]]))
+ await message.reply_text("**👋🏻 ꒐ بەخێربێیت بۆ بەشی فێرکاری\n🤖 ꒐ لە ڕێگای ڤیدیۆوە فێری دروستکردنی بۆت بە\n💻 ꒐ بۆ بینینی ڤیدیۆ دووگمە دابگرە**",reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("فێرکاری دروستکردن", url=f"https://t.me/ferkaredrsutkrdnebot/6")]]))
 
 @app.on_message(filters.command(["• دەرهێنانی کۆد •","دەرهێنانی کۆد"], ""))
 async def codev2(client, message):
