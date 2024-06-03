@@ -245,7 +245,7 @@ async def stratmaked(client, message):
 ["• سڕینەوەی بۆت •", "• دروستکردنی بۆت •"],
 ["• سەرچاوە •", "• دەرهێنانی کۆد •"],
 ["• فێرکاری دروستکردن •"]],resize_keyboard=True)
-    await message.reply_text(f"**👋🏻 ꒐ بەخێربێی {message.from_user.mention} ⚡.\n🤖 ꒐ بۆ ڕێکخەری بۆتی گۆرانی ئەلینا ⚡.**", reply_markup=kep,quote=True)
+    await message.reply_text(f"**👋🏻 ꒐ بەخێربێی {message.from_user.mention} ⚡.\n🤖 ꒐ بۆ ڕێکخەری بۆتی گۆرانی هەواڵ ⚡.**", reply_markup=kep,quote=True)
 
 @Client.on_message(
     filters.command(["/alive", "/source", "سەرچاوە", "• سەرچاوە •"], "")
