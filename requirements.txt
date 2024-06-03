@@ -5,9 +5,9 @@ py-tgcalls==1.2.9
 ntgcalls==1.1.2
 telethon==1.28.2
 pyrogram==2.0.106
-youtube-search
-youtube-search-python
-yt-dlp
+yt-dlp==2023.10.13
+git+https://github.com/alexmercerind/youtube-search-python@main
+git+https://github.com/joetats/youtube_search@master
 python-dotenv
 dnspython
 gitpython
