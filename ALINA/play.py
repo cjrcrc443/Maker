@@ -9,12 +9,12 @@ import yt_dlp
 from datetime import datetime, timedelta
 from youtube_search import YoutubeSearch
 import pytgcalls
-from pytgcalls.types import (
-    MediaStream,
-    AudioQuality,
-    VideoQuality,
-    Update,
-)
+from pytgcalls.types.input_stream.quality import (HighQualityAudio,
+                                                  HighQualityVideo,
+                                                  LowQualityAudio,
+                                                  LowQualityVideo,
+                                                  MediumQualityAudio,
+                                                  MediumQualityVideo)
 from typing import Union
 from pyrogram import Client, filters 
 from pyrogram import Client as client
@@ -23,9 +23,10 @@ from pyrogram.errors import (ChatAdminRequired,
                              UserNotParticipant)
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.enums import ChatType, ChatMemberStatus
-from pytgcalls import PyTgCalls
+from pytgcalls import PyTgCalls, StreamType
 from ntgcalls import TelegramServerError
 from pytgcalls.exceptions import AlreadyJoinedError, NoActiveGroupCall
+from pytgcalls.types.input_stream import AudioPiped, AudioVideoPiped
 from pytgcalls.types.stream import StreamAudioEnded
 from config import API_ID, API_HASH, MONGO_DB_URL, VIDEO, OWNER, OWNER_NAME, LOGS, GROUP, CHANNEL
 from motor.motor_asyncio import AsyncIOMotorClient as _mongo_client_
@@ -113,7 +114,9 @@ async def join_call(
         except:
           return Done
         file_path = file_path
-        stream = (MediaStream(file_path, audio_parameters=AudioQuality.HIGH, video_parameters=VideoQuality.HD_720p) if vid else MediaStream(file_path, audio_parameters=AudioQuality.HIGH, video_flags=MediaStream.IGNORE,))
+        audio_stream_quality = HighQualityAudio()
+        video_stream_quality = MediumQualityVideo()
+        stream = (AudioVideoPiped(file_path, audio_parameters=audio_stream_quality, video_parameters=video_stream_quality) if vid else AudioPiped(file_path, audio_parameters=audio_stream_quality))
         try:
             await call.join_group_call(chat_id, stream)
             Done = True
