@@ -14,15 +14,16 @@ from motor.motor_asyncio import AsyncIOMotorClient as _mongo_client_
 from pymongo import MongoClient
 from youtube_search import YoutubeSearch
 from youtubesearchpython.__future__ import VideosSearch
-from pytgcalls import PyTgCalls
+from pytgcalls import PyTgCalls, StreamType
 from pyrogram.errors.exceptions.bad_request_400 import UserNotParticipant
+from pytgcalls.types.input_stream import AudioPiped, AudioVideoPiped
 from pytgcalls.types.stream import StreamAudioEnded
-from pytgcalls.types import (
-    MediaStream,
-    AudioQuality,
-    VideoQuality,
-    Update,
-)
+from pytgcalls.types.input_stream.quality import (HighQualityAudio,
+                                                  HighQualityVideo,
+                                                  LowQualityAudio,
+                                                  LowQualityVideo,
+                                                  MediumQualityAudio,
+                                                  MediumQualityVideo)
 import re
 import textwrap
 import aiofiles
@@ -413,6 +414,8 @@ async def change_stream(bot_username, client, chat_id):
             chat_id = check[0]["chat_id"]
             video = check[0]["vid"]
             videoid = check[0]["videoid"]
+            audio_stream_quality = HighQualityAudio()
+            video_stream_quality = MediumQualityVideo()
             link = check[0]["videoid"]
             check[0]["played"] = 0        
             app = appp[bot_username]
@@ -423,7 +426,7 @@ async def change_stream(bot_username, client, chat_id):
                 file_path = await download(bot_username, link, video)
              except Exception as es:
                 return await app.send_message(chat_id, f"**⎆┊ هەڵە ڕوویدا لە کاتی پەخشی دواتر 🎸•**")
-            stream = (MediaStream(file_path, audio_parameters=AudioQuality.HIGH, video_parameters=VideoQuality.HD_720p) if video else MediaStream(file_path, audio_parameters=AudioQuality.HIGH, video_flags=MediaStream.IGNORE,))
+            stream = (AudioVideoPiped(file_path, audio_parameters=audio_stream_quality, video_parameters=video_stream_quality) if video else AudioPiped(file_path, audio_parameters=audio_stream_quality))
             try:
                  await client.change_stream(chat_id, stream)
             except Exception as es:
