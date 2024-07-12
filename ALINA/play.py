@@ -24,8 +24,11 @@ from pyrogram.errors import (ChatAdminRequired,
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.enums import ChatType, ChatMemberStatus
 from pytgcalls import PyTgCalls, StreamType
-from ntgcalls import TelegramServerError
-from pytgcalls.exceptions import AlreadyJoinedError, NoActiveGroupCall
+from pytgcalls.exceptions import (AlreadyJoinedError,
+                                  NoActiveGroupCall,
+                                  TelegramServerError)
+from pytgcalls.types import (JoinedGroupCallParticipant,
+                             LeftGroupCallParticipant, Update)
 from pytgcalls.types.input_stream import AudioPiped, AudioVideoPiped
 from pytgcalls.types.stream import StreamAudioEnded
 from config import API_ID, API_HASH, MONGO_DB_URL, VIDEO, OWNER, OWNER_NAME, LOGS, GROUP, CHANNEL
