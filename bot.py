@@ -8,7 +8,7 @@ bot = Client(
     "mo",
     api_id="12962251",
     api_hash="b51499523800add51e4530c6f552dbc8",
-    bot_token="7457379005:AAH5jd36IUUAVdtIx2iAjgy_WnrxRT59hbw",
+    bot_token="7457379005:AAFGa-KqppzmKI1NuzW2sp2PUwJLmyC3wuE",
     plugins=dict(root="Maker")
     )
 
