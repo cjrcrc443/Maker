@@ -6,9 +6,9 @@ from pyrogram import Client, filters
 from pyrogram import Client as client
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message
 from config import appp, OWNER, OWNER_NAME, VIDEO
-from ALINA.Data import get_data
+from SEMO.Data import get_data
 from googletrans import Translator
-from ALINA.Data import (get_call, get_app, get_userbot, get_group, get_channel, must_join)
+from SEMO.Data import (get_call, get_app, get_userbot, get_group, get_channel, must_join)
 from config import API_ID, API_HASH, MONGO_DB_URL, user, dev, call, logger, logger_mode, botname, helper as ass
 from motor.motor_asyncio import AsyncIOMotorClient as _mongo_client_
 from pymongo import MongoClient
@@ -16,6 +16,8 @@ from youtube_search import YoutubeSearch
 from youtubesearchpython.__future__ import VideosSearch
 from pytgcalls import PyTgCalls, StreamType
 from pyrogram.errors.exceptions.bad_request_400 import UserNotParticipant
+from pytgcalls.types import (JoinedGroupCallParticipant,
+                             LeftGroupCallParticipant, Update)
 from pytgcalls.types.input_stream import AudioPiped, AudioVideoPiped
 from pytgcalls.types.stream import StreamAudioEnded
 from pytgcalls.types.input_stream.quality import (HighQualityAudio,
@@ -30,7 +32,6 @@ import aiofiles
 import aiohttp
 from PIL import (Image, ImageDraw, ImageEnhance, ImageFilter,
                  ImageFont, ImageOps)
-import asyncio
 
 translator = Translator()
 
@@ -414,7 +415,7 @@ async def change_stream(bot_username, client, chat_id):
             chat_id = check[0]["chat_id"]
             video = check[0]["vid"]
             videoid = check[0]["videoid"]
-            audio_stream_quality = HighQualityAudio()
+            audio_stream_quality = MediumQualityAudio()
             video_stream_quality = MediumQualityVideo()
             link = check[0]["videoid"]
             check[0]["played"] = 0        
