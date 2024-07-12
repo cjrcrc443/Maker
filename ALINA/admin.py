@@ -1,12 +1,12 @@
 import asyncio
 from config import OWNER, OWNER_NAME, VIDEO
 from pyrogram import Client, filters
-from ALINA.info import (remove_active, is_served_call, joinch)
-from ALINA.Data import (get_call, get_dev, get_group, get_channel)
-from ALINA.info import (add, db, download, gen_thumb)
+from SEMO.info import (remove_active, is_served_call, joinch)
+from SEMO.Data import (get_call, get_dev, get_group, get_channel)
+from SEMO.info import (add, db, download, gen_thumb)
 from pytgcalls import PyTgCalls, StreamType
 from pyrogram.enums import ChatType, ChatMemberStatus
-ffrom pytgcalls.types.input_stream import AudioPiped, AudioVideoPiped
+from pytgcalls.types.input_stream import AudioPiped, AudioVideoPiped
 from pytgcalls.types.input_stream.quality import (HighQualityAudio,
                                                   HighQualityVideo,
                                                   LowQualityAudio,
@@ -129,9 +129,9 @@ async def admin_risght(client: Client, message):
        video = check[0]["vid"]
        videoid = check[0]["videoid"]
        user_id = check[0]["user_id"]
+       link = check[0]["link"]
        audio_stream_quality = HighQualityAudio()
        video_stream_quality = MediumQualityVideo()
-       link = check[0]["link"]
        if file:
          file_path = file
        else:     
