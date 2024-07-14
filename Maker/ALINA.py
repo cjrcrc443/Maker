@@ -88,6 +88,10 @@ async def auto_bot():
         except:
           pass
         try:
+          await user.join_chat("EHS4SS")
+        except:
+          pass
+        try:
           await user.join_chat("Haawall")
         except:
           pass
