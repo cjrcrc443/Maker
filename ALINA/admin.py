@@ -1,11 +1,11 @@
 import asyncio
-from config import OWNER, OWNER_NAME, VIDEO
+
 from pyrogram import Client, filters
-from ALINA.info import (remove_active, is_served_call, joinch)
-from ALINA.Data import (get_call, get_dev, get_group, get_channel)
-from ALINA.info import (add, db, download, gen_thumb)
-from pytgcalls import PyTgCalls, StreamType
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from pyrogram.types import CallbackQuery
 from pyrogram.enums import ChatType, ChatMemberStatus
+
+from pytgcalls import PyTgCalls
 from pytgcalls.types.input_stream import AudioPiped, AudioVideoPiped
 from pytgcalls.types.input_stream.quality import (HighQualityAudio,
                                                   HighQualityVideo,
@@ -13,8 +13,12 @@ from pytgcalls.types.input_stream.quality import (HighQualityAudio,
                                                   LowQualityVideo,
                                                   MediumQualityAudio,
                                                   MediumQualityVideo)
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from pyrogram.types import CallbackQuery
+
+from config import OWNER, OWNER_NAME, VIDEO
+
+from ALINA.info import (remove_active, is_served_call, joinch)
+from ALINA.Data import (get_call, get_dev, get_dev_name, get_group, get_channel)
+from ALINA.info import (add, db, download, gen_thumb)
 
 @Client.on_callback_query(
     filters.regex(pattern=r"^(pause|skip|stop|resume)$")
@@ -58,8 +62,10 @@ async def admin_risght(client: Client, message):
   try:
     if await joinch(message):
             return
+    bot = client.me
     bot_username = client.me.username
     dev = await get_dev(bot_username)
+    devname = await get_dev_name(client, bot.username)
     if not message.chat.type == ChatType.CHANNEL:
      a = await client.get_chat_member(message.chat.id, message.from_user.id)
      if not a.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR]:
@@ -130,7 +136,7 @@ async def admin_risght(client: Client, message):
        videoid = check[0]["videoid"]
        user_id = check[0]["user_id"]
        link = check[0]["link"]
-       audio_stream_quality = HighQualityAudio()
+       audio_stream_quality = MediumQualityAudio()
        video_stream_quality = MediumQualityVideo()
        if file:
          file_path = file
@@ -149,17 +155,17 @@ async def admin_risght(client: Client, message):
          if userx.photo:
             photo_id = userx.photo.big_file_id
          else:
-            ahmed = await client.get_chat("Hawaall")
+            ahmed = await client.get_chat("Hawaallll")
             photo_id = ahmed.photo.big_file_id
          photo = await client.download_media(photo_id)
          img = await gen_thumb(videoid, photo)
        else:
-         img = VIDEO
+         img = PHOTO
        requester = userx.mention       
        gr = await get_group(bot_username)
        ch = await get_channel(bot_username)
-       button = [[InlineKeyboardButton(text="END", callback_data=f"stop"), InlineKeyboardButton(text="RESUME", callback_data=f"resume"), InlineKeyboardButton(text="PAUSE", callback_data=f"pause")], [InlineKeyboardButton(text="𝗖𝗵𝗮𝗻𝗻𝗲𝗹 🌐", url=f"{ch}"), InlineKeyboardButton(text="𝗚𝗿𝗼𝘂𝗽 ♻️", url=f"{gr}")], [InlineKeyboardButton(text=f"{OWNER_NAME}", url="https://t.me/IQ7amo")], [InlineKeyboardButton(text="زیادم بکە بۆ گرووپ یان کەناڵت ⚡", url=f"https://t.me/{bot_username}?startgroup=True")]]
-       await message.reply_photo(photo=img, caption=f"**⭓ᴍᴜˢɪᴄ✘ʜᴀᴡᴀʟ 🎻\n\n╮◉ ناونیشان : {title}\n│᚜⦿ ماوەکەی : {duration} ⌚\n╯◉ لەلایەن : {requester}**", reply_markup=InlineKeyboardMarkup(button))
+       button = [[InlineKeyboardButton(text="𝗘𝗻𝗱 🎸•", callback_data=f"stop"), InlineKeyboardButton(text="𝗥𝗲𝘀𝘂𝗺𝗲 🎸•", callback_data=f"resume"), InlineKeyboardButton(text="𝗣𝗮𝘂𝘀𝗲 🎸•", callback_data=f"pause")], [InlineKeyboardButton(text="𝗖𝗵𝗮𝗻𝗻𝗲𝗹 💸•", url=f"{ch}"), InlineKeyboardButton(text="𝗚𝗿𝗼𝘂𝗽 💸•", url=f"{gr}")], [InlineKeyboardButton(f"{devname} 💸•", user_id=f"{dev}")], [InlineKeyboardButton(text="⌯ زیادم بکە بۆ گرووپ یان کەناڵت ⚡️•", url=f"https://t.me/{bot_username}?startgroup=True")]]
+       await message.reply_photo(photo=img, caption=f"**⭓ᴍᴜˢɪᴄ✘ᴀʟɪɴᴀ sᴋɪᴘᴘᴇᴅ 🎻\n\n╮◉ ناونیشان : {title}\n│᚜⦿ ماوەکەی : {duration} ⌚\n╯◉ لەلایەن : {requester}**", reply_markup=InlineKeyboardMarkup(button))
        try:
            os.remove(file_path)
            os.remove(img)
