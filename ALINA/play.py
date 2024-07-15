@@ -1,4 +1,3 @@
-from pyrogram import Client, filters
 from youtubesearchpython.__future__ import VideosSearch 
 import os
 import aiohttp
@@ -6,24 +5,24 @@ import requests
 import random 
 import asyncio
 import yt_dlp
-from datetime import datetime, timedelta
-from youtube_search import YoutubeSearch
 import pytgcalls
-from pytgcalls.types.input_stream.quality import (HighQualityAudio,
-                                                  HighQualityVideo,
-                                                  LowQualityAudio,
-                                                  LowQualityVideo,
-                                                  MediumQualityAudio,
-                                                  MediumQualityVideo)
-from typing import Union
-from pyrogram import Client, filters 
+from datetime import datetime, timedelta
+
+from pyrogram import Client, filters
 from pyrogram import Client as client
 from pyrogram.errors import (ChatAdminRequired,
                              UserAlreadyParticipant,
                              UserNotParticipant)
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.enums import ChatType, ChatMemberStatus
+
 from pytgcalls import PyTgCalls, StreamType
+from pytgcalls.types.input_stream.quality import (HighQualityAudio,
+                                                  HighQualityVideo,
+                                                  LowQualityAudio,
+                                                  LowQualityVideo,
+                                                  MediumQualityAudio,
+                                                  MediumQualityVideo)
 from pytgcalls.exceptions import (AlreadyJoinedError,
                                   NoActiveGroupCall,
                                   TelegramServerError)
@@ -31,13 +30,18 @@ from pytgcalls.types import (JoinedGroupCallParticipant,
                              LeftGroupCallParticipant, Update)
 from pytgcalls.types.input_stream import AudioPiped, AudioVideoPiped
 from pytgcalls.types.stream import StreamAudioEnded
-from config import API_ID, API_HASH, MONGO_DB_URL, VIDEO, OWNER, OWNER_NAME, LOGS, GROUP, CHANNEL
-from motor.motor_asyncio import AsyncIOMotorClient as _mongo_client_
+
 from pymongo import MongoClient
+from motor.motor_asyncio import AsyncIOMotorClient as _mongo_client_
+from ntgcalls import TelegramServerError
+from typing import Union
+from youtube_search import YoutubeSearch
+
+from config import API_ID, API_HASH, MONGO_DB_URL, VIDEO, OWNER, OWNER_NAME, LOGS, GROUP, CHANNEL
 from bot import bot as man
+
 from ALINA.info import (db, add, is_served_call, add_active_video_chat, add_served_call, add_active_chat, gen_thumb, download, remove_active, joinch)
 from ALINA.Data import (get_logger, get_userbot, get_call, get_logger_mode, get_group, get_channel, get_dev_name, get_dev)
-import asyncio
              
 mongodb = _mongo_client_(MONGO_DB_URL)
 pymongodb = MongoClient(MONGO_DB_URL)
