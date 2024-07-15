@@ -136,7 +136,7 @@ async def admin_risght(client: Client, message):
        videoid = check[0]["videoid"]
        user_id = check[0]["user_id"]
        link = check[0]["link"]
-       audio_stream_quality = MediumQualityAudio()
+       audio_stream_quality = HighQualityAudio()
        video_stream_quality = MediumQualityVideo()
        if file:
          file_path = file
