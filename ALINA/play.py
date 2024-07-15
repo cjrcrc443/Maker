@@ -121,7 +121,7 @@ async def join_call(
         except:
           return Done
         file_path = file_path
-        audio_stream_quality = MediumQualityAudio()
+        audio_stream_quality = HighQualityAudio()
         video_stream_quality = MediumQualityVideo()
         stream = (AudioVideoPiped(file_path, audio_parameters=audio_stream_quality, video_parameters=video_stream_quality) if vid else AudioPiped(file_path, audio_parameters=audio_stream_quality))
         try:
