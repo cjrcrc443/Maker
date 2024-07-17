@@ -16,11 +16,19 @@ from pyrogram.errors import (ChatAdminRequired,
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.enums import ChatType, ChatMemberStatus
 
+from pytgcalls.types.input_stream.quality import (HighQualityAudio,
+                                                  HighQualityVideo,
+                                                  LowQualityAudio,
+                                                  LowQualityVideo,
+                                                  MediumQualityAudio,
+                                                  MediumQualityVideo)
 from pytgcalls import PyTgCalls, StreamType
-from pytgcalls.types import MediaStream, AudioQuality, VideoQuality, Update
-from pytgcalls.exceptions import AlreadyJoinedError, NoActiveGroupCall
-from pytgcalls.types import JoinedGroupCallParticipant, LeftGroupCallParticipant
-
+from pytgcalls.exceptions import (AlreadyJoinedError,
+                                  NoActiveGroupCall,
+                                  TelegramServerError)
+from pytgcalls.types import (JoinedGroupCallParticipant,
+                             LeftGroupCallParticipant, Update)
+from pytgcalls.types.input_stream import AudioPiped, AudioVideoPiped
 from pytgcalls.types.stream import StreamAudioEnded
 
 from pymongo import MongoClient
@@ -113,7 +121,9 @@ async def join_call(
         except:
           return Done
         file_path = file_path
-        stream = (MediaStream(file_path, audio_parameters=AudioQuality.MEDIUM, video_parameters=VideoQuality.SD_480p) if vid else MediaStream(file_path, audio_parameters=AudioQuality.MEDIUM))
+        audio_stream_quality = MediumQualityAudio()
+        video_stream_quality = MediumQualityVideo()
+        stream = (AudioVideoPiped(file_path, audio_parameters=audio_stream_quality, video_parameters=video_stream_quality) if vid else AudioPiped(file_path, audio_parameters=audio_stream_quality))
         try:
             await call.join_group_call(chat_id, stream, stream_type=StreamType().pulse_stream)
             Done = True
