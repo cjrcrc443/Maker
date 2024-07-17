@@ -16,7 +16,7 @@ from pyrogram.errors.exceptions.bad_request_400 import UserNotParticipant
 
 from pytgcalls import PyTgCalls
 from pytgcalls.types.stream import StreamAudioEnded
-from pytgcalls.types import MediaStream, AudioQuality, VideoQuality, Update, ChatUpdate
+from pytgcalls.types import MediaStream, AudioQuality, VideoQuality, Update
 
 from pymongo import MongoClient
 from googletrans import Translator
