@@ -33,7 +33,6 @@ from pytgcalls.types.stream import StreamAudioEnded
 
 from pymongo import MongoClient
 from motor.motor_asyncio import AsyncIOMotorClient as _mongo_client_
-from ntgcalls import TelegramServerError
 from typing import Union
 from youtube_search import YoutubeSearch
 
