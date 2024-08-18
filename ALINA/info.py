@@ -1,5 +1,6 @@
 import re
 import os
+import random
 import asyncio
 import textwrap
 import aiofiles
@@ -377,11 +378,18 @@ async def remove_active(bot_username, chat_id: int):
 
 
 
+def cookies():
+    cookie_dir = "ALINA/cookies"
+    cookies_files = [f for f in os.listdir(cookie_dir) if f.endswith(".txt")]
+
+    cookie_file = os.path.join(cookie_dir, random.choice(cookies_files))
+    return cookie_file
+
 async def download(bot_username, link, video: Union[bool, str] = None):
         link = link
         loop = asyncio.get_running_loop()
         def audio_dl():
-            ydl_optssx = {"format": "bestaudio/[ext=m4a]", "outtmpl": f"downloads/{bot_username}%(id)s.%(ext)s", "geo_bypass": True, "nocheckcertificate": True, "quiet": True, "no_warnings": True}
+            ydl_optssx = {"format": "bestaudio/[ext=m4a]", "outtmpl": f"downloads/{bot_username}%(id)s.%(ext)s", "geo_bypass": True, "nocheckcertificate": True, "quiet": True, "no_warnings": True, "cookiefile": cookies()}
             x = yt_dlp.YoutubeDL(ydl_optssx)
             info = x.extract_info(link, False)
             xyz = os.path.join("downloads", f"{bot_username}{info['id']}.{info['ext']}")
