@@ -1,7 +1,7 @@
 import os
 from os import getenv
 from dotenv import load_dotenv
-from OWNER import BOT_TOKEN, OWNER, OWNER_NAME, DATABASE, CHANNEL, GROUP, LOGS, VIDEO, VID_SO
+from OWNER import BOT_TOKEN, OWNER, OWNER_NAME, SUDO, DATABASE, CHANNEL, GROUP, LOGS, VIDEO, VID_SO
 
 if os.path.exists("local.env"):
     load_dotenv("local.env")
@@ -25,6 +25,7 @@ BOT_TOKEN = BOT_TOKEN
 MONGO_DB_URL = DATABASE
 OWNER = OWNER
 OWNER_NAME = OWNER_NAME
+SUDO = SUDO
 CHANNEL = CHANNEL
 GROUP = GROUP
 LOGS = LOGS
