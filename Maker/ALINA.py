@@ -1,6 +1,6 @@
 from pyrogram import filters, Client
 from pyrogram import Client as app
-from config import API_ID, API_HASH, MONGO_DB_URL, appp, user as usr, helper as ass, call, OWNER, OWNER_NAME, CHANNEL, GROUP, VIDEO
+from config import API_ID, API_HASH, MONGO_DB_URL, appp, user as usr, helper as ass, call, OWNER, OWNER_NAME, SUDO, CHANNEL, GROUP, VIDEO
 from ALINA.info import Call, activecall, helper, active
 from ALINA.Data import db, dev, devname, set_must, get_data
 from pyrogram.raw.types import InputPeerChannel
@@ -192,7 +192,7 @@ async def botooott(client, message):
    try:
     if not message.chat.username in OWNER:
      if not message.from_user.id == client.me.id:
-      await client.forward_messages(OWNER[0], message.chat.id, message.id)
+      await client.forward_messages(OWNER[0], SUDO[0], message.chat.id, message.id)
    except Exception as e:
       pass
    message.continue_propagation()
