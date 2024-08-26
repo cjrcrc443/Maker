@@ -21,7 +21,7 @@ from ALINA.Data import get_dev, get_dev_name
 from ALINA.info import is_active, add_active, stream_on, is_streaming, stream_off, add, ddb, clear
 
 def cookies():
-    cookie_dir = "plugins/cookies"
+    cookie_dir = "ALINA/cookies"
     cookies_files = [f for f in os.listdir(cookie_dir) if f.endswith(".txt")]
 
     cookie_file = os.path.join(cookie_dir, random.choice(cookies_files))
