@@ -104,6 +104,8 @@ async def auto_bot():
 
 # Bot Arledy Maked
 
+pytgcalls = PyTgCalls(user)
+
 async def get_served_bots() -> list:
     chats_list = []
     async for chat in botdb.find({"bot_username": {"$lt": 0}}):
