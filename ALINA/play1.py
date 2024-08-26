@@ -15,7 +15,9 @@ from pytgcalls import filters as fl
 from pytgcalls.types.stream import StreamAudioEnded 
 from pytgcalls.types import MediaStream, AudioQuality, VideoQuality, Update, ChatUpdate 
 
+from config import OWNER
 from Maker.ALINA import user, bot, pytgcalls 
+from ALINA.Data import get_dev, get_dev_name
 from plugins.rtp_function import adminCB, admin
 from ALINA.info import is_active, add_active, stream_on, is_streaming, stream_off, add, ddb, clear
 
@@ -589,7 +591,13 @@ async def vplay(client, message: Message):
 
 @Client.on_callback_query(filters.regex(pattern=r"^(resume|pause|skip|end)$"))
 async def admin_cbs(c: Client, query: CallbackQuery):
-    if adminCB(query):
+    a = await c.get_chat_member(query.message.chat.id, query.from_user.id)
+    bot_username = client.me.username
+    dev = await get_dev(bot_username)
+    if not a.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR]:
+     if not query.from_user.id == dev:
+      if not query.from_user.username in OWNER:
+        return await query.answer("پێویستە ئەدمین بیت بۆ کردنی ئەم کارە !", show_alert=True)
         if not await is_active(query.message.chat.id):
             return await query.answer("✗┇‌◍مفيش حاجه شغاله 🙄❤\n✓️", show_alert=True)
         chat_id = query.message.chat.id
