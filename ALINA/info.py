@@ -14,7 +14,7 @@ from pyrogram import Client, filters
 from pyrogram import Client as client
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message
 from pyrogram.errors.exceptions.bad_request_400 import UserNotParticipant
-"""
+
 from pytgcalls import PyTgCalls, StreamType
 from pytgcalls.types import (JoinedGroupCallParticipant,
                              LeftGroupCallParticipant, Update)
@@ -27,7 +27,6 @@ from pytgcalls.types.input_stream.quality import (HighQualityAudio,
                                                   MediumQualityAudio,
                                                   MediumQualityVideo)
 
-              """
 
 from pymongo import MongoClient
 from googletrans import Translator
@@ -377,93 +376,6 @@ async def remove_active(bot_username, chat_id: int):
         await remove_served_call(bot_username, chat_id)
    except:
         pass
-
-
-#######################################################################################################
-#######################################################################################################
-
-active = []
-stream = {} 
-ddb = {}
-
-
-async def is_active(chat_id: int) -> bool:
-    if chat_id not in active:
-        return False
-    else:
-        return True
-
-
-async def add_active(chat_id: int):
-    if chat_id not in active:
-        active.append(chat_id)
-
-
-async def remove_active(chat_id: int):
-    if chat_id in active:
-        active.remove(chat_id)
-
-
-async def is_streaming(chat_id: int) -> bool:
-    run = stream.get(chat_id)
-    if not run:
-        return False
-    return run
-
-
-async def stream_on(chat_id: int):
-    stream[chat_id] = True
-
-
-async def stream_off(chat_id: int):
-    stream[chat_id] = False
-
-
-async def clear(chat_id: int):
-    try:
-        ddb[chat_id] = []
-    except:
-        pass
-    try:
-        await remove_active(chat_id)
-    except:
-        pass
-    try:
-        await stream_off(chat_id)
-    except:
-        pass
-
-#######################################################################################################
-#######################################################################################################
-
-async def add(
-    chat_id,
-    file_path,
-    link,
-    title,
-    duration,
-    videoid,
-    type,
-    user_id):
-    put = {
-        "title": title,
-        "duration": duration,
-        "user_id": user_id,
-        "chat_id": chat_id,
-        "type": type,
-        "file_path": file_path,
-        "link": link,
-        "videoid": videoid,
-        "played": 0,
-    }
-    i = ddb.get(chat_id)
-    if not i:
-        ddb[chat_id] = []
-    ddb[chat_id].append(put)
-    return
-
-#######################################################################################################
-#######################################################################################################
 
 
 def cookies():
