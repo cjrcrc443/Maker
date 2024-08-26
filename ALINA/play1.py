@@ -297,10 +297,10 @@ async def play(client, message: Message):
     else:
         try:
             try:
-                ASS_ID = app2.me.id
-                ASS_NAME = app2.me.first_name
-                ASS_MENTION = app2.me.mention
-                ASS_USERNAME = app2.me.username
+                ASS_ID = user.me.id
+                ASS_NAME = user.me.first_name
+                ASS_MENTION = user.me.mention
+                ASS_USERNAME = user.me.username
                 get = await client.get_chat_member(chat_id, ASS_ID)
             except ChatAdminRequired:
                 return await dream.edit_text(f"✗┇‌◍قم باعطائي الصلاحيه التاليه:\n دعوه المستخدمين\n✓")
@@ -323,14 +323,14 @@ async def play(client, message: Message):
             chat = await client.get_chat(chat_id)
             if chat.username:
                 try:
-                    await app2.join_chat(chat.username)
+                    await user.join_chat(chat.username)
                 except UserAlreadyParticipant:
                     try:
                         invitelink = (await client.export_chat_invite_link(chat_id))
                         if invitelink.startswith("https://t.me/+"):
                             invitelink = invitelink.replace("https://t.me/+", "https://t.me/joinchat/")
                         await asyncio.sleep(2)
-                        await app2.join_chat(invitelink)
+                        await user.join_chat(invitelink)
                     except ChatAdminRequired:
                         return await dream.edit_text(f"✗┇‌◍قم باعطائي الصلاحيه التاليه:\n دعوه المستخدمين\n✓")
                     except Exception as e:
@@ -350,7 +350,7 @@ async def play(client, message: Message):
                             await dream.edit(f"✗┇‌◍الحساب المساعد فشل فى الدخول الى الجروب بسبب:\n`{e}`\nفى حاله ظهور لك مثلا هذه الرساله تواصل مع المطور -> @{DEV_SOURCE}")
                     if invitelink.startswith("https://t.me/+"):
                         invitelink = invitelink.replace("https://t.me/+", "https://t.me/joinchat/")
-                    await app2.join_chat(invitelink)
+                    await user.join_chat(invitelink)
                 except Exception as e:
                     await dream.edit_text(f"✗┇‌◍الحساب المساعد فشل فى الدخول الى الجروب بسبب:\n`{e}`\nفى حاله ظهور لك مثلا هذه الرساله تواصل مع المطور -> @{DEV_SOURCE}")
         try:
@@ -494,10 +494,10 @@ async def vplay(client, message: Message):
     else:
         try:
             try:
-                ASS_ID = app2.me.id
-                ASS_NAME = app2.me.first_name
-                ASS_MENTION = app2.me.mention
-                ASS_USERNAME = app2.me.username
+                ASS_ID = user.me.id
+                ASS_NAME = user.me.first_name
+                ASS_MENTION = user.me.mention
+                ASS_USERNAME = user.me.username
                 get = await client.get_chat_member(chat_id, ASS_ID)
             except ChatAdminRequired:
                 return await dream.edit_text(f"✗┇‌◍قم باعطائي الصلاحيه التاليه:\n دعوه المستخدمين\n✓")
@@ -520,14 +520,14 @@ async def vplay(client, message: Message):
             chat = await client.get_chat(chat_id)
             if chat.username:
                 try:
-                    await app2.join_chat(chat.username)
+                    await user.join_chat(chat.username)
                 except UserAlreadyParticipant:
                     try:
                         invitelink = (await client.export_chat_invite_link(chat_id))
                         if invitelink.startswith("https://t.me/+"):
                             invitelink = invitelink.replace("https://t.me/+", "https://t.me/joinchat/")
                         await asyncio.sleep(2)
-                        await app2.join_chat(invitelink)
+                        await user.join_chat(invitelink)
                     except ChatAdminRequired:
                         return await dream.edit_text(f"✗┇‌◍قم باعطائي الصلاحيه التاليه:\n دعوه المستخدمين\n✓")
                     except Exception as e:
@@ -547,7 +547,7 @@ async def vplay(client, message: Message):
                             await dream.edit(f"✗┇‌◍الحساب المساعد فشل فى الدخول الى الجروب بسبب:\n`{e}`\nفى حاله ظهور لك مثلا هذه الرساله تواصل مع المطور -> @{DEV_SOURCE}")
                     if invitelink.startswith("https://t.me/+"):
                         invitelink = invitelink.replace("https://t.me/+", "https://t.me/joinchat/")
-                    await app2.join_chat(invitelink)
+                    await user.join_chat(invitelink)
                 except Exception as e:
                     await dream.edit_text(f"✗┇‌◍الحساب المساعد فشل فى الدخول الى الجروب بسبب:\n`{e}`\nفى حاله ظهور لك مثلا هذه الرساله تواصل مع المطور -> @{DEV_SOURCE}")
         try:
@@ -781,7 +781,7 @@ async def ub_leave(c, msg):
         except:
             pass
         try:
-            await app2.leave_chat(msg.chat.id)
+            await user.leave_chat(msg.chat.id)
         except:
             pass
 
@@ -825,8 +825,8 @@ async def change_stream(client, chat_id):
             try:
                 await client.play(chat_id, stream)
             except Exception as e:
-                await app.send_message(chat_id, str(e))
-            userx = await app.get_users(user_id)
+                await bot.send_message(chat_id, str(e))
+            userx = await bot.get_users(user_id)
             img = await gen_thumb(videoid)
             requester = userx.mention
             keyboard = InlineKeyboardMarkup(inline_keyboard=[
@@ -835,7 +835,7 @@ async def change_stream(client, chat_id):
                 InlineKeyboardButton("‣‣I", callback_data="skip"),
                 InlineKeyboardButton("▢", callback_data="end")],
                 [InlineKeyboardButton("SoUrCe SnᎥpEr ⟁", url=f"https://t.me/SL_SN")],
-                [InlineKeyboardButton(".💘اضف البوت اللي مجموعتك", url=f"https://t.me/{app.me.username}?startgroup=dream")],
+                [InlineKeyboardButton(".💘اضف البوت اللي مجموعتك", url=f"https://t.me/{bot.me.username}?startgroup=dream")],
             ])
             await app.send_photo(chat_id, photo=img, caption=f"⏭ **تم التخطي للمسار التالي.**\n\n🏷 **الاسم:** {title}\n**⏱ المده:** {duration} دقيقه\n🎧 **بواسطه:** {requester}", reply_markup=keyboard, parse_mode=ParseMode.MARKDOWN)
             try:
@@ -854,16 +854,16 @@ async def stream_end_handler1(client, update: Update):
 @Client.on_message(filters.regex("^المساعد$|^الحساب المساعد$|^• المساعد •$|^• الحساب المساعد •$"), group=896)
 async def assistant(c: Client, m: Message):
     keyboard = InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(f"{app2.me.first_name}", user_id=app2.me.id)],
+        [InlineKeyboardButton(f"{user.me.first_name}", user_id=user.me.id)],
         [InlineKeyboardButton(".💘اضف البوت اللي مجموعتك", url=f"https://t.me/{c.me.username}?startgroup=dream")],
     ])
-    if app2.me.photo:
-        photo = await app2.download_media(app2.me.photo.big_file_id)
-        await m.reply_photo(photo, caption=f"✗┇‌◍الحساب المساعد الخاص بالبوت:\n{app2.me.mention}\n✓", reply_markup=keyboard)
+    if user.me.photo:
+        photo = await user.download_media(user.me.photo.big_file_id)
+        await m.reply_photo(photo, caption=f"✗┇‌◍الحساب المساعد الخاص بالبوت:\n{user.me.mention}\n✓", reply_markup=keyboard)
         try:
             os.remove(photo)
         except:
             pass
     else:
-        await m.reply_text(f"✗┇‌◍الحساب المساعد الخاص بالبوت:\n{app2.me.mention}\n✓", reply_markup=keyboard)
+        await m.reply_text(f"✗┇‌◍الحساب المساعد الخاص بالبوت:\n{user.me.mention}\n✓", reply_markup=keyboard)
         
