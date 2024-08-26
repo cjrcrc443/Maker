@@ -238,7 +238,7 @@ async def get_userbot(bot_username):
        bot = i["bot_username"]
        if bot == bot_username:
          session = i["session"]
-         userbot = Client("SEMO", api_id=API_ID, api_hash=API_HASH, session_string=session)
+         userbot = Client("ALINA", api_id=API_ID, api_hash=API_HASH, session_string=session)
          user[bot_username] = userbot
          return userbot
   return userbot
@@ -267,7 +267,7 @@ async def get_app(bot_username):
        bot = i["bot_username"]
        if bot == bot_username:
          token = i["token"]
-         app = Client("SEMO", api_id=API_ID, api_hash=API_HASH, bot_token=token, plugins=dict(root="SEMO"))
+         app = Client("ALINA", api_id=API_ID, api_hash=API_HASH, bot_token=token, plugins=dict(root="ALINA"))
          boot[bot_username] = app
          return app
   return calll
