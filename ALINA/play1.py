@@ -18,7 +18,6 @@ from pytgcalls.types import MediaStream, AudioQuality, VideoQuality, Update, Cha
 from config import OWNER
 from Maker.ALINA import user, bot, pytgcalls 
 from ALINA.Data import get_dev, get_dev_name
-from plugins.rtp_function import adminCB, admin
 from ALINA.info import is_active, add_active, stream_on, is_streaming, stream_off, add, ddb, clear
 
 def cookies():
@@ -592,7 +591,7 @@ async def vplay(client, message: Message):
 @Client.on_callback_query(filters.regex(pattern=r"^(resume|pause|skip|end)$"))
 async def admin_cbs(c: Client, query: CallbackQuery):
     a = await c.get_chat_member(query.message.chat.id, query.from_user.id)
-    bot_username = client.me.username
+    bot_username = c.me.username
     dev = await get_dev(bot_username)
     if not a.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR]:
      if not query.from_user.id == dev:
@@ -697,7 +696,13 @@ async def admin_cbs(c: Client, query: CallbackQuery):
 @Client.on_message(filters.command(["stop", "end", "/stop", "/end", "ايقاف", "وقف", "انهاء", "/ايقاف", "/وقف", "/انهاء", "تخطي", "/تخطي", "skip", "/skip", "/pause", "/resume", "/next", "next"], "") & filters.group, group=988)
 @Client.on_edited_message(filters.command(["stop", "end", "/stop", "/end", "ايقاف", "وقف", "انهاء", "/ايقاف", "/وقف", "/انهاء", "تخطي", "/تخطي", "skip", "/skip", "/pause", "/resume", "/next", "next"], "") & filters.group,group=988)
 async def cmd_admins(c, msg):
-    if admin(msg):
+    a = await c.get_chat_member(msg.chat.id, msg.from_user.id)
+    bot_username = c.me.username
+    dev = await get_dev(bot_username)
+    if not a.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR]:
+     if not msg.from_user.id == dev:
+      if not msg.from_user.username in OWNER:
+        return await msg.answer("پێویستە ئەدمین بیت بۆ کردنی ئەم کارە !", show_alert=True)
         if not await is_active(msg.chat.id):
             return await msg.reply("✗┇‌◍مفيش حاجه شغاله 🙄❤\n✓️")
         chat_id = msg.chat.id
