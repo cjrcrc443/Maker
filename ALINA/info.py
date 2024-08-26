@@ -14,7 +14,7 @@ from pyrogram import Client, filters
 from pyrogram import Client as client
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message
 from pyrogram.errors.exceptions.bad_request_400 import UserNotParticipant
-
+"""
 from pytgcalls import PyTgCalls, StreamType
 from pytgcalls.types import (JoinedGroupCallParticipant,
                              LeftGroupCallParticipant, Update)
@@ -26,6 +26,8 @@ from pytgcalls.types.input_stream.quality import (HighQualityAudio,
                                                   LowQualityVideo,
                                                   MediumQualityAudio,
                                                   MediumQualityVideo)
+
+              """
 
 from pymongo import MongoClient
 from googletrans import Translator
