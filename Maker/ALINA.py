@@ -51,11 +51,11 @@ async def auto_bot():
         Done.append(bot_username)
         logger = i["logger"]
         bot = Client("ALINA", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN, in_memory=True, plugins=dict(root="ALINA"))
-        user = Client("ALINA", api_id=API_ID, api_hash=API_HASH, session_string=SESSION, in_memory=True)
+        bot2 = Client("ALINA", api_id=API_ID, api_hash=API_HASH, session_string=SESSION, in_memory=True)
         await bot.start()
-        await user.start()
+        await bot2.start()
         appp[bot_username] = bot
-        usr[bot_username] = user
+        usr[bot_username] = bot2
         activecall[bot_username] = []
         dev[bot_username] = devo
         try:
@@ -68,35 +68,35 @@ async def auto_bot():
         await helper(bot_username)
         await Call(bot_username)
         try:
-           await user.join_chat("Hawaall")
+           await bot2.join_chat("Hawaall")
         except:
            pass
         try:
-          await user.join_chat("ipceeoflifee7")
+          await bot2.join_chat("ipceeoflifee7")
         except:
           pass
         try:
-          await user.join_chat("pieceoflife00")
+          await bot2.join_chat("pieceoflife00")
         except:
           pass
         try:
-          await user.join_chat("aramii_dll")
+          await bot2.join_chat("aramii_dll")
         except:
           pass
         try:
-          await user.join_chat("pieceofsad0")
+          await bot2.join_chat("pieceofsad0")
         except:
           pass
         try:
-          await user.join_chat("EHS4SS")
+          await bot2.join_chat("EHS4SS")
         except:
           pass
         try:
-          await user.join_chat("MGIMT")
+          await bot2.join_chat("MGIMT")
         except:
           pass
         try:
-          await user.join_chat("Haawall")
+          await bot2.join_chat("Haawall")
         except:
           pass
       except Exception as e:
@@ -104,7 +104,7 @@ async def auto_bot():
 
 # Bot Arledy Maked
 
-pytgcalls = PyTgCalls(user)
+pytgcalls = PyTgCalls(bot2)
 
 async def get_served_bots() -> list:
     chats_list = []
@@ -340,7 +340,7 @@ async def cloner(app: app, message):
     session = await app.ask(chat_id=user_id, text="**◗⋮◖ ئێستا کۆدی ئەکاونتی یاریدەدەر بنێرە 💎.**", timeout=200)
     await app.send_message(user_id, "**◗⋮◖ بۆت چالاک دەکرێت کەمێك چاوەڕێ بکە ..⚡.**")
     session = session.text
-    user = Client("ALINA", api_id=API_ID, api_hash=API_HASH, session_string=session, in_memory=True)
+    bot2 = Client("ALINA", api_id=API_ID, api_hash=API_HASH, session_string=session, in_memory=True)
     try:       
        await user.start()
     except:
@@ -349,15 +349,15 @@ async def cloner(app: app, message):
     loger = await user.create_supergroup(f"گرووپی بۆت 🖤", "ئەم گرووپە هەموو ئامار و زانیاریەکانی بۆت سەیڤ دەکات")
     if bot_i.photo:
        photo = await bot.download_media(bot_i.photo.big_file_id)
-       await user.set_chat_photo(chat_id=loger.id, photo=photo)
+       await bot2.set_chat_photo(chat_id=loger.id, photo=photo)
     logger = loger.id
-    await user.add_chat_members(logger, bot_username)
+    await bot2.add_chat_members(logger, bot_username)
     chat_id = logger
     user_id = bot_username
-    await user.promote_chat_member(chat_id, user_id, privileges=ChatPrivileges(can_change_info=True, can_invite_users=True, can_delete_messages=True, can_restrict_members=True, can_pin_messages=True, can_promote_members=True, can_manage_chat=True, can_manage_video_chats=True))
+    await bot2.promote_chat_member(chat_id, user_id, privileges=ChatPrivileges(can_change_info=True, can_invite_users=True, can_delete_messages=True, can_restrict_members=True, can_pin_messages=True, can_promote_members=True, can_manage_chat=True, can_manage_video_chats=True))
     loggerlink = await user.export_chat_invite_link(logger)
-    await user.stop()
-    await bot.stop()
+    await bot2.stop()
+    await bot2.stop()
     if message.chat.username in OWNER:
        dev = await app.ask(message.chat.id, "**◗⋮◖ ئێستا ئایدی خاوەنی بۆت بنێرە 🚦⚡.**", timeout=200)
        if dev.text == "من":
