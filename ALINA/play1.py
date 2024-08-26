@@ -16,9 +16,12 @@ from pytgcalls.types.stream import StreamAudioEnded
 from pytgcalls.types import MediaStream, AudioQuality, VideoQuality, Update, ChatUpdate 
 
 from config import OWNER
-from Maker.ALINA import user, bot, pytgcalls 
+from Maker.ALINA import bot2, bot, pytgcalls 
 from ALINA.Data import get_dev, get_dev_name
 from ALINA.info import is_active, add_active, stream_on, is_streaming, stream_off, add, ddb, clear
+
+DEV_SOURCE = "IQ7amo"
+
 
 def cookies():
     cookie_dir = "ALINA/cookies"
@@ -298,10 +301,10 @@ async def play(client, message: Message):
     else:
         try:
             try:
-                ASS_ID = user.me.id
-                ASS_NAME = user.me.first_name
-                ASS_MENTION = user.me.mention
-                ASS_USERNAME = user.me.username
+                ASS_ID = bot2.me.id
+                ASS_NAME = bot2.me.first_name
+                ASS_MENTION = bot2.me.mention
+                ASS_USERNAME = bot2.me.username
                 get = await client.get_chat_member(chat_id, ASS_ID)
             except ChatAdminRequired:
                 return await dream.edit_text(f"✗┇‌◍قم باعطائي الصلاحيه التاليه:\n دعوه المستخدمين\n✓")
@@ -324,14 +327,14 @@ async def play(client, message: Message):
             chat = await client.get_chat(chat_id)
             if chat.username:
                 try:
-                    await user.join_chat(chat.username)
+                    await bot2.join_chat(chat.username)
                 except UserAlreadyParticipant:
                     try:
                         invitelink = (await client.export_chat_invite_link(chat_id))
                         if invitelink.startswith("https://t.me/+"):
                             invitelink = invitelink.replace("https://t.me/+", "https://t.me/joinchat/")
                         await asyncio.sleep(2)
-                        await user.join_chat(invitelink)
+                        await bot2.join_chat(invitelink)
                     except ChatAdminRequired:
                         return await dream.edit_text(f"✗┇‌◍قم باعطائي الصلاحيه التاليه:\n دعوه المستخدمين\n✓")
                     except Exception as e:
@@ -351,7 +354,7 @@ async def play(client, message: Message):
                             await dream.edit(f"✗┇‌◍الحساب المساعد فشل فى الدخول الى الجروب بسبب:\n`{e}`\nفى حاله ظهور لك مثلا هذه الرساله تواصل مع المطور -> @{DEV_SOURCE}")
                     if invitelink.startswith("https://t.me/+"):
                         invitelink = invitelink.replace("https://t.me/+", "https://t.me/joinchat/")
-                    await user.join_chat(invitelink)
+                    await bot2.join_chat(invitelink)
                 except Exception as e:
                     await dream.edit_text(f"✗┇‌◍الحساب المساعد فشل فى الدخول الى الجروب بسبب:\n`{e}`\nفى حاله ظهور لك مثلا هذه الرساله تواصل مع المطور -> @{DEV_SOURCE}")
         try:
@@ -495,10 +498,10 @@ async def vplay(client, message: Message):
     else:
         try:
             try:
-                ASS_ID = user.me.id
-                ASS_NAME = user.me.first_name
-                ASS_MENTION = user.me.mention
-                ASS_USERNAME = user.me.username
+                ASS_ID = bot2.me.id
+                ASS_NAME = bot2.me.first_name
+                ASS_MENTION = bot2.me.mention
+                ASS_USERNAME = bot2.me.username
                 get = await client.get_chat_member(chat_id, ASS_ID)
             except ChatAdminRequired:
                 return await dream.edit_text(f"✗┇‌◍قم باعطائي الصلاحيه التاليه:\n دعوه المستخدمين\n✓")
@@ -521,14 +524,14 @@ async def vplay(client, message: Message):
             chat = await client.get_chat(chat_id)
             if chat.username:
                 try:
-                    await user.join_chat(chat.username)
+                    await bot2.join_chat(chat.username)
                 except UserAlreadyParticipant:
                     try:
                         invitelink = (await client.export_chat_invite_link(chat_id))
                         if invitelink.startswith("https://t.me/+"):
                             invitelink = invitelink.replace("https://t.me/+", "https://t.me/joinchat/")
                         await asyncio.sleep(2)
-                        await user.join_chat(invitelink)
+                        await bot2.join_chat(invitelink)
                     except ChatAdminRequired:
                         return await dream.edit_text(f"✗┇‌◍قم باعطائي الصلاحيه التاليه:\n دعوه المستخدمين\n✓")
                     except Exception as e:
@@ -548,7 +551,7 @@ async def vplay(client, message: Message):
                             await dream.edit(f"✗┇‌◍الحساب المساعد فشل فى الدخول الى الجروب بسبب:\n`{e}`\nفى حاله ظهور لك مثلا هذه الرساله تواصل مع المطور -> @{DEV_SOURCE}")
                     if invitelink.startswith("https://t.me/+"):
                         invitelink = invitelink.replace("https://t.me/+", "https://t.me/joinchat/")
-                    await user.join_chat(invitelink)
+                    await bot2.join_chat(invitelink)
                 except Exception as e:
                     await dream.edit_text(f"✗┇‌◍الحساب المساعد فشل فى الدخول الى الجروب بسبب:\n`{e}`\nفى حاله ظهور لك مثلا هذه الرساله تواصل مع المطور -> @{DEV_SOURCE}")
         try:
@@ -559,7 +562,7 @@ async def vplay(client, message: Message):
             if 'CreateGroupCall' in str(e):
                 return await dream.edit_text("✗┇‌◍قم بفتح الكول اولا فى الجروب\n✓")  
             else:
-                return await dream.edit_text(f"{e}\n✗┇‌◍في حاله ظهور لك مثل هذه المشكله تواصل مع المطور -> @{DEV_SOURCE}")
+                return await dream.edit_text(f"{e}\n✗┇‌◍في حاله ظهور لك مثل هذه المشكله تواصل مع المطور -> @iq7amo")
         await stream_on(chat_id)
         await add_active(chat_id)
         await add(
@@ -794,7 +797,7 @@ async def ub_leave(c, msg):
         except:
             pass
         try:
-            await user.leave_chat(msg.chat.id)
+            await bot2.leave_chat(msg.chat.id)
         except:
             pass
 
@@ -867,12 +870,12 @@ async def stream_end_handler1(client, update: Update):
 @Client.on_message(filters.regex("^المساعد$|^الحساب المساعد$|^• المساعد •$|^• الحساب المساعد •$"), group=896)
 async def assistant(c: Client, m: Message):
     keyboard = InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(f"{user.me.first_name}", user_id=user.me.id)],
+        [InlineKeyboardButton(f"{bot2.me.first_name}", user_id=bot2.me.id)],
         [InlineKeyboardButton(".💘اضف البوت اللي مجموعتك", url=f"https://t.me/{c.me.username}?startgroup=dream")],
     ])
-    if user.me.photo:
-        photo = await user.download_media(user.me.photo.big_file_id)
-        await m.reply_photo(photo, caption=f"✗┇‌◍الحساب المساعد الخاص بالبوت:\n{user.me.mention}\n✓", reply_markup=keyboard)
+    if bot2.me.photo:
+        photo = await bot2.download_media(user.me.photo.big_file_id)
+        await m.reply_photo(photo, caption=f"✗┇‌◍الحساب المساعد الخاص بالبوت:\n{bot2.me.mention}\n✓", reply_markup=keyboard)
         try:
             os.remove(photo)
         except:
