@@ -494,6 +494,7 @@ async def download(bot_username, link, video: Union[bool, str] = None):
             downloaded_file = await loop.run_in_executor(None, audio_dl)
         return downloaded_file
 
+"""
 async def change_stream(bot_username, client, chat_id):
            try:
             chat = f"{bot_username}{chat_id}"
@@ -556,6 +557,7 @@ async def change_stream(bot_username, client, chat_id):
            except:
                 pass
 
+"""
 async def helper(bot_username):
    user = await get_userbot(bot_username)
    gr = await get_group(bot_username)
