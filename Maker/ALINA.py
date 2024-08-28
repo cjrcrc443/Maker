@@ -50,8 +50,8 @@ async def auto_bot():
         devo = i["dev"]
         Done.append(bot_username)
         logger = i["logger"]
-        bot = Client("SEMO", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN, in_memory=True, plugins=dict(root="SEMO"))
-        user = Client("SEMO", api_id=API_ID, api_hash=API_HASH, session_string=SESSION, in_memory=True)
+        bot = Client("ALINA", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN, in_memory=True, plugins=dict(root="ALINA"))
+        user = Client("ALINA", api_id=API_ID, api_hash=API_HASH, session_string=SESSION, in_memory=True)
         await bot.start()
         await user.start()
         appp[bot_username] = bot
@@ -342,7 +342,7 @@ async def cloner(app: app, message):
     session = await app.ask(chat_id=user_id, text="**◗⋮◖ ئێستا کۆدی ئەکاونتی یاریدەدەر بنێرە 💎.**", timeout=200)
     await app.send_message(user_id, "**◗⋮◖ بۆت چالاک دەکرێت کەمێك چاوەڕێ بکە ..⚡.**")
     session = session.text
-    user = Client("SEMO", api_id=API_ID, api_hash=API_HASH, session_string=session, in_memory=True)
+    user = Client("ALINA", api_id=API_ID, api_hash=API_HASH, session_string=session, in_memory=True)
     try:       
        await user.start()
     except:
