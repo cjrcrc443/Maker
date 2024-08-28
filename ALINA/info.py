@@ -27,7 +27,6 @@ from pytgcalls.types.input_stream.quality import (HighQualityAudio,
                                                   MediumQualityAudio,
                                                   MediumQualityVideo)
 
-
 from pymongo import MongoClient
 from googletrans import Translator
 from motor.motor_asyncio import AsyncIOMotorClient as _mongo_client_
@@ -40,6 +39,8 @@ from config import API_ID, API_HASH, MONGO_DB_URL, user, dev, call, logger, logg
 
 from ALINA.Data import get_data
 from ALINA.Data import (get_call, get_app, get_userbot, get_group, get_channel, must_join)
+
+
 
 translator = Translator()
 
@@ -408,7 +409,6 @@ async def download(bot_username, link, video: Union[bool, str] = None):
             downloaded_file = await loop.run_in_executor(None, audio_dl)
         return downloaded_file
 
-"""
 async def change_stream(bot_username, client, chat_id):
            try:
             chat = f"{bot_username}{chat_id}"
@@ -471,7 +471,6 @@ async def change_stream(bot_username, client, chat_id):
            except:
                 pass
 
-"""
 async def helper(bot_username):
    user = await get_userbot(bot_username)
    gr = await get_group(bot_username)
