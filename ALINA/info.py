@@ -37,8 +37,8 @@ from youtubesearchpython.__future__ import VideosSearch
 from config import appp, OWNER, OWNER_NAME, VIDEO
 from config import API_ID, API_HASH, MONGO_DB_URL, user, dev, call, logger, logger_mode, botname, helper as ass
 
-from ALINA.Data import get_data
-from ALINA.Data import (get_call, get_app, get_userbot, get_group, get_channel, must_join)
+from SEMO.Data import get_data
+from SEMO.Data import (get_call, get_app, get_userbot, get_group, get_channel, must_join)
 
 
 
@@ -54,7 +54,7 @@ def changeImageSize(maxWidth, maxHeight, image):
     return newImage
 
 
-ahmed = "https://graph.org/file/c8d0d49f5e13290314807.jpg"
+ahmed = "https://graph.org/file/3202937ba2792dfa8722f.jpg"
 
 async def gen_thumb(videoid, photo):
     if os.path.isfile(f"{photo}.png"):
@@ -96,19 +96,19 @@ async def gen_thumb(videoid, photo):
                     await f.close()
 
         youtube = Image.open(f"thumb{videoid}.png")
-        ALINAv = Image.open(f"{photo}")
+        SEMOv = Image.open(f"{photo}")
         image1 = changeImageSize(1280, 720, youtube)
         image2 = image1.convert("RGBA")
         background = image2.filter(filter=ImageFilter.BoxBlur(5))
         enhancer = ImageEnhance.Brightness(background)
         background = enhancer.enhance(0.6)
-        Xcenter = ALINAv.width / 2
-        Ycenter = ALINAv.height / 2
+        Xcenter = SEMOv.width / 2
+        Ycenter = SEMOv.height / 2
         x1 = Xcenter - 250
         y1 = Ycenter - 250
         x2 = Xcenter + 250
         y2 = Ycenter + 250
-        logo = ALINAv.crop((x1, y1, x2, y2))
+        logo = SEMOv.crop((x1, y1, x2, y2))
         logo.thumbnail((520, 520), Image.ANTIALIAS)
         logo = ImageOps.expand(logo, border=15, fill="white")
         background.paste(logo, (50, 100))
@@ -121,7 +121,7 @@ async def gen_thumb(videoid, photo):
         j = 0
         draw.text(
             (600, 150),
-            "HAWAL PLAYING",
+            "ALINA PLAYING",
             fill="white",
             stroke_width=2,
             stroke_fill="white",
@@ -225,7 +225,7 @@ async def is_served_user(client, user_id: int) -> bool:
 
 async def get_served_users(client) -> list:
     userdb = await get_data(client)
-    userdb = userdb.users 
+    userdb = userdb.users
     users_list = []
     async for user in userdb.find({"user_id": {"$gt": 0}}):
         users_list.append(user)
@@ -378,9 +378,8 @@ async def remove_active(bot_username, chat_id: int):
    except:
         pass
 
-
 def cookies():
-    cookie_dir = "ALINA/cookies"
+    cookie_dir = "SEMO/cookies"
     cookies_files = [f for f in os.listdir(cookie_dir) if f.endswith(".txt")]
 
     cookie_file = os.path.join(cookie_dir, random.choice(cookies_files))
@@ -429,11 +428,11 @@ async def change_stream(bot_username, client, chat_id):
             user_id = check[0]["user_id"]
             chat_id = check[0]["chat_id"]
             video = check[0]["vid"]
-            audio_stream_quality = MediumQualityAudio()
+            audio_stream_quality = HighQualityAudio()
             video_stream_quality = MediumQualityVideo()
             videoid = check[0]["videoid"]
             link = check[0]["videoid"]
-            check[0]["played"] = 0        
+            check[0]["played"] = 0
             app = appp[bot_username]
             if not link:
               file_path = file_path
@@ -461,8 +460,8 @@ async def change_stream(bot_username, client, chat_id):
             devname = await get_dev_name(client, bot.username)
             gr = await get_group(bot_username)
             ch = await get_channel(bot_username)
-            button = [[InlineKeyboardButton(text="𝗘𝗻𝗱 🎸", callback_data=f"stop"), InlineKeyboardButton(text="𝗥𝗲𝘀𝘂𝗺𝗲 🎸", callback_data=f"resume"), InlineKeyboardButton(text="𝗣𝗮𝘂𝘀𝗲 🎸", callback_data=f"pause")], [InlineKeyboardButton(text="𝗖𝗵𝗮𝗻𝗻𝗲𝗹 🖱️", url=f"{ch}"), InlineKeyboardButton(text="𝗚𝗿𝗼𝘂𝗽 🖱️", url=f"{gr}")], [InlineKeyboardButton(f"{devname} 💸", user_id=f"{dev}")], [InlineKeyboardButton(text="⌯ زیادم بکە بۆ گرووپ یان کەناڵت ⚡️•", url=f"https://t.me/{bot_username}?startgroup=True")]]
-            await app.send_photo(chat_id, photo=img, caption=f"**⭓ᴍᴜˢɪᴄ✘ʜᴀᴡᴀʟ 🎻\n\n╮◉ ناونیشان : {title}\n│᚜⦿ ماوەکەی : {duration} ⌚\n╯◉ لەلایەن : {requester}**", reply_markup=InlineKeyboardMarkup(button))
+            button = [[InlineKeyboardButton(text="𝗘𝗻𝗱 🎸•", callback_data=f"stop"), InlineKeyboardButton(text="𝗥𝗲𝘀𝘂𝗺𝗲 🎸•", callback_data=f"resume"), InlineKeyboardButton(text="𝗣𝗮𝘂𝘀𝗲 🎸•", callback_data=f"pause")], [InlineKeyboardButton(text="𝗖𝗵𝗮𝗻𝗻𝗲𝗹 🖱️", url=f"{ch}"), InlineKeyboardButton(text="𝗚𝗿𝗼𝘂𝗽 🖱️", url=f"{gr}")], [InlineKeyboardButton(f"{devname} 💸•", user_id=f"{dev}")], [InlineKeyboardButton(text="⌯ زیادم بکە بۆ گرووپ یان کەناڵت ⚡️•", url=f"https://t.me/{bot_username}?startgroup=True")]]
+            await app.send_photo(chat_id, photo=img, caption=f"**⭓ᴍᴜˢɪᴄ✘ᴀʟɪɴᴀ 🎻\n\n╮◉ ناونیشان : {title}\n│᚜⦿ ماوەکەی : {duration} ⌚\n╯◉ لەلایەن : {requester}**", reply_markup=InlineKeyboardMarkup(button))
             try:
                os.remove(file_path)
                os.remove(img)
@@ -510,8 +509,8 @@ async def joinch(message):
                             [
                                 InlineKeyboardButton("جۆینی کەناڵ بکە ◗⋮◖", url=f"{cch}"),
                             ],
-                         ] 
-                      ) 
+                         ]
+                      )
                    )
                 return True
             except Exception as a:
