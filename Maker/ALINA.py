@@ -53,7 +53,7 @@ async def auto_bot():
         bot = Client("ALINA", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN, in_memory=True, plugins=dict(root="ALINA"))
         user = Client("ALINA", api_id=API_ID, api_hash=API_HASH, session_string=SESSION, in_memory=True)
         await bot.start()
-        await bot2.start()
+        await user.start()
         appp[bot_username] = bot
         usr[bot_username] = user
         activecall[bot_username] = []
