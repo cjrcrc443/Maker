@@ -37,8 +37,8 @@ from youtubesearchpython.__future__ import VideosSearch
 from config import appp, OWNER, OWNER_NAME, VIDEO
 from config import API_ID, API_HASH, MONGO_DB_URL, user, dev, call, logger, logger_mode, botname, helper as ass
 
-from SEMO.Data import get_data
-from SEMO.Data import (get_call, get_app, get_userbot, get_group, get_channel, must_join)
+from ALINA.Data import get_data
+from ALINA.Data import (get_call, get_app, get_userbot, get_group, get_channel, must_join)
 
 
 
@@ -54,7 +54,7 @@ def changeImageSize(maxWidth, maxHeight, image):
     return newImage
 
 
-ahmed = "https://graph.org/file/3202937ba2792dfa8722f.jpg"
+ahmed = "https://graph.org/file/c8d0d49f5e13290314807.jpg"
 
 async def gen_thumb(videoid, photo):
     if os.path.isfile(f"{photo}.png"):
@@ -96,19 +96,19 @@ async def gen_thumb(videoid, photo):
                     await f.close()
 
         youtube = Image.open(f"thumb{videoid}.png")
-        SEMOv = Image.open(f"{photo}")
+        ALINAv = Image.open(f"{photo}")
         image1 = changeImageSize(1280, 720, youtube)
         image2 = image1.convert("RGBA")
         background = image2.filter(filter=ImageFilter.BoxBlur(5))
         enhancer = ImageEnhance.Brightness(background)
         background = enhancer.enhance(0.6)
-        Xcenter = SEMOv.width / 2
-        Ycenter = SEMOv.height / 2
+        Xcenter = ALINAv.width / 2
+        Ycenter = ALINAv.height / 2
         x1 = Xcenter - 250
         y1 = Ycenter - 250
         x2 = Xcenter + 250
         y2 = Ycenter + 250
-        logo = SEMOv.crop((x1, y1, x2, y2))
+        logo = ALINAv.crop((x1, y1, x2, y2))
         logo.thumbnail((520, 520), Image.ANTIALIAS)
         logo = ImageOps.expand(logo, border=15, fill="white")
         background.paste(logo, (50, 100))
@@ -121,7 +121,7 @@ async def gen_thumb(videoid, photo):
         j = 0
         draw.text(
             (600, 150),
-            "ALINA PLAYING",
+            "HAWAL PLAYING",
             fill="white",
             stroke_width=2,
             stroke_fill="white",
@@ -379,7 +379,7 @@ async def remove_active(bot_username, chat_id: int):
         pass
 
 def cookies():
-    cookie_dir = "SEMO/cookies"
+    cookie_dir = "ALINA/cookies"
     cookies_files = [f for f in os.listdir(cookie_dir) if f.endswith(".txt")]
 
     cookie_file = os.path.join(cookie_dir, random.choice(cookies_files))
@@ -461,7 +461,7 @@ async def change_stream(bot_username, client, chat_id):
             gr = await get_group(bot_username)
             ch = await get_channel(bot_username)
             button = [[InlineKeyboardButton(text="𝗘𝗻𝗱 🎸•", callback_data=f"stop"), InlineKeyboardButton(text="𝗥𝗲𝘀𝘂𝗺𝗲 🎸•", callback_data=f"resume"), InlineKeyboardButton(text="𝗣𝗮𝘂𝘀𝗲 🎸•", callback_data=f"pause")], [InlineKeyboardButton(text="𝗖𝗵𝗮𝗻𝗻𝗲𝗹 🖱️", url=f"{ch}"), InlineKeyboardButton(text="𝗚𝗿𝗼𝘂𝗽 🖱️", url=f"{gr}")], [InlineKeyboardButton(f"{devname} 💸•", user_id=f"{dev}")], [InlineKeyboardButton(text="⌯ زیادم بکە بۆ گرووپ یان کەناڵت ⚡️•", url=f"https://t.me/{bot_username}?startgroup=True")]]
-            await app.send_photo(chat_id, photo=img, caption=f"**⭓ᴍᴜˢɪᴄ✘ᴀʟɪɴᴀ 🎻\n\n╮◉ ناونیشان : {title}\n│᚜⦿ ماوەکەی : {duration} ⌚\n╯◉ لەلایەن : {requester}**", reply_markup=InlineKeyboardMarkup(button))
+            await app.send_photo(chat_id, photo=img, caption=f"**⭓ᴍᴜˢɪᴄ✘ʜᴀᴡᴀʟ 🎻\n\n╮◉ ناونیشان : {title}\n│᚜⦿ ماوەکەی : {duration} ⌚\n╯◉ لەلایەن : {requester}**", reply_markup=InlineKeyboardMarkup(button))
             try:
                os.remove(file_path)
                os.remove(img)
