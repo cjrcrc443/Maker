@@ -16,9 +16,10 @@ from pytgcalls.types.input_stream.quality import (HighQualityAudio,
 
 from config import OWNER, OWNER_NAME, VIDEO
 
-from ALINA.info import (remove_active, is_served_call, joinch)
-from ALINA.Data import (get_call, get_dev, get_dev_name, get_group, get_channel)
-from ALINA.info import (add, db, download, gen_thumb)
+from SEMO.info import (remove_active, is_served_call, joinch)
+from SEMO.Data import (get_call, get_dev, get_group, get_channel)
+from SEMO.info import (add, db, download, gen_thumb)
+
 
 @Client.on_callback_query(
     filters.regex(pattern=r"^(pause|skip|stop|resume)$")
@@ -147,7 +148,7 @@ async def admin_risght(client: Client, message):
             return client.send_message(chat_id, "**هەڵە ڕوویدا لە کاتی پەخشکردنی دواتر 🎻.**")
        stream = (AudioVideoPiped(file_path, audio_parameters=audio_stream_quality, video_parameters=video_stream_quality) if video else AudioPiped(file_path, audio_parameters=audio_stream_quality))
        try:
-           await call.change_stream(chat_id, stream)
+           await call.play(chat_id, stream)
        except Exception:
             return await client.send_message(chat_id, "**هەڵە ڕوویدا لە کاتی پەخشکردنی دواتر 🎻.**")
        userx = await client.get_users(user_id)
@@ -160,12 +161,12 @@ async def admin_risght(client: Client, message):
          photo = await client.download_media(photo_id)
          img = await gen_thumb(videoid, photo)
        else:
-         img = PHOTO
+         img = VIDEO
        requester = userx.mention       
        gr = await get_group(bot_username)
        ch = await get_channel(bot_username)
        button = [[InlineKeyboardButton(text="𝗘𝗻𝗱 🎸•", callback_data=f"stop"), InlineKeyboardButton(text="𝗥𝗲𝘀𝘂𝗺𝗲 🎸•", callback_data=f"resume"), InlineKeyboardButton(text="𝗣𝗮𝘂𝘀𝗲 🎸•", callback_data=f"pause")], [InlineKeyboardButton(text="𝗖𝗵𝗮𝗻𝗻𝗲𝗹 💸•", url=f"{ch}"), InlineKeyboardButton(text="𝗚𝗿𝗼𝘂𝗽 💸•", url=f"{gr}")], [InlineKeyboardButton(f"{devname} 💸•", user_id=f"{dev}")], [InlineKeyboardButton(text="⌯ زیادم بکە بۆ گرووپ یان کەناڵت ⚡️•", url=f"https://t.me/{bot_username}?startgroup=True")]]
-       await message.reply_photo(photo=img, caption=f"**⭓ᴍᴜˢɪᴄ✘ᴀʟɪɴᴀ sᴋɪᴘᴘᴇᴅ 🎻\n\n╮◉ ناونیشان : {title}\n│᚜⦿ ماوەکەی : {duration} ⌚\n╯◉ لەلایەن : {requester}**", reply_markup=InlineKeyboardMarkup(button))
+       await message.reply_photo(photo=img, caption=f"**⭓ᴍᴜˢɪᴄ✘ʜᴀᴡᴀʟ 🎻\n\n╮◉ ناونیشان : {title}\n│᚜⦿ ماوەکەی : {duration} ⌚\n╯◉ لەلایەن : {requester}**", reply_markup=InlineKeyboardMarkup(button))
        try:
            os.remove(file_path)
            os.remove(img)
