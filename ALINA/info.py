@@ -484,7 +484,7 @@ async def Call(bot_username):
   async def stream_end_handler1(client: PyTgCalls, update: Update):
     if not isinstance(update, (StreamVideoEnded, StreamAudioEnded)):
         return
-    await bot_username.change_stream(client, update.chat_id)
+    await change_stream(bot_username, client, update.chat_id)
 
 
 
