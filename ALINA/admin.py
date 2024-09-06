@@ -6,8 +6,7 @@ from pyrogram.types import CallbackQuery
 from pyrogram.enums import ChatType, ChatMemberStatus
 
 from pytgcalls import PyTgCalls
-from pytgcalls.types import AudioQuality, MediaStream, Update, VideoQuality
-"""
+
 from pytgcalls.types.input_stream import AudioPiped, AudioVideoPiped
 from pytgcalls.types.input_stream.quality import (HighQualityAudio,
                                                   HighQualityVideo,
@@ -15,7 +14,7 @@ from pytgcalls.types.input_stream.quality import (HighQualityAudio,
                                                   LowQualityVideo,
                                                   MediumQualityAudio,
                                                   MediumQualityVideo)
-"""
+
 
 from config import OWNER, OWNER_NAME, VIDEO
 
@@ -140,8 +139,8 @@ async def admin_risght(client: Client, message):
        videoid = check[0]["videoid"]
        user_id = check[0]["user_id"]
        link = check[0]["link"]
-       #audio_stream_quality = HighQualityAudio()
-       #video_stream_quality = MediumQualityVideo()
+       audio_stream_quality = HighQualityAudio()
+       video_stream_quality = MediumQualityVideo()
        if file:
          file_path = file
        else:     
@@ -149,8 +148,7 @@ async def admin_risght(client: Client, message):
             file_path = await download(bot_username, link, video)
          except:
             return client.send_message(chat_id, "**هەڵە ڕوویدا لە کاتی پەخشکردنی دواتر 🎻.**")
-       stream = (MediaStream(file_path, audio_parameters=AudioQuality.STUDIO, video_parameters=VideoQuality.FHD_1080p) if video else MediaStream(file_path, audio_parameters=AudioQuality.STUDIO)
-       )
+       stream = (AudioVideoPiped(file_path, audio_parameters=audio_stream_quality, video_parameters=video_stream_quality) if video else AudioPiped(file_path, audio_parameters=audio_stream_quality))
        try:
            await call.change_stream(chat_id, stream)
        except Exception:
