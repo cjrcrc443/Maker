@@ -437,7 +437,7 @@ async def change_stream(bot_username, client, chat_id):
                 file_path = await download(bot_username, link, video)
              except Exception as es:
                 return await app.send_message(chat_id, f"**⎆┊ هەڵە ڕوویدا لە کاتی پەخشی دواتر 🎸•**")
-            stream = (MediaStream(file_path, audio_parameters=AudioQuality.STUDIO, video_parameters=VideoQuality.FHD_1080p) if video else None
+            stream = (MediaStream(file_path, audio_parameters=AudioQuality.STUDIO, video_parameters=VideoQuality.FHD_1080p) if video else MediaStream(file_path, audio_parameters=AudioQuality.STUDIO)
             )
             try:
                  await client.change_stream(chat_id, stream)
