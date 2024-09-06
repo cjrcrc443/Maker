@@ -124,7 +124,8 @@ async def join_call(
         file_path = file_path
         #audio_stream_quality=HighQualityAudio()
         #video_stream_quality=MediumQualityVideo()
-        stream = (MediaStream(file_path, audio_parameters=AudioQuality.STUDIO, video_parameters=VideoQuality.FHD_1080p) if vid else MediaStream(file_path, audio_parameters=AudioQuality.STUDIO, video_flags=MediaStream.Flags.IGNORE))
+        stream = (MediaStream(file_path, audio_parameters=AudioQuality.STUDIO, video_parameters=VideoQuality.FHD_1080p) if video else None
+        )
         try:
             await call.join_group_call(chat_id, stream, stream_type=StreamType().pulse_stream)
             Done = True
