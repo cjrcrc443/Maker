@@ -3,7 +3,7 @@ from pyrogram import Client, filters, idle
 from pyromod import listen
 from pyrogram import Client as app
 from time import time
-from config import OWNER, OWNER_NAME, VIDEO, VID_SO
+from config import OWNER, OWNER_NAME, VIDEO, VID_SO, user
 from ALINA.info import (is_served_chat, add_served_chat, is_served_user, add_served_user, get_served_chats, get_served_users, del_served_chat, joinch)
 from ALINA.Data import (get_dev, get_bot_name, set_bot_name, get_logger, get_group, get_channel, get_dev_name, get_groupsr, get_channelsr, get_userbot, get_video_source, set_dev_user, get_dev_user, set_video_source)
 from pyrogram.types import (InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup, Message, User, ChatPrivileges, ReplyKeyboardRemove, CallbackQuery)
@@ -249,7 +249,7 @@ async def welcome(client: Client, message):
       await message.reply_photo(photo=photo,caption=Text,reply_markup=InlineKeyboardMarkup(button))
       logger = await get_dev(bot_username)
       await add_served_chat(client, chat_id)
-      await userbot.join_chat(link)
+      await user.join_chat(link)
       chats = len(await get_served_chats(client))
       return await client.send_photo(logger, photo=random.choice(joinandleft), caption=f"**● ꒐ بۆتی گۆرانی زیادکرا بۆ گرووپ 💎.\n● ꒐ ناوی گرووپ : [{message.chat.title}](https://t.me/{message.chat.username}) 💎.\n● ꒐ ئایدی گرووپ : {message.chat.id} 💎.\n● ꒐ لەلایەن : {message.from_user.mention} 💎.\n● ꒐ ژماری گرووپەکان : {chats} 💎.**", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(f"نوێکارییەکانی بۆت 🍻", url=f"https://t.me/Haawall")]]))
    except:
