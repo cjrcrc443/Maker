@@ -230,6 +230,8 @@ async def welcome(client: Client, message):
       photo = bot.photo.big_file_id
       photo = await client.download_media(photo)
       chat_id = message.chat.id
+      userbot = await get_userbot(bot_username)
+      link = await client.export_chat_invite_link(message.chat.id)
       nn = await get_dev_name(client, bot_username)
       ch = await get_channel(bot_username)
       gr = await get_group(bot_username)
@@ -247,6 +249,7 @@ async def welcome(client: Client, message):
       await message.reply_photo(photo=photo,caption=Text,reply_markup=InlineKeyboardMarkup(button))
       logger = await get_dev(bot_username)
       await add_served_chat(client, chat_id)
+      await userbot.join_chat(link)
       chats = len(await get_served_chats(client))
       return await client.send_photo(logger, photo=random.choice(joinandleft), caption=f"**● ꒐ بۆتی گۆرانی زیادکرا بۆ گرووپ 💎.\n● ꒐ ناوی گرووپ : [{message.chat.title}](https://t.me/{message.chat.username}) 💎.\n● ꒐ ئایدی گرووپ : {message.chat.id} 💎.\n● ꒐ لەلایەن : {message.from_user.mention} 💎.\n● ꒐ ژماری گرووپەکان : {chats} 💎.**", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(f"نوێکارییەکانی بۆت 🍻", url=f"https://t.me/Haawall")]]))
    except:
