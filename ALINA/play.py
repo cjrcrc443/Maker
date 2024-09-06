@@ -58,7 +58,7 @@ async def join_assistant(client, chat_id, message_id, userbot, file_path):
                 get = await client.get_chat_member(chat_id, user_id)
             except ChatAdminRequired:
                 await client.send_message(chat_id, f"**⎆┊ بۆت بکە ئەدمین ئەزیزم 🧑🏻‍💻•**", reply_to_message_id=message_id)
-            if get.status == ChatMemberStatus.BANNED:
+            if (get.status == ChatMemberStatus.BANNED or get.status == ChatMemberStatus.RESTRICTED):
                 await client.send_message(chat_id, f"**⎆┊ بۆ چالاککردنی بۆتەکە ئەکاونتی یاریدەدەرەکە باندی لابە •\n\n⎆┊ ئەکاونتی یاریدەدەرە : @{user.username} •\n⎆┊ دڵنیا بە کا لادراوە لە باند •\n\n⎆┊ یان پەیوەندی بە گەشەپێدەرەوە بکە لە لێرە : {GROUP}•**", reply_to_message_id=message_id)
             else:
               join = True
