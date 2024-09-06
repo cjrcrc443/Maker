@@ -26,9 +26,10 @@ from pytgcalls.types.input_stream.quality import (HighQualityAudio,
 """
 from pytgcalls.types import AudioQuality, MediaStream, Update, VideoQuality
 from pytgcalls import PyTgCalls, StreamType
+from ntgcalls import TelegramServerError
 from pytgcalls.exceptions import (AlreadyJoinedError,
                                   NoActiveGroupCall,
-                                  TelegramServerError)
+                                  )
 from pytgcalls.types import (JoinedGroupCallParticipant,
                              LeftGroupCallParticipant, Update)
 from pytgcalls.types.stream import StreamAudioEnded
