@@ -149,7 +149,8 @@ async def admin_risght(client: Client, message):
             file_path = await download(bot_username, link, video)
          except:
             return client.send_message(chat_id, "**هەڵە ڕوویدا لە کاتی پەخشکردنی دواتر 🎻.**")
-       stream = (MediaStream(file_path, audio_parameters=AudioQuality.STUDIO, video_parameters=VideoQuality.FHD_1080p) if video else MediaStream(file_path, audio_parameters=AudioQuality.STUDIO, video_flags=MediaStream.Flags.IGNORE))
+       stream = (MediaStream(file_path, audio_parameters=AudioQuality.STUDIO, video_parameters=VideoQuality.FHD_1080p) if video else None
+       )
        try:
            await call.change_stream(chat_id, stream)
        except Exception:
