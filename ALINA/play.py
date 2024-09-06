@@ -32,7 +32,6 @@ from pytgcalls.exceptions import (AlreadyJoinedError,
                                   )
 from pytgcalls.types import (JoinedGroupCallParticipant,
                              LeftGroupCallParticipant, Update)
-from pytgcalls.types.stream import StreamAudioEnded
 
 from pymongo import MongoClient
 from motor.motor_asyncio import AsyncIOMotorClient as _mongo_client_
