@@ -25,7 +25,7 @@ from pytgcalls.types.input_stream.quality import (HighQualityAudio,
                                                   MediumQualityVideo)
 """
 from pytgcalls.types import AudioQuality, MediaStream, Update, VideoQuality
-from pytgcalls import PyTgCalls, StreamType
+from pytgcalls import PyTgCalls
 from ntgcalls import TelegramServerError
 from pytgcalls.exceptions import (AlreadyJoinedError,
                                   NoActiveGroupCall,
@@ -127,13 +127,13 @@ async def join_call(
         stream = (MediaStream(file_path, audio_parameters=AudioQuality.STUDIO, video_parameters=VideoQuality.FHD_1080p) if vid else None
         )
         try:
-            await call.join_group_call(chat_id, stream, stream_type=StreamType().pulse_stream)
+            await call.join_group_call(chat_id, stream)
             Done = True
         except NoActiveGroupCall:
                  h = await join_assistant(client, chat_id, message_id, userbot, file_path)
                  if h:
                   try:
-                   await call.join_group_call(chat_id, stream, stream_type=StreamType().pulse_stream)
+                   await call.join_group_call(chat_id, stream)
                    Done = True
                   except Exception:
                       await client.send_message(chat_id, "**⎆┊ سەرەتا تێل بکەوە 🧑🏻‍💻•**", reply_to_message_id=message_id)
