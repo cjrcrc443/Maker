@@ -15,20 +15,22 @@ from pyrogram.errors import (ChatAdminRequired,
                              UserNotParticipant)
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.enums import ChatType, ChatMemberStatus
-
+"""
+from pytgcalls.types.input_stream import AudioPiped, AudioVideoPiped
 from pytgcalls.types.input_stream.quality import (HighQualityAudio,
                                                   HighQualityVideo,
                                                   LowQualityAudio,
                                                   LowQualityVideo,
                                                   MediumQualityAudio,
                                                   MediumQualityVideo)
+"""
+from pytgcalls.types import AudioQuality, MediaStream, Update, VideoQuality
 from pytgcalls import PyTgCalls, StreamType
 from pytgcalls.exceptions import (AlreadyJoinedError,
                                   NoActiveGroupCall,
                                   TelegramServerError)
 from pytgcalls.types import (JoinedGroupCallParticipant,
                              LeftGroupCallParticipant, Update)
-from pytgcalls.types.input_stream import AudioPiped, AudioVideoPiped
 from pytgcalls.types.stream import StreamAudioEnded
 
 from pymongo import MongoClient
@@ -120,9 +122,9 @@ async def join_call(
         except:
           return Done
         file_path = file_path
-        audio_stream_quality = HighQualityAudio()
-        video_stream_quality = MediumQualityVideo()
-        stream = (AudioVideoPiped(file_path, audio_parameters=audio_stream_quality, video_parameters=video_stream_quality) if vid else AudioPiped(file_path, audio_parameters=audio_stream_quality))
+        #audio_stream_quality=HighQualityAudio()
+        #video_stream_quality=MediumQualityVideo()
+        stream = (MediaStream(file_path, audio_parameters=AudioQuality.STUDIO, video_parameters=VideoQuality.FHD_1080p) if vid else MediaStream(file_path, audio_parameters=AudioQuality.STUDIO, video_flags=MediaStream.Flags.IGNORE))
         try:
             await call.join_group_call(chat_id, stream, stream_type=StreamType().pulse_stream)
             Done = True
