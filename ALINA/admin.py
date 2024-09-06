@@ -5,7 +5,7 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.types import CallbackQuery
 from pyrogram.enums import ChatType, ChatMemberStatus
 
-from pytgcalls import PyTgCalls, StreamType
+from pytgcalls import PyTgCalls
 from pytgcalls.types import AudioQuality, MediaStream, Update, VideoQuality
 """
 from pytgcalls.types.input_stream import AudioPiped, AudioVideoPiped
