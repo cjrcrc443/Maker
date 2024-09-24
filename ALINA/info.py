@@ -1,46 +1,33 @@
-import re
-import os
 import asyncio
+import os
+import re
 import textwrap
+from typing import Union
+
 import aiofiles
 import aiohttp
 import yt_dlp
-
-from PIL import (Image, ImageDraw, ImageEnhance, ImageFilter,ImageFont, ImageOps)
-from typing import Union
-
-from pyrogram import Client, filters
-from pyrogram import Client as client
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message
-from pyrogram.errors.exceptions.bad_request_400 import UserNotParticipant
-
-from pytgcalls import PyTgCalls
-from pytgcalls.types import (JoinedGroupCallParticipant,
-                             LeftGroupCallParticipant, Update)
-from pytgcalls.types.stream import StreamAudioEnded, StreamVideoEnded
-
-from pytgcalls.types.input_stream import AudioPiped, AudioVideoPiped
-from pytgcalls.types.input_stream.quality import (HighQualityAudio,
-                                                  HighQualityVideo,
-                                                  LowQualityAudio,
-                                                  LowQualityVideo,
-                                                  MediumQualityAudio,
-                                                  MediumQualityVideo)
-
-from pymongo import MongoClient
 from googletrans import Translator
 from motor.motor_asyncio import AsyncIOMotorClient as _mongo_client_
-
-from youtube_search import YoutubeSearch
+from PIL import Image, ImageDraw, ImageEnhance, ImageFilter, ImageFont, ImageOps
+from pyrogram.errors.exceptions.bad_request_400 import UserNotParticipant
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from pytgcalls import PyTgCalls
+from pytgcalls.types import Update
+from pytgcalls.types.input_stream import AudioPiped, AudioVideoPiped
+from pytgcalls.types.input_stream.quality import HighQualityAudio, MediumQualityVideo
+from pytgcalls.types.stream import StreamAudioEnded, StreamVideoEnded
 from youtubesearchpython.__future__ import VideosSearch
 
-from config import appp, OWNER, OWNER_NAME, VIDEO
-from config import API_ID, API_HASH, MONGO_DB_URL, user, dev, call, logger, logger_mode, botname, helper as ass
-
-from ALINA.Data import get_data
-from ALINA.Data import (get_call, get_app, get_userbot, get_group, get_channel, must_join)
-
-
+from ALINA.Data import (
+    get_call,
+    get_channel,
+    get_data,
+    get_group,
+    get_userbot,
+    must_join,
+)
+from config import MONGO_DB_URL, OWNER, VIDEO, appp
 
 translator = Translator()
 
@@ -55,6 +42,7 @@ def changeImageSize(maxWidth, maxHeight, image):
 
 
 ahmed = "https://graph.org/file/c8d0d49f5e13290314807.jpg"
+
 
 async def gen_thumb(videoid, photo):
     if os.path.isfile(f"{photo}.png"):
@@ -89,9 +77,7 @@ async def gen_thumb(videoid, photo):
         async with aiohttp.ClientSession() as session:
             async with session.get(thumbnail) as resp:
                 if resp.status == 200:
-                    f = await aiofiles.open(
-                        f"thumb{videoid}.png", mode="wb"
-                    )
+                    f = await aiofiles.open(f"thumb{videoid}.png", mode="wb")
                     await f.write(await resp.read())
                     await f.close()
 
@@ -183,16 +169,10 @@ mongodb = _mongo_client_(MONGO_DB_URL)
 
 db = {}
 
+
 async def add(
-    chat_id,
-    bot_username,
-    file_path,
-    link,
-    title,
-    duration,
-    videoid,
-    vid,
-    user_id):
+    chat_id, bot_username, file_path, link, title, duration, videoid, vid, user_id
+):
     put = {
         "title": title,
         "dur": duration,
@@ -207,9 +187,10 @@ async def add(
     chat_id = f"{bot_username}{chat_id}"
     i = db.get(chat_id)
     if not i:
-      db[chat_id] = []
+        db[chat_id] = []
     db[chat_id].append(put)
     return
+
 
 # Users
 
@@ -240,6 +221,7 @@ async def add_served_user(client, user_id: int):
         return
     return await userdb.insert_one({"user_id": user_id})
 
+
 async def del_served_user(client, user_id: int):
     chats = await get_data(client)
     chatsdb = chats.users
@@ -247,6 +229,7 @@ async def del_served_user(client, user_id: int):
     if not is_served:
         return
     return await chatsdb.delete_one({"user_id": user_id})
+
 
 # Served Chats
 
@@ -286,9 +269,11 @@ async def del_served_chat(client, chat_id: int):
         return
     return await chatsdb.delete_one({"chat_id": chat_id})
 
+
 # Served Call
 
 activecall = {}
+
 
 async def get_served_call(bot_username) -> list:
     return activecall[bot_username]
@@ -312,8 +297,10 @@ async def remove_served_call(bot_username, chat_id: int):
     if chat_id in activecall[bot_username]:
         activecall[bot_username].remove(chat_id)
 
+
 # Active Voice Chats
 active = []
+
 
 async def get_active_chats() -> list:
     return active
@@ -339,6 +326,7 @@ async def remove_active_chat(chat_id: int):
 # Active Video Chats
 activevideo = []
 
+
 async def get_active_video_chats() -> list:
     return activevideo
 
@@ -359,155 +347,209 @@ async def remove_active_video_chat(chat_id: int):
     if chat_id in activevideo:
         activevideo.remove(chat_id)
 
+
 async def remove_active(bot_username, chat_id: int):
-   chat = f"{bot_username}{chat_id}"
-   try:
-    db[chat] = []
-   except:
-      pass
-   try:
+    chat = f"{bot_username}{chat_id}"
+    try:
+        db[chat] = []
+    except:
+        pass
+    try:
         await remove_active_video_chat(chat_id)
-   except:
+    except:
         pass
-   try:
+    try:
         await remove_active_chat(chat_id)
-   except:
+    except:
         pass
-   try:
+    try:
         await remove_served_call(bot_username, chat_id)
-   except:
+    except:
         pass
 
 
 async def download(bot_username, link, video: Union[bool, str] = None):
-        link = link
-        loop = asyncio.get_running_loop()
-        def audio_dl():
-            ydl_optssx = {"format": "bestaudio/best", "outtmpl": f"downloads/{bot_username}%(id)s.%(ext)s", "geo_bypass": True, "nocheckcertificate": True, "quiet": True, "no_warnings": True}
-            x = yt_dlp.YoutubeDL(ydl_optssx)
-            info = x.extract_info(link, False)
-            xyz = os.path.join("downloads", f"{bot_username}{info['id']}.{info['ext']}")
-            if os.path.exists(xyz):
-                return xyz
-            x.download([link])
+    link = link
+    loop = asyncio.get_running_loop()
+
+    def audio_dl():
+        ydl_optssx = {
+            "format": "bestaudio/best",
+            "outtmpl": f"downloads/{bot_username}%(id)s.%(ext)s",
+            "geo_bypass": True,
+            "nocheckcertificate": True,
+            "quiet": True,
+            "no_warnings": True,
+        }
+        x = yt_dlp.YoutubeDL(ydl_optssx)
+        info = x.extract_info(link, False)
+        xyz = os.path.join("downloads", f"{bot_username}{info['id']}.{info['ext']}")
+        if os.path.exists(xyz):
             return xyz
-        if video:
-            proc = await asyncio.create_subprocess_exec("yt-dlp", "-g", "-f", "best[height<=?720][width<=?1280]", f"{link}", stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE)
-            stdout, stderr = await proc.communicate()
-            if stdout:
-               downloaded_file = stdout.decode().split("\n")[0]
-            else:
-               return
+        x.download([link])
+        return xyz
+
+    if video:
+        proc = await asyncio.create_subprocess_exec(
+            "yt-dlp",
+            "-g",
+            "-f",
+            "best[height<=?720][width<=?1280]",
+            f"{link}",
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE,
+        )
+        stdout, stderr = await proc.communicate()
+        if stdout:
+            downloaded_file = stdout.decode().split("\n")[0]
         else:
-            downloaded_file = await loop.run_in_executor(None, audio_dl)
-        return downloaded_file
+            return
+    else:
+        downloaded_file = await loop.run_in_executor(None, audio_dl)
+    return downloaded_file
+
 
 async def change_stream(bot_username, client, chat_id):
-           try:
-            chat = f"{bot_username}{chat_id}"
-            check = db.get(chat)
+    try:
+        chat = f"{bot_username}{chat_id}"
+        check = db.get(chat)
+        try:
+            popped = check.pop(0)
+        except:
+            pass
+        if not check:
+            await remove_active(bot_username, chat_id)
             try:
-              popped = check.pop(0)
+                return await client.leave_group_call(chat_id)
             except:
-                pass
-            if not check:
-                await remove_active(bot_username, chat_id)
-                try:
-                  return await client.leave_group_call(chat_id)
-                except:
-                  return
-            file_path = check[0]["file_path"]
-            title = check[0]["title"]
-            dur = check[0]["dur"]
-            user_id = check[0]["user_id"]
-            chat_id = check[0]["chat_id"]
-            video = check[0]["vid"]
-            audio_stream_quality = HighQualityAudio()
-            video_stream_quality = MediumQualityVideo()
-            videoid = check[0]["videoid"]
-            link = check[0]["videoid"]
-            check[0]["played"] = 0
-            app = appp[bot_username]
-            if not link:
-              file_path = file_path
-            else:
-             try:
+                return
+        file_path = check[0]["file_path"]
+        title = check[0]["title"]
+        dur = check[0]["dur"]
+        user_id = check[0]["user_id"]
+        chat_id = check[0]["chat_id"]
+        video = check[0]["vid"]
+        audio_stream_quality = HighQualityAudio()
+        video_stream_quality = MediumQualityVideo()
+        videoid = check[0]["videoid"]
+        link = check[0]["videoid"]
+        check[0]["played"] = 0
+        app = appp[bot_username]
+        if not link:
+            file_path = file_path
+        else:
+            try:
                 file_path = await download(bot_username, link, video)
-             except Exception as es:
-                return await app.send_message(chat_id, f"**⎆┊ هەڵە ڕوویدا لە کاتی پەخشی دواتر 🎸•**")
-            stream = (AudioVideoPiped(file_path, audio_parameters=audio_stream_quality, video_parameters=video_stream_quality) if video else AudioPiped(file_path, audio_parameters=audio_stream_quality))
-            try:
-                 await client.change_stream(chat_id, stream)
             except Exception as es:
-                  return await app.send_message(chat_id, f"**⎆┊ هەڵە ڕوویدا لە کاتی پەخشی دواتر 🎸•**")
-            userx = await app.get_users(user_id)
-            if videoid:
-              ahmed = await app.get_chat(OWNER[0])
-              photo_id = ahmed.photo.big_file_id
-              photo = await app.download_media(photo_id)
-              img = await gen_thumb(videoid, photo)
-            else:
-              img = VIDEO
-            requester = userx.mention
-            bot_username = client.me.username
-            dev = await get_dev(bot.username)
-            devname = await get_dev_name(client, bot.username)
-            gr = await get_group(bot_username)
-            ch = await get_channel(bot_username)
-            button = [[InlineKeyboardButton(text="𝗘𝗻𝗱 🎸•", callback_data=f"stop"), InlineKeyboardButton(text="𝗥𝗲𝘀𝘂𝗺𝗲 🎸•", callback_data=f"resume"), InlineKeyboardButton(text="𝗣𝗮𝘂𝘀𝗲 🎸•", callback_data=f"pause")], [InlineKeyboardButton(text="𝗖𝗵𝗮𝗻𝗻𝗲𝗹 🖱️", url=f"{ch}"), InlineKeyboardButton(text="𝗚𝗿𝗼𝘂𝗽 🖱️", url=f"{gr}")], [InlineKeyboardButton(f"{devname} 💸•", user_id=f"{dev}")], [InlineKeyboardButton(text="⌯ زیادم بکە بۆ گرووپ یان کەناڵت ⚡️•", url=f"https://t.me/{bot_username}?startgroup=True")]]
-            await app.send_photo(chat_id, photo=img, caption=f"**⭓ᴍᴜˢɪᴄ✘ʜᴀᴡᴀʟ 🎻\n\n╮◉ ناونیشان : {title}\n│᚜⦿ ماوەکەی : {duration} ⌚\n╯◉ لەلایەن : {requester}**", reply_markup=InlineKeyboardMarkup(button))
-            try:
-               os.remove(file_path)
-               os.remove(img)
-            except:
-               pass
-           except:
-                pass
+                return await app.send_message(
+                    chat_id, f"**⎆┊ هەڵە ڕوویدا لە کاتی پەخشی دواتر 🎸•**"
+                )
+        stream = (
+            AudioVideoPiped(
+                file_path,
+                audio_parameters=audio_stream_quality,
+                video_parameters=video_stream_quality,
+            )
+            if video
+            else AudioPiped(file_path, audio_parameters=audio_stream_quality)
+        )
+        try:
+            await client.change_stream(chat_id, stream)
+        except Exception as es:
+            return await app.send_message(
+                chat_id, f"**⎆┊ هەڵە ڕوویدا لە کاتی پەخشی دواتر 🎸•**"
+            )
+        userx = await app.get_users(user_id)
+        if videoid:
+            ahmed = await app.get_chat(OWNER[0])
+            photo_id = ahmed.photo.big_file_id
+            photo = await app.download_media(photo_id)
+            img = await gen_thumb(videoid, photo)
+        else:
+            img = VIDEO
+        requester = userx.mention
+        bot_username = client.me.username
+        dev = await get_dev(bot.username)
+        devname = await get_dev_name(client, bot.username)
+        gr = await get_group(bot_username)
+        ch = await get_channel(bot_username)
+        button = [
+            [
+                InlineKeyboardButton(text="𝗘𝗻𝗱 🎸•", callback_data=f"stop"),
+                InlineKeyboardButton(text="𝗥𝗲𝘀𝘂𝗺𝗲 🎸•", callback_data=f"resume"),
+                InlineKeyboardButton(text="𝗣𝗮𝘂𝘀𝗲 🎸•", callback_data=f"pause"),
+            ],
+            [
+                InlineKeyboardButton(text="𝗖𝗵𝗮𝗻𝗻𝗲𝗹 🖱️", url=f"{ch}"),
+                InlineKeyboardButton(text="𝗚𝗿𝗼𝘂𝗽 🖱️", url=f"{gr}"),
+            ],
+            [InlineKeyboardButton(f"{devname} 💸•", user_id=f"{dev}")],
+            [
+                InlineKeyboardButton(
+                    text="⌯ زیادم بکە بۆ گرووپ یان کەناڵت ⚡️•",
+                    url=f"https://t.me/{bot_username}?startgroup=True",
+                )
+            ],
+        ]
+        await app.send_photo(
+            chat_id,
+            photo=img,
+            caption=f"**⭓ᴍᴜˢɪᴄ✘ʜᴀᴡᴀʟ 🎻\n\n╮◉ ناونیشان : {title}\n│᚜⦿ ماوەکەی : {duration} ⌚\n╯◉ لەلایەن : {requester}**",
+            reply_markup=InlineKeyboardMarkup(button),
+        )
+        try:
+            os.remove(file_path)
+            os.remove(img)
+        except:
+            pass
+    except:
+        pass
+
 
 async def helper(bot_username):
-   user = await get_userbot(bot_username)
-   gr = await get_group(bot_username)
+    user = await get_userbot(bot_username)
+    gr = await get_group(bot_username)
 
 
 async def Call(bot_username):
-  call = await get_call(bot_username)
-  @call.on_kicked()
-  @call.on_closed_voice_chat()
-  @call.on_left()
-  async def stream_services_handler(client, chat_id: int):
-     return await remove_active(bot_username, chat_id)
+    call = await get_call(bot_username)
 
-  @call.on_stream_end()
-  async def stream_end_handler1(client: PyTgCalls, update: Update):
-    if not isinstance(update, (StreamVideoEnded, StreamAudioEnded)):
-        return
-    await change_stream(bot_username, client, update.chat_id)
+    @call.on_kicked()
+    @call.on_closed_voice_chat()
+    @call.on_left()
+    async def stream_services_handler(client, chat_id: int):
+        return await remove_active(bot_username, chat_id)
 
+    @call.on_stream_end()
+    async def stream_end_handler1(client: PyTgCalls, update: Update):
+        if not isinstance(update, (StreamVideoEnded, StreamAudioEnded)):
+            return
+        await change_stream(bot_username, client, update.chat_id)
 
 
 async def joinch(message):
-        ii = await must_join(message._client.me.username)
-        if ii == "off":
-          return
-        cch = await get_channel(message._client.me.username)
-        ch = cch.replace("https://t.me/", "")
+    ii = await must_join(message._client.me.username)
+    if ii == "off":
+        return
+    cch = await get_channel(message._client.me.username)
+    ch = cch.replace("https://t.me/", "")
+    try:
+        await message._client.get_chat_member(ch, message.from_user.id)
+    except UserNotParticipant:
         try:
-            await message._client.get_chat_member(ch, message.from_user.id)
-        except UserNotParticipant:
-            try:
-                await message.reply(
-                    f"**◗⋮◖ پێویستە جۆینی کەناڵ بکەیت\n\n◗⋮◖ کەناڵی بۆت : « {cch} »**",
-                    disable_web_page_preview=True,
-                    reply_markup=InlineKeyboardMarkup(
+            await message.reply(
+                f"**◗⋮◖ پێویستە جۆینی کەناڵ بکەیت\n\n◗⋮◖ کەناڵی بۆت : « {cch} »**",
+                disable_web_page_preview=True,
+                reply_markup=InlineKeyboardMarkup(
+                    [
                         [
-                            [
-                                InlineKeyboardButton("جۆینی کەناڵ بکە ◗⋮◖", url=f"{cch}"),
-                            ],
-                         ]
-                      )
-                   )
-                return True
-            except Exception as a:
-                print(a)
+                            InlineKeyboardButton("جۆینی کەناڵ بکە ◗⋮◖", url=f"{cch}"),
+                        ],
+                    ]
+                ),
+            )
+            return True
         except Exception as a:
-              print(a)
+            print(a)
+    except Exception as a:
+        print(a)

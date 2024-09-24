@@ -1,11 +1,13 @@
 from pyrogram import Client, filters
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message
-from pyrogram.errors import ChatAdminRequired, UserNotParticipant, ChatWriteForbidden
+from pyrogram.errors import ChatAdminRequired, ChatWriteForbidden, UserNotParticipant
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
-#--------------------------
+# --------------------------
 
 MUST_JOIN = "Haawall"
-#------------------------
+
+
+# ------------------------
 @Client.on_message(filters.incoming & filters.private, group=-1)
 async def must_join_channel(app: Client, msg: Message):
     if not MUST_JOIN:
@@ -28,7 +30,7 @@ async def must_join_channel(app: Client, msg: Message):
                                 InlineKeyboardButton("♥️ جۆینی کەناڵ بکە ♥️", url=link),
                             ]
                         ]
-                    )
+                    ),
                 )
                 await msg.stop_propagation()
             except ChatWriteForbidden:

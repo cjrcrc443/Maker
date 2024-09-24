@@ -1,4 +1,3 @@
-
 OWNER = ["IQ7amo", "Hawaallll"]
 SUDO = ["Hawaallll", "IQ7amo"]
 OWNER_NAME = "𝐇𝐚𝐰𝐚𝐥𝐥🔥 ꨄᵉⁿᵈ"

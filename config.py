@@ -1,7 +1,20 @@
 import os
 from os import getenv
+
 from dotenv import load_dotenv
-from OWNER import BOT_TOKEN, OWNER, OWNER_NAME, SUDO, DATABASE, CHANNEL, GROUP, LOGS, VIDEO, VID_SO
+
+from OWNER import (
+    BOT_TOKEN,
+    CHANNEL,
+    DATABASE,
+    GROUP,
+    LOGS,
+    OWNER,
+    OWNER_NAME,
+    SUDO,
+    VID_SO,
+    VIDEO,
+)
 
 if os.path.exists("local.env"):
     load_dotenv("local.env")
@@ -16,7 +29,6 @@ logger_mode = {}
 botname = {}
 appp = {}
 helper = {}
-
 
 
 API_ID = int(getenv("API_ID", "12962251"))

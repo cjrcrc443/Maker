@@ -1,7 +1,8 @@
-from pyrogram import filters, Client 
-from config import OWNER_NAME, GROUP
+from pyrogram import Client, filters
 from pyrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
-from ALINA.Data import get_dev, get_group, get_channel, get_dev_name
+
+from ALINA.Data import get_channel, get_dev, get_dev_name, get_group
+from config import GROUP, OWNER_NAME
 
 
 @Client.on_callback_query(filters.regex("kurdish"))
@@ -12,7 +13,8 @@ async def kurdish(client: Client, query: CallbackQuery):
     dev = await get_dev(bot.username)
     devname = await get_dev_name(client, bot.username)
     await query.answer("لیستی سەرەکی")
-    await query.edit_message_text(f"**👋🏻 ꒐ بەخێربێی ئەزیزم {query.from_user.mention} **\n\n**● ꒐ من بۆتێکم کە دەتوانم گۆرانی لێبدەم**\n**● ꒐ زیادم بکە بۆ گرووپت یان کەناڵت**\n**● ꒐ خێرایە کاتێك چالاکت کرد یاریدەدەر جۆینەکات**\n**● ꒐ لە کاتی هەبوونی هەر کێشەیەك سەردانی گرووپ بکە**\n**🍻 ꒐ گرووپ : {gr} **\n**🍻 ꒐ دووگمەکانی خوارەوە بەکاربێنە**\n**👾 ꒐ گەشەپێدراوە لەلایەن : {OWNER_NAME}**",
+    await query.edit_message_text(
+        f"**👋🏻 ꒐ بەخێربێی ئەزیزم {query.from_user.mention} **\n\n**● ꒐ من بۆتێکم کە دەتوانم گۆرانی لێبدەم**\n**● ꒐ زیادم بکە بۆ گرووپت یان کەناڵت**\n**● ꒐ خێرایە کاتێك چالاکت کرد یاریدەدەر جۆینەکات**\n**● ꒐ لە کاتی هەبوونی هەر کێشەیەك سەردانی گرووپ بکە**\n**🍻 ꒐ گرووپ : {gr} **\n**🍻 ꒐ دووگمەکانی خوارەوە بەکاربێنە**\n**👾 ꒐ گەشەپێدراوە لەلایەن : {OWNER_NAME}**",
         reply_markup=InlineKeyboardMarkup(
             [
                 [
@@ -24,26 +26,20 @@ async def kurdish(client: Client, query: CallbackQuery):
                 [InlineKeyboardButton(f"{devname}", user_id=f"{dev}")],
                 [
                     InlineKeyboardButton("𝄞 چۆنیەتی کارکردن 𝄞", callback_data="bcmds"),
-                    InlineKeyboardButton("𝄞 چۆنیەتی چالاککردن 𝄞", callback_data="bhowtouse"),
-                ],
-                [
                     InlineKeyboardButton(
-                        "گرووپی بۆت", url=f"{gr}"
-                    ),
-                    InlineKeyboardButton(
-                        "کەناڵی بۆت", url=f"{ch}"
+                        "𝄞 چۆنیەتی چالاککردن 𝄞", callback_data="bhowtouse"
                     ),
                 ],
                 [
-                    InlineKeyboardButton(
-                        "𝄞 𝙎𝙊𝙐𝙍𝘾𝞝 𝙃𝘼𝙒𝘼𝙇 𝄞",
-                        url=f"https://t.me/Haawall"
-                    )
+                    InlineKeyboardButton("گرووپی بۆت", url=f"{gr}"),
+                    InlineKeyboardButton("کەناڵی بۆت", url=f"{ch}"),
                 ],
+                [InlineKeyboardButton("𝄞 𝙎𝙊𝙐𝙍𝘾𝞝 𝙃𝘼𝙒𝘼𝙇 𝄞", url=f"https://t.me/Haawall")],
             ]
         ),
         disable_web_page_preview=True,
     )
+
 
 @Client.on_callback_query(filters.regex("english"))
 async def english(client: Client, query: CallbackQuery):
@@ -53,7 +49,8 @@ async def english(client: Client, query: CallbackQuery):
     dev = await get_dev(bot.username)
     devname = await get_dev_name(client, bot.username)
     await query.answer("𝖧𝗈𝗆𝖾 𝖲𝗍𝖺𝗋𝗍")
-    await query.edit_message_text(f"**👋🏻 ꒐ 𝖶𝖾𝗅𝖼𝗈𝗆𝖾 𝖽𝖾𝖺𝗋 {query.from_user.mention}\n\n● ꒐ 𝖨'𝗆 𝖺 𝖻𝗈𝗍 𝗍𝗁𝖺𝗍 𝖼𝖺𝗇 𝗉𝗅𝖺𝗒 𝗌𝗈𝗇𝗀𝗌\n● ꒐ 𝖠𝖽𝖽 𝗆𝖾 𝗍𝗈 𝗒𝗈𝗎𝗋 𝗀𝗋𝗈𝗎𝗉 𝗈𝗋 𝖼𝗁𝖺𝗇𝗇𝖾𝗅\n● ꒐ 𝖨𝗍'𝗌 𝖿𝖺𝗌𝗍, 𝗍𝗁𝖾 𝖺𝗌𝗌𝗂𝗌𝗍𝖺𝗇𝗍 𝗃𝗈𝗂𝗇𝗌 𝗐𝗁𝖾𝗇 𝗒𝗈𝗎 𝖺𝖼𝗍𝗂𝗏𝖺𝗍𝖾 𝗂𝗍\n● ꒐ 𝖵𝗂𝗌𝗂𝗍 𝗍𝗁𝖾 𝗀𝗋𝗈𝗎𝗉 𝗂𝖿 𝗒𝗈𝗎 𝗁𝖺𝗏𝖾 𝖺𝗇𝗒 𝗉𝗋𝗈𝖻𝗅𝖾𝗆𝗌\n🍻 ꒐ 𝖦𝗋𝗈𝗎𝗉 : {gr} \n🍻 ꒐ 𝖴𝗌𝖾 𝗍𝗁𝖾 𝖻𝗎𝗍𝗍𝗈𝗇𝗌 𝖻𝖾𝗅𝗈𝗐\n👾 ꒐ 𝖣𝖾𝗏𝖾𝗅𝗈𝗉𝖾𝖽 𝖡𝗒 : {OWNER_NAME}**",
+    await query.edit_message_text(
+        f"**👋🏻 ꒐ 𝖶𝖾𝗅𝖼𝗈𝗆𝖾 𝖽𝖾𝖺𝗋 {query.from_user.mention}\n\n● ꒐ 𝖨'𝗆 𝖺 𝖻𝗈𝗍 𝗍𝗁𝖺𝗍 𝖼𝖺𝗇 𝗉𝗅𝖺𝗒 𝗌𝗈𝗇𝗀𝗌\n● ꒐ 𝖠𝖽𝖽 𝗆𝖾 𝗍𝗈 𝗒𝗈𝗎𝗋 𝗀𝗋𝗈𝗎𝗉 𝗈𝗋 𝖼𝗁𝖺𝗇𝗇𝖾𝗅\n● ꒐ 𝖨𝗍'𝗌 𝖿𝖺𝗌𝗍, 𝗍𝗁𝖾 𝖺𝗌𝗌𝗂𝗌𝗍𝖺𝗇𝗍 𝗃𝗈𝗂𝗇𝗌 𝗐𝗁𝖾𝗇 𝗒𝗈𝗎 𝖺𝖼𝗍𝗂𝗏𝖺𝗍𝖾 𝗂𝗍\n● ꒐ 𝖵𝗂𝗌𝗂𝗍 𝗍𝗁𝖾 𝗀𝗋𝗈𝗎𝗉 𝗂𝖿 𝗒𝗈𝗎 𝗁𝖺𝗏𝖾 𝖺𝗇𝗒 𝗉𝗋𝗈𝖻𝗅𝖾𝗆𝗌\n🍻 ꒐ 𝖦𝗋𝗈𝗎𝗉 : {gr} \n🍻 ꒐ 𝖴𝗌𝖾 𝗍𝗁𝖾 𝖻𝗎𝗍𝗍𝗈𝗇𝗌 𝖻𝖾𝗅𝗈𝗐\n👾 ꒐ 𝖣𝖾𝗏𝖾𝗅𝗈𝗉𝖾𝖽 𝖡𝗒 : {OWNER_NAME}**",
         reply_markup=InlineKeyboardMarkup(
             [
                 [
@@ -68,23 +65,15 @@ async def english(client: Client, query: CallbackQuery):
                     InlineKeyboardButton("𝄞 𝖡𝖺𝗌𝗂𝖼 𝖦𝗎𝗂𝖽𝖾 𝄞", callback_data="cbhowtouse"),
                 ],
                 [
-                    InlineKeyboardButton(
-                        "𝖡𝗈𝗍'𝗌 𝖦𝗋𝗈𝗎𝗉", url=f"{gr}"
-                    ),
-                    InlineKeyboardButton(
-                        "𝖡𝗈𝗍'𝗌 𝖢𝗁𝖺𝗇𝗇𝖾𝗅", url=f"{ch}"
-                    ),
+                    InlineKeyboardButton("𝖡𝗈𝗍'𝗌 𝖦𝗋𝗈𝗎𝗉", url=f"{gr}"),
+                    InlineKeyboardButton("𝖡𝗈𝗍'𝗌 𝖢𝗁𝖺𝗇𝗇𝖾𝗅", url=f"{ch}"),
                 ],
-                [
-                    InlineKeyboardButton(
-                        "𝄞 𝙎𝙊𝙐𝙍𝘾𝞝 𝙃𝘼𝙒𝘼𝙇 𝄞",
-                        url=f"https://t.me/Haawall"
-                    )
-                ],
+                [InlineKeyboardButton("𝄞 𝙎𝙊𝙐𝙍𝘾𝞝 𝙃𝘼𝙒𝘼𝙇 𝄞", url=f"https://t.me/Haawall")],
             ]
         ),
         disable_web_page_preview=True,
     )
+
 
 @Client.on_callback_query(filters.regex("cbhowtouse"))
 async def cbguides(_, query: CallbackQuery):
@@ -116,9 +105,8 @@ async def cbcmds(_, query: CallbackQuery):
                 [
                     InlineKeyboardButton("𝖠𝖽𝗆𝗂𝗇 𝖢𝗈𝗆𝗆𝖺𝗇𝖽", callback_data="cbadmin"),
                     InlineKeyboardButton("𝖡𝖺𝗌𝗂𝖼 𝖢𝗈𝗆𝗆𝖺𝗇𝖽", callback_data="cbbasic"),
-                ],[
-                    InlineKeyboardButton("• 𝖡𝖺𝖼𝗄 •", callback_data="english")
                 ],
+                [InlineKeyboardButton("• 𝖡𝖺𝖼𝗄 •", callback_data="english")],
             ]
         ),
     )
@@ -160,7 +148,6 @@ async def cbadmin(_, query: CallbackQuery):
     )
 
 
-
 @Client.on_callback_query(filters.regex("bhowtouse"))
 async def acbguides(_, query: CallbackQuery):
     await query.edit_message_text(
@@ -189,9 +176,8 @@ async def acbcmds(_, query: CallbackQuery):
                 [
                     InlineKeyboardButton("فەرمانی پەخشکردن", callback_data="bbasic"),
                     InlineKeyboardButton("فەرمانی ئەدمین", callback_data="badmin"),
-                ],[
-                    InlineKeyboardButton("• گـەڕانـەوە •", callback_data="kurdish")
                 ],
+                [InlineKeyboardButton("• گـەڕانـەوە •", callback_data="kurdish")],
             ]
         ),
     )

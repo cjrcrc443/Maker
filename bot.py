@@ -1,16 +1,13 @@
 from pyrogram import Client, idle
-from config import API_ID, API_HASH, BOT_TOKEN
-from pyromod import listen
-
-
 
 bot = Client(
     "mo",
     api_id="12962251",
     api_hash="b51499523800add51e4530c6f552dbc8",
     bot_token="7457379005:AAFGa-KqppzmKI1NuzW2sp2PUwJLmyC3wuE",
-    plugins=dict(root="Maker")
-    )
+    plugins=dict(root="Maker"),
+)
+
 
 async def start_bot():
     print("[INFO]: STARTING BOT CLIENT")
