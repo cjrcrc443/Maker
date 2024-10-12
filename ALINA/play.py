@@ -284,436 +284,184 @@ async def fuckoff(client: Client, message):
             pass
 
 
-@Client.on_message(filters.command(["عشوائي", "تشغيل عشوائي"], ""))
-async def aii(client: Client, message):
-    if await joinch(message):
-        return
-    try:
-        chat_id = message.chat.id
-        bot_username = client.me.username
-        rep = await message.reply_text("**جاري اختيار تشغيل عشوائي ♻️**")
-        try:
-            call = await get_call(bot_username)
-        except:
-            await remove_active(bot_username, chat_id)
-        try:
-            await call.get_call(message.chat.id)
-        except pytgcalls.exceptions.GroupCallNotFound:
-            await remove_active(bot_username, chat_id)
-        message_id = message.id
-        user = await get_userbot(bot_username)
-        req = message.from_user.mention if message.from_user else message.chat.title
-        raw_list = []
-        async for msg in user.get_chat_history("ZWZZ7"):
-            if msg.audio:
-                raw_list.append(msg)
-        x = random.choice(raw_list)
-        file_path = await x.download()
-        file_name = x.audio.title
-        title = file_name
-        dur = x.audio.duration
-        duration = seconds_to_min(dur)
-        photo = PHOTO
-        vid = True if x.video else None
-        chat_id = message.chat.id
-        user_id = message.from_user.id if message.from_user else "Hawaallll"
-        videoid = None
-        link = None
-        await add(
-            message.chat.id,
-            bot_username,
-            file_path,
-            link,
-            title,
-            duration,
-            videoid,
-            vid,
-            user_id,
-        )
-        if not await is_served_call(client, message.chat.id):
-            await add_active_chat(chat_id)
-            await add_served_call(client, chat_id)
-            if vid:
-                await add_active_video_chat(chat_id)
-            link = None
-            c = await join_call(
-                client, message_id, chat_id, bot_username, file_path, link, vid
-            )
-            if not c:
-                await remove_active(bot_username, chat_id)
-                return await rep.delete()
-        await rep.delete()
-        gr = await get_group(bot_username)
-        ch = await get_channel(bot_username)
-        button = [
-            [
-                InlineKeyboardButton(text="END", callback_data=f"stop"),
-                InlineKeyboardButton(text="RESUME", callback_data=f"resume"),
-                InlineKeyboardButton(text="PAUSE", callback_data=f"pause"),
-            ],
-            [
-                InlineKeyboardButton(text="𝗖𝗵𝗮𝗻𝗻𝗲𝗹 ⚡", url=f"{ch}"),
-                InlineKeyboardButton(text="𝗚𝗿𝗼𝘂𝗽 ⚡", url=f"{gr}"),
-            ],
-            [InlineKeyboardButton(text=f"{OWNER_NAME}", url="https://t.me/{OWNER[0]}")],
-            [
-                InlineKeyboardButton(
-                    text="🔻اضف البوت الي مجموعتك او قناتك🔺",
-                    url=f"https://t.me/{bot_username}?startgroup=True",
-                )
-            ],
-        ]
-        await message.reply_photo(
-            photo=photo,
-            caption=f"**Started Stream Random **\n\n**Song Name : {title}**\n**Duration Time : {duration}**\n**Requests By : {req}**",
-            reply_markup=InlineKeyboardMarkup(button),
-        )
-        await logs(bot_username, client, message)
-        await asyncio.sleep(4)
-        os.remove(file_path)
-    except Exception as es:
-        pass
-
-
-@Client.on_message(
-    filters.command(
-        ["/play", "play", "/vplay", "gorani", "پ ئەلینا", "پلەی", "ڤیدیو", "سوڕەت"], ""
-    )
-)
+@Client.on_message(filters.command(["/play", "play", "/vplay", "gorani", "پ ئەلینا", "پلەی", "ڤیدیو","سوڕەت"], ""))
 async def play(client: Client, message):
-    if await joinch(message):
-        return
-    ALINA = message
-    bot = client.me
-    bot_username = client.me.username
-    chat_id = message.chat.id
-    dev = await get_dev(bot.username)
-    devname = await get_dev_name(client, bot.username)
-    user_id = message.from_user.id if message.from_user else "Hawaallll"
-    message_id = message.id
-    gr = await get_group(bot_username)
-    ch = await get_channel(bot_username)
-    button = [
-        [
-            InlineKeyboardButton(text="𝗘𝗻𝗱 🎸", callback_data=f"stop"),
-            InlineKeyboardButton(text="𝗥𝗲𝘀𝘂𝗺𝗲 🎸", callback_data=f"resume"),
-            InlineKeyboardButton(text="𝗣𝗮𝘂𝘀𝗲 🎸", callback_data=f"pause"),
-        ],
-        [
-            InlineKeyboardButton(text="𝗖𝗵𝗮𝗻𝗻𝗲𝗹 💸•", url=f"{ch}"),
-            InlineKeyboardButton(text="𝗚𝗿𝗼𝘂𝗽 💸•", url=f"{gr}"),
-        ],
-        [InlineKeyboardButton(f"{devname} 💸•", user_id=f"{dev}")],
-        [
-            InlineKeyboardButton(
-                text="زیادم بکە بۆ گرووپ یان کەناڵت ⚡️•",
-                url=f"https://t.me/{bot_username}?startgroup=True",
-            )
-        ],
-    ]
-    if message.chat.type == ChatType.PRIVATE:
-        return await message.reply_text(
-            "**⎆┊ بەداخەوە لێرە ناتوانی پەخش بکەیت 💎•\n⎆┊ بۆتەکە زیاد بکە بۆ گرووپەکەت بۆ ئەوەی گۆرانی  پەخش بکەیت 💎•**",
-            reply_markup=InlineKeyboardMarkup(
-                [
-                    [
-                        InlineKeyboardButton(
-                            "⌯ زیادم بکە بۆ گرووپت ⚡•",
-                            url=f"https://t.me/{bot_username}?startgroup=True",
-                        )
-                    ]
-                ]
-            ),
-        )
-    if message.sender_chat:
-        if not message.chat.type == ChatType.CHANNEL:
-            return await message.reply_text(
-                "**⎆┊ تەنها دەتوانیت بە ئەکاونتی خۆت پەخشی بکەیت •**"
-            )
-    if not len(message.command) == 1:
-        rep = await message.reply_text("**⎆┊ کەمێك چاوەڕێ بکە پەخشدەکرێت 🎸•**")
-    try:
-        call = await get_call(bot_username)
-    except:
-        await remove_active(bot_username, chat_id)
-    try:
-        await call.get_call(message.chat.id)
-    except pytgcalls.exceptions.GroupCallNotFound:
-        await remove_active(bot_username, chat_id)
-    if not message.reply_to_message:
-        if len(message.command) == 1:
-            if message.chat.type == ChatType.CHANNEL:
-                return await message.reply_text(
-                    "**⎆┊ شتێك بنووسە تاوەکو پەخشی بکەم 🎸•**"
-                )
-            try:
-                name = await client.ask(
-                    message.chat.id,
-                    text="**⎆┊ ناو یان لینکی گۆرانی بنێرە تا پەخشی بکەم 🎸•***",
-                    reply_to_message_id=message.id,
-                    filters=filters.user(message.from_user.id),
-                    timeout=200,
-                )
-                name = name.text
-                rep = await message.reply_text("**⎆┊ کەمێك چاوەڕێ بکە پەخشدەکرێت 🎸•**")
-            except:
-                return
-        else:
-            name = message.text.split(None, 1)[1]
-        try:
-            results = VideosSearch(name, limit=1)
-        except Exception:
-            return await rep.edit("**⎆┊ شکستی هێنا هیچ شتێك نەدۆزرایەوە 🎸•**")
-        for result in (await results.next())["result"]:
-            title = result["title"]
-            duration = result["duration"]
-            videoid = result["id"]
-            yturl = result["link"]
-            thumbnail = result["thumbnails"][0]["url"].split("?")[0]
-        if "v" in message.command[0] or "ڤ" in message.command[0]:
-            vid = True
-        else:
-            vid = None
-        await rep.edit("**⎆┊ کەمێك چاوەڕێ بکە پەخشدەکرێت 💎•**")
-        results = YoutubeSearch(name, max_results=5).to_dict()
-        link = f"https://youtube.com{results[0]['url_suffix']}"
-        if await is_served_call(client, message.chat.id):
-            chat_id = message.chat.id
-            title = title.title()
-            file_path = None
-            await add(
-                message.chat.id,
-                bot_username,
-                file_path,
-                link,
-                title,
-                duration,
-                videoid,
-                vid,
-                user_id,
-            )
-            chat = f"{bot_username}{chat_id}"
-            position = len(db.get(chat)) - 1
-            chatname = (
-                f"[{message.chat.title}](https://t.me/{message.chat.username})"
-                if message.chat.username
-                else f"{message.chat.title}"
-            )
-            chatname = (
-                f"{message.author_signature}" if message.author_signature else chatname
-            )
-            requester = (
-                chatname
-                if ALINA.views
-                else f"[{message.from_user.first_name}](tg://user?id={message.from_user.id})"
-            )
-            if message.from_user:
-             if message.from_user.photo:
-              photo_id = message.from_user.photo.big_file_id
-              photo = await client.download_media(photo_id)
-             elif message.chat.photo:
-              photo_id = message.chat.photo.big_file_id
-              photo = await client.download_media(photo_id)
-             else:
-              ahmed = await client.get_chat("Hawaallll")
-             if ahmed.photo:
-              ahmedphoto = ahmed.photo.big_file_id
-              photo = await client.download_media(ahmedphoto)
-              # Optional: Set a default image if no photo is available
-             else:
-              photo = "path/to/default/photo.jpg"
-        elif message.chat.photo:
-            photo_id = message.chat.photo.big_file_id
-            photo = await client.download_media(photo_id)
-        else:
-            ahmed = await client.get_chat("Hawaallll")
-        if ahmed.photo:
-            ahmedphoto = ahmed.photo.big_file_id
-            photo = await client.download_media(ahmedphoto)
-        # Optional: Set a default image if no photo is available
-        else:
-            photo = "path/to/default/photo.jpg"
-            photo = await gen_thumb(videoid, photo)
-            await message.reply_photo(
-                photo=photo,
-                caption=f"**⭓ᴍᴜˢɪᴄ✘ʜᴀᴡᴀʟ ᴘʟᴀʏʟɪsᴛ : {position} 🎻\n\n╮◉ ناونیشان : {title[:18]}\n│᚜⦿ ماوەکەی : {duration} ⌚\n╯◉ لەلایەن : {requester}**",
-                reply_markup=InlineKeyboardMarkup(button),
-            )
-            await logs(bot_username, client, message)
-        else:
-            chat_id = message.chat.id
-            title = title.title()
-            await add_active_chat(chat_id)
-            await add_served_call(client, chat_id)
-            if vid:
-                await add_active_video_chat(chat_id)
-            file_path = await download(bot_username, link, vid)
-            await add(
-                message.chat.id,
-                bot_username,
-                file_path,
-                link,
-                title,
-                duration,
-                videoid,
-                vid,
-                user_id,
-            )
-            c = await join_call(
-                client, message_id, chat_id, bot_username, file_path, link, vid
-            )
-            if not c:
-                await remove_active(bot_username, chat_id)
-                return await rep.delete()
-            chatname = (
-                f"[{message.chat.title}](https://t.me/{message.chat.username})"
-                if message.chat.username
-                else f"{message.chat.title}"
-            )
-            chatname = (
-                f"{message.author_signature}" if message.author_signature else chatname
-            )
-            requester = (
-                chatname
-                if ALINA.views
-                else f"[{message.from_user.first_name}](tg://user?id={message.from_user.id})"
-            )
-            if message.from_user:
-             if message.from_user.photo:
-              photo_id = message.from_user.photo.big_file_id
-              photo = await client.download_media(photo_id)
-             elif message.chat.photo:
-              photo_id = message.chat.photo.big_file_id
-              photo = await client.download_media(photo_id)
-             else:
-              ahmed = await client.get_chat("Hawaallll")
-             if ahmed.photo:
-              ahmedphoto = ahmed.photo.big_file_id
-              photo = await client.download_media(ahmedphoto)
-              # Optional: Set a default image if no photo is available
-             else:
-              photo = "path/to/default/photo.jpg"
-        elif message.chat.photo:
-            photo_id = message.chat.photo.big_file_id
-            photo = await client.download_media(photo_id)
-        else:
-            ahmed = await client.get_chat("Hawaallll")
-        if ahmed.photo:
-            ahmedphoto = ahmed.photo.big_file_id
-            photo = await client.download_media(ahmedphoto)
-            # Optional: Set a default image if no photo is available
-        else:
-            photo = "path/to/default/photo.jpg"
-            photo = await gen_thumb(videoid, photo)
-            await message.reply_photo(
-                photo=photo,
-                caption=f"**⭓ᴍᴜˢɪᴄ✘ʜᴀᴡᴀʟ 🎻\n\n╮◉ ناونیشان : {title}\n│᚜⦿ ماوەکەی : {duration} ⌚\n╯◉ لەلایەن : {requester}**",
-                reply_markup=InlineKeyboardMarkup(button),
-            )
-            await logs(bot_username, client, message)
-        await rep.delete()
-    else:
-        if not message.reply_to_message.media:
+  if await joinch(message):
             return
-        rep = await message.reply_text("**⎆┊ چاوەڕێ بکە پەخشدەکرێت 🎸•**")
-        photo = "Uploaded to https://graph.org/file/c8d0d49f5e13290314807.jpg"
-        if message.reply_to_message.video or message.reply_to_message.document:
-            vid = True
-        else:
-            vid = None
-        file_path = await message.reply_to_message.download()
-        if message.reply_to_message.audio:
-            file_name = message.reply_to_message.audio
-        elif message.reply_to_message.voice:
-            file_name = message.reply_to_message.voice
-        elif message.reply_to_message.video:
-            file_name = message.reply_to_message.video
-        else:
-            file_name = message.reply_to_message.document
-        title = file_name.file_name
-        duration = seconds_to_min(file_name.duration)
-        link = None
-        if await is_served_call(client, message.chat.id):
-            chat_id = message.chat.id
-            videoid = None
-            await add(
-                message.chat.id,
-                bot_username,
-                file_path,
-                link,
-                title,
-                duration,
-                videoid,
-                vid,
-                user_id,
-            )
-            chat = f"{bot_username}{chat_id}"
-            position = len(db.get(chat)) - 1
-            chatname = (
-                f"[{message.chat.title}](https://t.me/{message.chat.username})"
-                if message.chat.username
-                else f"{message.chat.title}"
-            )
-            chatname = (
-                f"{message.author_signature}" if message.author_signature else chatname
-            )
-            requester = (
-                chatname
-                if ALINA.views
-                else f"[{message.from_user.first_name}](tg://user?id={message.from_user.id})"
-            )
-            await message.reply_photo(
-                photo=photo,
-                caption=f"**⭓ᴍᴜˢɪᴄ✘ʜᴀᴡᴀʟ ᴘʟᴀʏʟɪsᴛ : {position} 🎻\n\n╮◉ ناونیشان : {title[:18]}\n│᚜⦿ ماوەکەی : {duration} ⌚\n╯◉ لەلایەن : {requester}**",
-                reply_markup=InlineKeyboardMarkup(button),
-            )
-            await logs(bot_username, client, message)
-        else:
-            chat_id = message.chat.id
-            videoid = None
-            await add_active_chat(chat_id)
-            await add_served_call(client, chat_id)
-            if vid:
-                await add_active_video_chat(chat_id)
-            await add(
-                message.chat.id,
-                bot_username,
-                file_path,
-                link,
-                title,
-                duration,
-                videoid,
-                vid,
-                user_id,
-            )
-            c = await join_call(
-                client, message_id, chat_id, bot_username, file_path, link, vid
-            )
-            if not c:
-                await remove_active(bot_username, chat_id)
-                return await rep.delete()
-            chatname = (
-                f"[{message.chat.title}](https://t.me/{message.chat.username})"
-                if message.chat.username
-                else f"{message.chat.title}"
-            )
-            chatname = (
-                f"{message.author_signature}" if message.author_signature else chatname
-            )
-            requester = (
-                chatname
-                if ALINA.views
-                else f"[{message.from_user.first_name}](tg://user?id={message.from_user.id})"
-            )
-            await message.reply_photo(
-                photo=photo,
-                caption=f"**⭓ᴍᴜˢɪᴄ✘ʜᴀᴡᴀʟ 🎻\n\n╮◉ ناونیشان : {title}\n│᚜⦿ ماوەکەی : {duration} ⌚\n╯◉ لەلایەن : {requester}**",
-                reply_markup=InlineKeyboardMarkup(button),
-            )
-            await logs(bot_username, client, message)
-    try:
-        os.remove(file_path)
-        os.remove(photo)
-    except:
-        pass
-    await rep.delete()
+  SEMO = message
+  bot = client.me
+  bot_username = client.me.username
+  dev = await get_dev(bot.username)
+  devname = await get_dev_name(client, bot.username)
+  chat_id = message.chat.id
+  user_id = message.from_user.id if message.from_user else "Hawaallll"
+  message_id = message.id 
+  gr = await get_group(bot_username)
+  ch = await get_channel(bot_username)
+  button = [[InlineKeyboardButton(text="𝗘𝗻𝗱 🎸•", callback_data=f"stop"), InlineKeyboardButton(text="𝗥𝗲𝘀𝘂𝗺𝗲 🎸•", callback_data=f"resume"), InlineKeyboardButton(text="𝗣𝗮𝘂𝘀𝗲 🎸•", callback_data=f"pause")], [InlineKeyboardButton(text="𝗖𝗵𝗮𝗻𝗻𝗲𝗹 💸•", url=f"{ch}"), InlineKeyboardButton(text="𝗚𝗿𝗼𝘂𝗽 💸•", url=f"{gr}")], [InlineKeyboardButton(f"{devname} 💸•", user_id=f"{dev}")], [InlineKeyboardButton(text="زیادم بکە بۆ گرووپ یان کەناڵت ⚡️•", url=f"https://t.me/{bot_username}?startgroup=True")]]
+  if message.chat.type == ChatType.PRIVATE:
+       return await message.reply_text("**⎆┊ بەداخەوە لێرە ناتوانی پەخش بکەیت 💎•\n⎆┊ بۆتەکە زیاد بکە بۆ گرووپەکەت بۆ ئەوەی گۆرانی  پەخش بکەیت 💎•**", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(f"⌯ زیادم بکە بۆ گرووپت ⚡•", url=f"https://t.me/{bot_username}?startgroup=True")]]))
+  if message.sender_chat:
+     if not message.chat.type == ChatType.CHANNEL:
+      return await message.reply_text("**⎆┊ تەنها دەتوانیت بە ئەکاونتی خۆت پەخشی بکەیت •**")
+  if not len(message.command) == 1:
+    rep = await message.reply_text("**⎆┊ کەمێك چاوەڕێ بکە پەخشدەکرێت 🎸•**")
+  try:
+          call = await get_call(bot_username)
+  except:
+          await remove_active(bot_username, chat_id)
+  try:
+       await call.get_call(message.chat.id)
+  except pytgcalls.exceptions.GroupCallNotFound:
+       await remove_active(bot_username, chat_id)
+  if not message.reply_to_message:
+     if len(message.command) == 1:
+      if message.chat.type == ChatType.CHANNEL:
+        return await message.reply_text("**⎆┊ شتێك بنووسە تاوەکو پەخشی بکەم 🎸•**")
+      try:
+       name = await client.ask(message.chat.id, text="**⎆┊ ناو یان لینکی گۆرانی بنێرە تا پەخشی بکەم 🎸•**", reply_to_message_id=message.id, filters=filters.user(message.from_user.id), timeout=200)
+       name = name.text
+       rep = await message.reply_text("**⎆┊ کەمێك چاوەڕێ بکە پەخشدەکرێت 🎸•**")
+      except:
+       return
+     else:
+       name = message.text.split(None, 1)[1]
+     try:
+      results = VideosSearch(name, limit=1)
+     except Exception:
+      return await rep.edit("**⎆┊ شکستی هێنا هیچ شتێك نەدۆزرایەوە 🎸•**")
+     for result in (await results.next())["result"]:
+         title = result["title"]
+         duration = result["duration"]
+         videoid = result["id"]
+         yturl = result["link"]
+         thumbnail = result["thumbnails"][0]["url"].split("?")[0]
+     if "v" in message.command[0] or "ڤ" in message.command[0]:
+       vid = True
+     else:
+       vid = None
+     await rep.edit("**⎆┊ کەمێك چاوەڕێ بکە پەخشدەکرێت 💎•**")
+     results = YoutubeSearch(name, max_results=5).to_dict()
+     link = f"https://youtube.com{results[0]['url_suffix']}"
+     if await is_served_call(client, message.chat.id):
+         chat_id = message.chat.id
+         title = title.title()
+         file_path = None
+         await add(message.chat.id, bot_username, file_path, link, title, duration, videoid, vid, user_id)
+         chat = f"{bot_username}{chat_id}"
+         position = len(db.get(chat)) - 1
+         chatname = f"[{message.chat.title}](https://t.me/{message.chat.username})" if message.chat.username else f"{message.chat.title}"
+         chatname = f"{message.author_signature}" if message.author_signature else chatname
+         requester = chatname if ALINA.views else f"[{message.from_user.first_name}](tg://user?id={message.from_user.id})"
+         if message.from_user:
+          if message.from_user.photo:
+           photo_id = message.from_user.photo.big_file_id
+           photo = await client.download_media(photo_id)
+          elif message.chat.photo:
+           photo_id = message.chat.photo.big_file_id
+           photo = await client.download_media(photo_id)
+          else:
+           ahmed = await client.get_chat("IQ7amo")
+           ahmedphoto = ahmed.photo.big_file_id
+         elif message.chat.photo:
+          photo_id = message.chat.photo.big_file_id
+          photo = await client.download_media(photo_id)
+         else:
+          ahmed = await client.get_chat("IQ7amo")
+          ahmedphoto = ahmed.photo.big_file_id
+          photo = await client.download_media(ahmedphoto)
+         photo = await gen_thumb(videoid, photo)
+         await message.reply_photo(photo=photo, caption=f"**⭓ᴍᴜˢɪᴄ✘ʜᴀᴡᴀʟ ᴘʟᴀʏʟɪsᴛ : {position} 🎻\n\n╮◉ ناونیشان : {title[:18]}\n│᚜⦿ ماوەکەی : {duration} ⌚\n╯◉ لەلایەن : {requester}**", reply_markup=InlineKeyboardMarkup(button))
+         await logs(bot_username, client, message)
+     else:
+         chat_id = message.chat.id
+         title = title.title()
+         await add_active_chat(chat_id)
+         await add_served_call(client, chat_id)
+         if vid:
+           await add_active_video_chat(chat_id)
+         file_path = await download(bot_username, link, vid)
+         await add(message.chat.id, bot_username, file_path, link, title, duration, videoid, vid, user_id)
+         c = await join_call(client, message_id, chat_id, bot_username, file_path, link, vid)
+         if not c:
+            await remove_active(bot_username, chat_id)
+            return await rep.delete()
+         chatname = f"[{message.chat.title}](https://t.me/{message.chat.username})" if message.chat.username else f"{message.chat.title}"
+         chatname = f"{message.author_signature}" if message.author_signature else chatname
+         requester = chatname if SEMO.views else f"[{message.from_user.first_name}](tg://user?id={message.from_user.id})"
+         if message.from_user:
+          if message.from_user.photo:
+           photo_id = message.from_user.photo.big_file_id
+           photo = await client.download_media(photo_id)
+          elif message.chat.photo:
+           photo_id = message.chat.photo.big_file_id
+           photo = await client.download_media(photo_id)
+          else:
+           ahmed = await client.get_chat("IQ7amo")
+           ahmedphoto = ahmed.photo.big_file_id
+         elif message.chat.photo:
+          photo_id = message.chat.photo.big_file_id
+          photo = await client.download_media(photo_id)
+         else:
+          ahmed = await client.get_chat("IQ7amo")
+          ahmedphoto = ahmed.photo.big_file_id
+          photo = await client.download_media(ahmedphoto)
+         photo = await gen_thumb(videoid, photo)
+         await message.reply_photo(photo=photo, caption=f"**⭓ᴍᴜˢɪᴄ✘ʜᴀᴡᴀʟ 🎻\n\n╮◉ ناونیشان : {title}\n│᚜⦿ ماوەکەی : {duration} ⌚\n╯◉ لەلایەن : {requester}**", reply_markup=InlineKeyboardMarkup(button))
+         await logs(bot_username, client, message)
+     await rep.delete()
+  else:
+       if not message.reply_to_message.media:
+         return
+       rep = await message.reply_text("**⎆┊ چاوەڕێ بکە پەخشدەکرێت 🎸•**") 
+       photo = "Uploaded to https://graph.org/file/c8d0d49f5e13290314807.jpg"
+       if message.reply_to_message.video or message.reply_to_message.document:
+           vid = True
+       else:
+           vid = None
+       file_path = await message.reply_to_message.download()
+       if message.reply_to_message.audio:
+         file_name = message.reply_to_message.audio
+       elif message.reply_to_message.voice:
+         file_name = message.reply_to_message.voice
+       elif message.reply_to_message.video:
+         file_name = message.reply_to_message.video
+       else:
+         file_name = message.reply_to_message.document
+       title = file_name.file_name
+       duration = seconds_to_min(file_name.duration)
+       link = None
+       if await is_served_call(client, message.chat.id):
+         chat_id = message.chat.id
+         videoid = None
+         await add(message.chat.id, bot_username, file_path, link, title, duration, videoid, vid, user_id)
+         chat = f"{bot_username}{chat_id}"
+         position = len(db.get(chat)) - 1
+         chatname = f"[{message.chat.title}](https://t.me/{message.chat.username})" if message.chat.username else f"{message.chat.title}"
+         chatname = f"{message.author_signature}" if message.author_signature else chatname
+         requester = chatname if SEMO.views else f"[{message.from_user.first_name}](tg://user?id={message.from_user.id})"
+         await message.reply_photo(photo=photo, caption=f"**⭓ᴍᴜˢɪᴄ✘ʜᴀᴡᴀʟ ᴘʟᴀʏʟɪsᴛ : {position} 🎻\n\n╮◉ ناونیشان : {title[:18]}\n│᚜⦿ ماوەکەی : {duration} ⌚\n╯◉ لەلایەن : {requester}**", reply_markup=InlineKeyboardMarkup(button))
+         await logs(bot_username, client, message)
+       else:
+         chat_id = message.chat.id
+         videoid = None
+         await add_active_chat(chat_id)
+         await add_served_call(client, chat_id)
+         if vid:
+            await add_active_video_chat(chat_id)
+         await add(message.chat.id, bot_username, file_path, link, title, duration, videoid, vid, user_id)
+         c = await join_call(client, message_id, chat_id, bot_username, file_path, link, vid)
+         if not c:
+            await remove_active(bot_username, chat_id)
+            return await rep.delete()
+         chatname = f"[{message.chat.title}](https://t.me/{message.chat.username})" if message.chat.username else f"{message.chat.title}"
+         chatname = f"{message.author_signature}" if message.author_signature else chatname
+         requester = chatname if SEMO.views else f"[{message.from_user.first_name}](tg://user?id={message.from_user.id})"
+         await message.reply_photo(photo=photo, caption=f"**⭓ᴍᴜˢɪᴄ✘ʜᴀᴡᴀʟ 🎻\n\n╮◉ ناونیشان : {title}\n│᚜⦿ ماوەکەی : {duration} ⌚\n╯◉ لەلایەن : {requester}**", reply_markup=InlineKeyboardMarkup(button))
+         await logs(bot_username, client, message)
+  try:
+     os.remove(file_path)
+     os.remove(photo)
+  except:
+     pass
+  await rep.delete()
