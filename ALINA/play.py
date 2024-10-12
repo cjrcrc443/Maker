@@ -291,7 +291,7 @@ async def fuckoff(client: Client, message):
 async def play(client: Client, message):
     if await joinch(message):
         return
-    SEMO = message
+    ALINA = message
     bot = client.me
     bot_username = client.me.username
     dev = await get_dev(bot.username)
