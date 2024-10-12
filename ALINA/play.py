@@ -519,21 +519,20 @@ async def play(client: Client, message):
              if ahmed.photo:
               ahmedphoto = ahmed.photo.big_file_id
               photo = await client.download_media(ahmedphoto)
-        # Optional: Set a default image if no photo is available
+              # Optional: Set a default image if no photo is available
              else:
               photo = "path/to/default/photo.jpg"
-          elif message.chat.photo:
-           photo_id = message.chat.photo.big_file_id
-           photo = await client.download_media(photo_id)
-          else:
-           ahmed = await client.get_chat("Hawaallll")
-          if ahmed.photo:
-           ahmedphoto = ahmed.photo.big_file_id
-           photo = await client.download_media(ahmedphoto)
-     # Optional: Set a default image if no photo is available
-          else:
+        elif message.chat.photo:
+            photo_id = message.chat.photo.big_file_id
+            photo = await client.download_media(photo_id)
+        else:
+            ahmed = await client.get_chat("Hawaallll")
+        if ahmed.photo:
+            ahmedphoto = ahmed.photo.big_file_id
+            photo = await client.download_media(ahmedphoto)
+        # Optional: Set a default image if no photo is available
+        else:
             photo = "path/to/default/photo.jpg"
-            photo = await gen_thumb(videoid, photo)
             photo = await gen_thumb(videoid, photo)
             await message.reply_photo(
                 photo=photo,
@@ -591,22 +590,20 @@ async def play(client: Client, message):
              if ahmed.photo:
               ahmedphoto = ahmed.photo.big_file_id
               photo = await client.download_media(ahmedphoto)
-        # Optional: Set a default image if no photo is available
+              # Optional: Set a default image if no photo is available
              else:
               photo = "path/to/default/photo.jpg"
-          elif message.chat.photo:
-           photo_id = message.chat.photo.big_file_id
-           photo = await client.download_media(photo_id)
-          else:
-           ahmed = await client.get_chat("Hawaallll")
-          if ahmed.photo:
-           ahmedphoto = ahmed.photo.big_file_id
-           photo = await client.download_media(ahmedphoto)
-     # Optional: Set a default image if no photo is available
-          else:
-           photo = "path/to/default/photo.jpg"
-
-# Ensure that photo is initialized before passing to gen_thumb
+        elif message.chat.photo:
+            photo_id = message.chat.photo.big_file_id
+            photo = await client.download_media(photo_id)
+        else:
+            ahmed = await client.get_chat("Hawaallll")
+        if ahmed.photo:
+            ahmedphoto = ahmed.photo.big_file_id
+            photo = await client.download_media(ahmedphoto)
+            # Optional: Set a default image if no photo is available
+        else:
+            photo = "path/to/default/photo.jpg"
             photo = await gen_thumb(videoid, photo)
             await message.reply_photo(
                 photo=photo,
