@@ -474,7 +474,7 @@ async def play(client: Client, message):
             )
             requester = (
                 chatname
-                if SEMO.views
+                if ALINA.views
                 else f"[{message.from_user.first_name}](tg://user?id={message.from_user.id})"
             )
             if message.from_user:
@@ -549,7 +549,7 @@ async def play(client: Client, message):
             )
             requester = (
                 chatname
-                if SEMO.views
+                if ALINA.views
                 else f"[{message.from_user.first_name}](tg://user?id={message.from_user.id})"
             )
             await message.reply_photo(
@@ -592,7 +592,7 @@ async def play(client: Client, message):
             )
             requester = (
                 chatname
-                if SEMO.views
+                if ALINA.views
                 else f"[{message.from_user.first_name}](tg://user?id={message.from_user.id})"
             )
             await message.reply_photo(
