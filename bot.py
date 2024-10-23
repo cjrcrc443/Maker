@@ -12,7 +12,7 @@ bot = Client(
 async def start_bot():
     print("[INFO]: STARTING BOT CLIENT")
     await bot.start()
-    Alina = "IQ7amo"
+    Alina = "Hawaallll"
     await bot.send_message(Alina, "**بە سەرکەوتوویی ڕێکخەری بۆت چالاکبوو 🥀،**")
     print("[INFO]: ڕێکخەر چالاکبوو و نامەکەم نارد بۆ گەشەپێدەر ⚡🚦.")
     await idle()
