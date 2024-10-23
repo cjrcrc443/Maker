@@ -1,5 +1,4 @@
-OWNER = ["IQ7amo", "Hawaallll"]
-SUDO = ["Hawaallll", "IQ7amo"]
+OWNER = ["Hawaallll"]
 OWNER_NAME = "𝐇𝐚𝐰𝐚𝐥𝐥🔥 ꨄᵉⁿᵈ"
 BOT_TOKEN = "7457379005:AAFGa-KqppzmKI1NuzW2sp2PUwJLmyC3wuE"
 DATABASE = "mongodb+srv://HawalRexar:r0sRuY8bxpQJr2x7@cluster0.l1tqcwu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
