@@ -493,8 +493,8 @@ async def cloner(app: Client, message):
     loger = await user.create_supergroup(
         f"گرووپی بۆت 🖤", "ئەم گرووپە هەموو ئامار و زانیاریەکانی بۆت سەیڤ دەکات"
     )
-    if bot_i.photo:
-        photo = await bot.download_media(bot_i.photo.big_file_id)
+    if bot_info.photo:
+        photo = await bot.download_media(bot_info.photo.big_file_id)
         await user.set_chat_photo(chat_id=loger.id, photo=photo)
     logger = loger.id
     await user.add_chat_members(logger, bot_username)
