@@ -134,6 +134,7 @@ async def auto_bot():
 
 # Bot Arledy Maked
 
+
 async def restart_bot():
     args = [sys.executable, "main.py"]
     await execle(sys.executable, *args, environ)
