@@ -423,7 +423,6 @@ async def codev2(client, message):
 
 from pyrogram import Client, filters
 from pyrogram.types import ChatPrivileges, InlineKeyboardButton, InlineKeyboardMarkup
-from your_database_module import Bots  # Import your database or other necessary modules
 
 user_steps = {}  # Dictionary to track user steps in the process
 
