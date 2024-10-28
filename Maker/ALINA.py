@@ -420,6 +420,7 @@ async def codev2(client, message):
         ),
     )
 
+
 OWNERdd = "474468585"
 
 
