@@ -456,11 +456,11 @@ async def cloner(client: Client, message: Message):
     user_steps[message.from_user.id] = {"step": "awaiting_token"}
 
 
-@app.on_message(filters.reply & filters.user(user_steps.keys()))
+@app.on_message(filters.reply & filters.user(list(user_steps.keys())))
 async def handle_user_input(client: Client, message: Message):
     user_id = message.from_user.id
     step_data = user_steps.get(user_id)
-
+    
     if step_data["step"] == "awaiting_token":
         token = message.text
         await message.reply_text("**◗⋮◖ پشکنین بۆ تۆکنەکە دەکرێت ..⚡.**")
