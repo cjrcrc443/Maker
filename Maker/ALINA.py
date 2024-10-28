@@ -998,26 +998,22 @@ async def checkbot(client: app, message):
         await message.reply_text(text)
 
 
-
 import asyncio
 from datetime import datetime
 from os import system as execute
 
+from Config import GIT_TOKEN, UPSTREAM_BRANCH, UPSTREAM_REPO
+from fsubbot import restart_bot
 from git import Repo
 from git.exc import GitCommandError, InvalidGitRepositoryError
 from pyrogram import Client, filters
 from urllib3 import disable_warnings, exceptions
 
-from Config import GIT_TOKEN, OWNER_ID, UPSTREAM_BRANCH, UPSTREAM_REPO
-from fsubbot import restart_bot
-
 disable_warnings(exceptions.InsecureRequestWarning)
 
 
 @Client.on_message(
-    filters.command(["update", "gitpull", "up"])
-    & filters.user(OWNER)
-    & filters.private
+    filters.command(["update", "gitpull", "up"]) & filters.user(OWNER) & filters.private
 )
 async def update_(client: Client, message):
     response = await message.reply_text("Checking for available updates....")
