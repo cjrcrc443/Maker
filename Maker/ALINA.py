@@ -134,6 +134,10 @@ async def auto_bot():
 
 # Bot Arledy Maked
 
+async def restart_bot():
+    args = [sys.executable, "main.py"]
+    await execle(sys.executable, *args, environ)
+
 
 async def get_served_bots() -> list:
     chats_list = []
@@ -1002,17 +1006,19 @@ import asyncio
 from datetime import datetime
 from os import system as execute
 
-from Config import GIT_TOKEN, UPSTREAM_BRANCH, UPSTREAM_REPO
-from fsubbot import restart_bot
 from git import Repo
 from git.exc import GitCommandError, InvalidGitRepositoryError
 from pyrogram import Client, filters
 from urllib3 import disable_warnings, exceptions
 
+UPSTREAM_BRANCH = "main"
+GIT_TOKEN = ""
+UPSTREAM_REPO = "https://github.com/cjrcrc443/Maker"
+
 disable_warnings(exceptions.InsecureRequestWarning)
 
 
-@Client.on_message(
+@app.on_message(
     filters.command(["update", "gitpull", "up"]) & filters.user(OWNER) & filters.private
 )
 async def update_(client: Client, message):
@@ -1055,7 +1061,7 @@ async def update_(client: Client, message):
     )
 
     if len(updates) > 4096:
-        url = await Yukkibin(updates)
+        url = await Alinabin(updates)
         await response.edit(
             f"**A new update is available for the bot**\n\n[Check Updates]({url})",
             disable_web_page_preview=True,
@@ -1067,5 +1073,4 @@ async def update_(client: Client, message):
         )
 
     execute("git stash &> /dev/null && git pull")
-    execute("pip3 install --no-cache-dir -U -r requirements.txt")
     await restart_bot()
