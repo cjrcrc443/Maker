@@ -2,6 +2,12 @@ import asyncio
 import os
 import re
 import textwrap
+import asyncio
+import glob
+import os
+import random
+import re
+from typing import Union
 from typing import Union
 
 import aiofiles
@@ -31,6 +37,36 @@ from config import MONGO_DB_URL, OWNER, VIDEO, appp
 
 translator = Translator()
 
+def cookies():
+    folder_path = f"{os.getcwd()}/cookies"
+    txt_files = glob.glob(os.path.join(folder_path, "*.txt"))
+    if not txt_files:
+        raise FileNotFoundError("No .txt files found in the specified folder.")
+    cookie_txt_file = random.choice(txt_files)
+    return f"""cookies/{str(cookie_txt_file).split("/")[-1]}"""
+
+def get_ytdl_options(ytdl_opts: Union[str, dict, list], commandline: bool = True) -> Union[str, dict, list]:
+    token_data = os.getenv("TOKEN_DATA")
+    
+    if isinstance(ytdl_opts, list):
+        if token_data:
+            ytdl_opts += ["--username" if commandline else "username", "oauth2", "--password" if commandline else "password", "''"]
+        else:
+            ytdl_opts += ["--cookies" if commandline else "cookiefile", cookies()]
+    
+    elif isinstance(ytdl_opts, str):
+        if token_data:
+            ytdl_opts += "--username oauth2 --password '' " if commandline else "username oauth2 password '' "
+        else:
+            ytdl_opts += f"--cookies {cookies()}" if commandline else f"cookiefile {cookies()}"
+    
+    elif isinstance(ytdl_opts, dict):
+        if token_data:
+            ytdl_opts.update({"username": "oauth2", "password": ""})
+        else:
+            ytdl_opts["cookiefile"] = cookies()
+    
+    return ytdl_opts
 
 def changeImageSize(maxWidth, maxHeight, image):
     widthRatio = maxWidth / image.size[0]
@@ -381,6 +417,8 @@ async def download(bot_username, link, video: Union[bool, str] = None):
             "quiet": True,
             "no_warnings": True,
         }
+        ydl_optssx = get_ytdl_options(ydl_optssx, False)
+        
         x = yt_dlp.YoutubeDL(ydl_optssx)
         info = x.extract_info(link, False)
         xyz = os.path.join("downloads", f"{bot_username}{info['id']}.{info['ext']}")
