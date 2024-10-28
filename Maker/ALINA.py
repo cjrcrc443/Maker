@@ -516,13 +516,13 @@ async def cloner(app: Client, message):
 
     # Save bot information to database
     log_group_link = await user.export_chat_invite_link(log_group.id)
-    dev_id = message.from_user.id
+    dev = message.from_user.id
     Bots.insert_one(
         {
             "bot_username": bot_username,
             "token": token,
             "session": session,
-            "dev": dev_id,
+            "dev": dev,
             "logger": log_group.id,
             "logger_mode": "ON",
         }
@@ -547,8 +547,9 @@ async def cloner(app: Client, message):
 async def delbot(client: app, message):
     if await is_block_user(message.from_user.id):
         return
+    
     if OFF:
-        if not message.chat.username in OWNER:
+        if message.chat.username not in OWNER:
             return await message.reply_text(
                 f"**👋🏻 ꒐ بۆت ناچالاککراوە \n👾 ꒐ نامە بۆ گەشەپێدەر بنێرە\n🧑🏻‍💻 ꒐ گەشەپێدەر : @{OWNER[0]}**",
                 reply_markup=InlineKeyboardMarkup(
@@ -561,72 +562,38 @@ async def delbot(client: app, message):
                     ]
                 ),
             )
-    if message.chat.username in OWNER:
-        ask = await client.ask(
-            message.chat.id, "**◗⋮◖ یوزەری بۆت بنێرە 💎.**", timeout=200
-        )
-        bot_username = ask.text
-        if "@" in bot_username:
-            bot_username = bot_username.replace("@", "")
-        list = []
-        bots = Bots.find({})
-        for i in bots:
-            if i["bot_username"] == bot_username:
-                botusername = i["bot_username"]
-                list.append(botusername)
-        if not bot_username in list:
-            return await message.reply_text("**◗⋮◖ هیچ بۆتێکت دروست نەکردووە ⚡.**")
-        else:
-            try:
-                bb = {"bot_username": bot_username}
-                Bots.delete_one(bb)
-                try:
-                    Done.remove(bot_username)
-                except:
-                    pass
-                try:
-                    boot = appp[bot_username]
-                    await boot.stop()
-                except:
-                    pass
-                await message.reply_text("**◗⋮◖ بە سەرکەوتوویی بۆت سڕدرایەوە ⚡.**")
-            except Exception as es:
-                await message.reply_text(
-                    f"**◗⋮◖ هەنێك هەڵە ڕوویدا ⚡.\n◗⋮◖ جۆری هەڵە :** `{es}` **⚡.**"
-                )
+
+    # Get the bot username from the command or a reply
+    if len(message.command) > 1:
+        bot_username = message.command[1].replace("@", "")
     else:
-        list = []
-        bots = Bots.find({})
-        for i in bots:
-            try:
-                if i["dev"] == message.chat.id:
-                    bot_username = i["bot_username"]
-                    list.append(i["dev"])
-                    try:
-                        Done.remove(bot_username)
-                    except:
-                        pass
-                    try:
-                        boot = appp[bot_username]
-                        await boot.stop()
-                        user = usr[bot_username]
-                        await user.stop()
-                    except:
-                        pass
-            except:
-                pass
-        if not message.chat.id in list:
-            return await message.reply_text("**◗⋮◖ تۆ هێشتا بۆتت دروست نەکردووە 💎.**")
-        else:
-            try:
-                dev = message.chat.id
-                dev = {"dev": dev}
-                Bots.delete_one(dev)
-                await message.reply_text("**◗⋮◖ بە سەرکەوتوویی بۆتەکەت سڕدرایەوە ⚡.**")
-            except:
-                await message.reply_text(
-                    "**◗⋮◖ هەنێك هەڵە هەیە نامە بۆ گەشەپێدەر بنێرە ⚡.\n◗⋮◖ گەشەپێدەر : @{OWNER[0]} ⚡.**"
-                )
+        return await message.reply_text("**◗⋮◖ یوزەری بۆت لەگەڵ فەرمان بنێرە 💎.**")
+    
+    # Check if the bot exists in the database
+    bot_entry = Bots.find_one({"bot_username": bot_username})
+    if not bot_entry:
+        return await message.reply_text("**◗⋮◖ هیچ بۆتێکت دروست نەکردووە ⚡.**")
+    
+    # Attempt to delete the bot from the database
+    try:
+        Bots.delete_one({"bot_username": bot_username})
+        
+        # Stop the bot if it was running
+        if bot_username in Done:
+            Done.remove(bot_username)
+        
+        try:
+            boot = appp[bot_username]
+            await boot.stop()
+        except KeyError:
+            pass
+        
+        await message.reply_text("**◗⋮◖ بە سەرکەوتوویی بۆت سڕدرایەوە ⚡.**")
+    except Exception as es:
+        await message.reply_text(
+            f"**◗⋮◖ هەنێك هەڵە ڕوویدا ⚡.\n◗⋮◖ جۆری هەڵە :** `{es}` **⚡.**"
+        )
+
 
 
 @app.on_message(filters.command("بۆتەکان", ""))
