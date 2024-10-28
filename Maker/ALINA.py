@@ -422,10 +422,11 @@ async def codev2(client, message):
 
 
 from pyrogram import Client, filters
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, ChatPrivileges
+from pyrogram.types import ChatPrivileges, InlineKeyboardButton, InlineKeyboardMarkup
 from your_database_module import Bots  # Import your database or other necessary modules
 
 user_steps = {}  # Dictionary to track user steps in the process
+
 
 @app.on_message(filters.command(["دروستکردنی بۆت", "• دروستکردنی بۆت •"], ""))
 async def cloner(app: Client, message):
@@ -436,7 +437,13 @@ async def cloner(app: Client, message):
             return await message.reply_text(
                 f"**👋🏻 ꒐ بۆت ناچالاککراوە \n👾 ꒐ نامە بۆ گەشەپێدەر بنێرە\n🧑🏻‍💻 ꒐ گەشەپێدەر : @{OWNER[0]}**",
                 reply_markup=InlineKeyboardMarkup(
-                    [[InlineKeyboardButton("˼  گەشەپێدەر  🧑🏻‍💻 ˹", url=f"https://t.me/{OWNER[0]}")]]
+                    [
+                        [
+                            InlineKeyboardButton(
+                                "˼  گەشەپێدەر  🧑🏻‍💻 ˹", url=f"https://t.me/{OWNER[0]}"
+                            )
+                        ]
+                    ]
                 ),
             )
     user_steps[message.from_user.id] = "awaiting_token"
@@ -452,7 +459,13 @@ async def handle_user_input(client: Client, message):
         token = message.text
         try:
             await message.reply_text("**◗⋮◖ پشکنین بۆ تۆکنەکە دەکرێت ..⚡.**")
-            bot = Client("Cloner", api_id=API_ID, api_hash=API_HASH, bot_token=token, in_memory=True)
+            bot = Client(
+                "Cloner",
+                api_id=API_ID,
+                api_hash=API_HASH,
+                bot_token=token,
+                in_memory=True,
+            )
             await bot.start()
             bot_i = await bot.get_me()
             bot_username = bot_i.username
@@ -463,7 +476,12 @@ async def handle_user_input(client: Client, message):
                 return await message.reply_text("**◗⋮◖ ناتوانی بۆت دروست بکەیت ⚡.**")
 
             # Move to next step
-            user_steps[user_id] = {"step": "awaiting_session", "bot": bot, "bot_username": bot_username, "token": token}
+            user_steps[user_id] = {
+                "step": "awaiting_session",
+                "bot": bot,
+                "bot_username": bot_username,
+                "token": token,
+            }
             await message.reply_text("**◗⋮◖ ئێستا کۆدی یاریدەدەر بنێرە 💎.**")
         except Exception as e:
             await message.reply_text(f"**◗⋮◖ تۆکنی بۆت هەڵەیە 💎.**\n{str(e)}")
@@ -478,11 +496,19 @@ async def handle_user_input(client: Client, message):
 
         try:
             await message.reply_text("**◗⋮◖ بۆت چالاک دەکرێت کەمێك چاوەڕێ بکە ..⚡.**")
-            user = Client("ALINA", api_id=API_ID, api_hash=API_HASH, session_string=session, in_memory=True)
+            user = Client(
+                "ALINA",
+                api_id=API_ID,
+                api_hash=API_HASH,
+                session_string=session,
+                in_memory=True,
+            )
             await user.start()
 
             # Create bot's log group and set up details
-            loger = await user.create_supergroup("گرووپی بۆت 🖤", "ئەم گرووپە هەموو ئامار و زانیاریەکانی بۆت سەیڤ دەکات")
+            loger = await user.create_supergroup(
+                "گرووپی بۆت 🖤", "ئەم گرووپە هەموو ئامار و زانیاریەکانی بۆت سەیڤ دەکات"
+            )
             if bot.photo:
                 photo = await bot.download_media(bot.photo.big_file_id)
                 await user.set_chat_photo(chat_id=loger.id, photo=photo)
@@ -491,8 +517,14 @@ async def handle_user_input(client: Client, message):
                 loger.id,
                 bot_username,
                 privileges=ChatPrivileges(
-                    can_change_info=True, can_invite_users=True, can_delete_messages=True, can_restrict_members=True,
-                    can_pin_messages=True, can_promote_members=True, can_manage_chat=True, can_manage_video_chats=True,
+                    can_change_info=True,
+                    can_invite_users=True,
+                    can_delete_messages=True,
+                    can_restrict_members=True,
+                    can_pin_messages=True,
+                    can_promote_members=True,
+                    can_manage_chat=True,
+                    can_manage_video_chats=True,
                 ),
             )
             loggerlink = await user.export_chat_invite_link(loger.id)
