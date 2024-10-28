@@ -4,10 +4,11 @@ ffmpeg-python
 py-tgcalls
 ntgcalls==1.1.2
 telethon==1.28.2
+youtube-search
+youtube-search-python
+yt-dlp
 git+https://github.com/KurimuzonAkuma/pyrogram@dev
-git+https://github.com/yt-dlp/yt-dlp.git
-git+https://github.com/alexmercerind/youtube-search-python@main
-git+https://github.com/joetats/youtube_search@master
+git+https://github.com/Vivekkumar-IN/yt-dlp-youtube-oauth2
 python-dotenv
 dnspython
 gitpython
