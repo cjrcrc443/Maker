@@ -455,7 +455,7 @@ async def cloner(app: Client, message):
         token = message.reply_to_message.text
     else:
         await message.reply_text(
-            "**• تکایە تۆکنی بۆت و کۆدی یاریدەدەر بنێرە یان ڕیپلەی بکە :**\n- بەم شێوازەی خوارەوە\n- `تۆکنی بۆت` + `کۆدی یاریدەدەر`\n\n- نموونە\n- `7155835267:AAFkHDtkjO8k9P6T_okNQJJdfDQPU13oLI4 AgDFycsAdTlYSLcV1hcO66u-XkAvGTzu3sxlXFpmajfq3aLE6jjC7khfIzByLz-iacINnEQIGeWP7XV7kllN1cx_jvCej1_MgmPgYELrw8BUNvKUARCKsnNc-GvJme0RziX6Gs3cv6J8x0fINr-IBDFv2Gd_WHWCA4qs0-nkfgg6hgHX7ny37TsF7Ne_nG_SLTLE7za-r6yWZynx6-gKF5nGTQs0FFzFyCHt2-Xp4xArmDRp_vz68E1r1FHQ88AQSCeNc6w5AjoLJu-pCkaZVeCagxba04OSHpRAgSvj4mdrZu_puEFKKuyZAbeD3vebdTaHbxyT4AQ34cZjbCFZ4cD3YgZDIQAAAAAxrBH9AA`\n\n- با بۆشایی هەبێت لە نێوان تۆکن و کۆدەکە"
+            "**• تکایە تۆکنی بۆت و کۆدی یاریدەدەر بنووسە یان ڕیپلەی بکە :**\n- بەم شێوازەی خوارەوە\n- دروستکردنی بۆت +`تۆکنی بۆت` + `کۆدی یاریدەدەر`\n\n- نموونە\n-` دروستکردنی بۆت 7155835267:AAFkHDtkjO8k9P6T_okNQJJdfDQPU13oLI4 AgDFycsAdTlYSLcV1hcO66u-XkAvGTzu3sxlXFpmajfq3aLE6jjC7khfIzByLz-iacINnEQIGeWP7XV7kllN1cx_jvCej1_MgmPgYELrw8BUNvKUARCKsnNc-GvJme0RziX6Gs3cv6J8x0fINr-IBDFv2Gd_WHWCA4qs0-nkfgg6hgHX7ny37TsF7Ne_nG_SLTLE7za-r6yWZynx6-gKF5nGTQs0FFzFyCHt2-Xp4xArmDRp_vz68E1r1FHQ88AQSCeNc6w5AjoLJu-pCkaZVeCagxba04OSHpRAgSvj4mdrZu_puEFKKuyZAbeD3vebdTaHbxyT4AQ34cZjbCFZ4cD3YgZDIQAAAAAxrBH9AA`\n\n- با بۆشایی هەبێت لە نێوان تۆکن و کۆدەکە"
         )
         return
 
