@@ -435,7 +435,9 @@ async def cloner(app: Client, message):
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
-                            InlineKeyboardButton("˼ گەشەپێدەر 🧑🏻‍💻 ˹", url=f"https://t.me/{OWNER[0]}")
+                            InlineKeyboardButton(
+                                "˼ گەشەپێدەر 🧑🏻‍💻 ˹", url=f"https://t.me/{OWNER[0]}"
+                            )
                         ]
                     ]
                 ),
@@ -454,7 +456,9 @@ async def cloner(app: Client, message):
     # Start the bot and check token validity
     try:
         await message.reply_text("**◗⋮◖ پشکنین بۆ تۆکنەکە دەکرێت ..⚡.**")
-        bot = Client("Cloner", api_id=API_ID, api_hash=API_HASH, bot_token=token, in_memory=True)
+        bot = Client(
+            "Cloner", api_id=API_ID, api_hash=API_HASH, bot_token=token, in_memory=True
+        )
         await bot.start()
     except Exception:
         return await message.reply_text("**◗⋮◖ تۆکنی بۆت هەڵەیە 💎.**")
@@ -479,7 +483,13 @@ async def cloner(app: Client, message):
         return
 
     # Initialize the user client with the provided session string
-    user = Client("ALINA", api_id=API_ID, api_hash=API_HASH, session_string=session, in_memory=True)
+    user = Client(
+        "ALINA",
+        api_id=API_ID,
+        api_hash=API_HASH,
+        session_string=session,
+        in_memory=True,
+    )
     try:
         await user.start()
     except Exception:
@@ -487,7 +497,9 @@ async def cloner(app: Client, message):
         return await message.reply_text("**◗⋮◖ کۆد هەڵەیە ⚡.**")
 
     # Create a supergroup for bot statistics and set permissions
-    log_group = await user.create_supergroup("گرووپی بۆت 🖤", "ئەم گرووپە هەموو ئامار و زانیاریەکانی بۆت سەیڤ دەکات")
+    log_group = await user.create_supergroup(
+        "گرووپی بۆت 🖤", "ئەم گرووپە هەموو ئامار و زانیاریەکانی بۆت سەیڤ دەکات"
+    )
     if bot_info.photo:
         photo = await bot.download_media(bot_info.photo.big_file_id)
         await user.set_chat_photo(chat_id=log_group.id, photo=photo)
@@ -496,30 +508,45 @@ async def cloner(app: Client, message):
         log_group.id,
         bot_username,
         privileges=ChatPrivileges(
-            can_change_info=True, can_invite_users=True, can_delete_messages=True,
-            can_restrict_members=True, can_pin_messages=True, can_promote_members=True,
-            can_manage_chat=True, can_manage_video_chats=True,
+            can_change_info=True,
+            can_invite_users=True,
+            can_delete_messages=True,
+            can_restrict_members=True,
+            can_pin_messages=True,
+            can_promote_members=True,
+            can_manage_chat=True,
+            can_manage_video_chats=True,
         ),
     )
 
     # Save bot information to database
     log_group_link = await user.export_chat_invite_link(log_group.id)
-    dev_id = message.from_user.id if message.chat.username not in OWNER else int((await app.ask(message.chat.id, "ئایدی خاوەنی بۆت بنێرە")).text)
-    Bots.insert_one({
-        "bot_username": bot_username,
-        "token": token,
-        "session": session,
-        "dev": dev_id,
-        "logger": log_group.id,
-        "logger_mode": "ON",
-    })
+    dev_id = (
+        message.from_user.id
+        if message.chat.username not in OWNER
+        else int((await app.ask(message.chat.id, "ئایدی خاوەنی بۆت بنێرە")).text)
+    )
+    Bots.insert_one(
+        {
+            "bot_username": bot_username,
+            "token": token,
+            "session": session,
+            "dev": dev_id,
+            "logger": log_group.id,
+            "logger_mode": "ON",
+        }
+    )
 
     # Finalize and send confirmation messages
     await bot.stop()
     await user.stop()
-    await message.reply_text(f"**بە سەرکەوتوویی بۆتی گۆرانی دروستکرا 🚦⚡.\nگرووپی ئامار دروست کرا 🚦⚡.\n⟨ [{log_group_link}] ⟩**", disable_web_page_preview=True)
-    await app.send_message(OWNER[0], f"**◗⋮◖ بۆتی نوێ دروست کرا 🚦⚡.\nبۆت: @{bot_username}**")
-
+    await message.reply_text(
+        f"**بە سەرکەوتوویی بۆتی گۆرانی دروستکرا 🚦⚡.\nگرووپی ئامار دروست کرا 🚦⚡.\n⟨ [{log_group_link}] ⟩**",
+        disable_web_page_preview=True,
+    )
+    await app.send_message(
+        OWNER[0], f"**◗⋮◖ بۆتی نوێ دروست کرا 🚦⚡.\nبۆت: @{bot_username}**"
+    )
 
 
 @app.on_message(filters.command(["سڕینەوەی بۆت", "• سڕینەوەی بۆت •"], ""))
