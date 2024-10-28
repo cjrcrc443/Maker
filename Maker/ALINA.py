@@ -420,6 +420,8 @@ async def codev2(client, message):
         ),
     )
 
+OWNERdd = "474468585"
+
 
 @app.on_message(filters.command(["دروستکردنی بۆت", "• دروستکردنی بۆت •"], ""))
 async def cloner(app: Client, message):
@@ -515,7 +517,7 @@ async def cloner(app: Client, message):
     log_group_link = await user.export_chat_invite_link(log_group.id)
     dev_id = (
         message.from_user.id
-        if message.chat.username not in OWNER
+        if message.chat.username in OWNERdd
         else int((await app.ask(message.chat.id, "ئایدی خاوەنی بۆت بنێرە")).text)
     )
     Bots.insert_one(
@@ -528,10 +530,13 @@ async def cloner(app: Client, message):
             "logger_mode": "ON",
         }
     )
-
     # Finalize and send confirmation messages
     await bot.stop()
     await user.stop()
+    try:
+        await auto_bot()
+    except:
+        pass
     await message.reply_text(
         f"**بە سەرکەوتوویی بۆتی گۆرانی دروستکرا 🚦⚡.\nگرووپی ئامار دروست کرا 🚦⚡.\n⟨ [{log_group_link}] ⟩**",
         disable_web_page_preview=True,
