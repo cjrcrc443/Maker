@@ -516,11 +516,7 @@ async def cloner(app: Client, message):
 
     # Save bot information to database
     log_group_link = await user.export_chat_invite_link(log_group.id)
-    dev_id = (
-        message.from_user.id
-        if message.chat.username in OWNERdd
-        else int((await app.ask(message.chat.id, "ئایدی خاوەنی بۆت بنێرە")).text)
-    )
+    dev_id = message.from_user.id
     Bots.insert_one(
         {
             "bot_username": bot_username,
