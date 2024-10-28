@@ -547,7 +547,7 @@ async def cloner(app: Client, message):
 async def delbot(client: app, message):
     if await is_block_user(message.from_user.id):
         return
-    
+
     if OFF:
         if message.chat.username not in OWNER:
             return await message.reply_text(
@@ -568,32 +568,31 @@ async def delbot(client: app, message):
         bot_username = message.command[1].replace("@", "")
     else:
         return await message.reply_text("**◗⋮◖ یوزەری بۆت لەگەڵ فەرمان بنێرە 💎.**")
-    
+
     # Check if the bot exists in the database
     bot_entry = Bots.find_one({"bot_username": bot_username})
     if not bot_entry:
         return await message.reply_text("**◗⋮◖ هیچ بۆتێکت دروست نەکردووە ⚡.**")
-    
+
     # Attempt to delete the bot from the database
     try:
         Bots.delete_one({"bot_username": bot_username})
-        
+
         # Stop the bot if it was running
         if bot_username in Done:
             Done.remove(bot_username)
-        
+
         try:
             boot = appp[bot_username]
             await boot.stop()
         except KeyError:
             pass
-        
+
         await message.reply_text("**◗⋮◖ بە سەرکەوتوویی بۆت سڕدرایەوە ⚡.**")
     except Exception as es:
         await message.reply_text(
             f"**◗⋮◖ هەنێك هەڵە ڕوویدا ⚡.\n◗⋮◖ جۆری هەڵە :** `{es}` **⚡.**"
         )
-
 
 
 @app.on_message(filters.command("بۆتەکان", ""))
