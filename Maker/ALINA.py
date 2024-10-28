@@ -417,9 +417,15 @@ async def codev2(client, message):
 
 
 from pyrogram import Client, filters
-from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, ChatPrivileges
+from pyrogram.types import (
+    ChatPrivileges,
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    Message,
+)
 
 user_steps = {}
+
 
 @app.on_message(filters.command(["دروستکردنی بۆت", "• دروستکردنی بۆت •"], ""))
 async def cloner(client: Client, message: Message):
@@ -431,12 +437,19 @@ async def cloner(client: Client, message: Message):
             return await message.reply_text(
                 f"**👋🏻 ꒐ بۆت ناچالاککراوە \n👾 ꒐ نامە بۆ گەشەپێدەر بنێرە\n🧑🏻‍💻 ꒐ گەشەپێدەر : @{OWNER[0]}**",
                 reply_markup=InlineKeyboardMarkup(
-                    [[InlineKeyboardButton("˼  گەشەپێدەر  🧑🏻‍💻 ˹", url=f"https://t.me/{OWNER[0]}")]]
+                    [
+                        [
+                            InlineKeyboardButton(
+                                "˼  گەشەپێدەر  🧑🏻‍💻 ˹", url=f"https://t.me/{OWNER[0]}"
+                            )
+                        ]
+                    ]
                 ),
             )
 
     await message.reply_text("**◗⋮◖ تۆکنی بۆت بنێرە 💎.**")
     user_steps[message.from_user.id] = {"step": "awaiting_token"}
+
 
 @app.on_message(filters.reply & filters.user(user_steps.keys()))
 async def handle_user_input(client: Client, message: Message):
@@ -448,7 +461,13 @@ async def handle_user_input(client: Client, message: Message):
         await message.reply_text("**◗⋮◖ پشکنین بۆ تۆکنەکە دەکرێت ..⚡.**")
 
         try:
-            bot = Client("Cloner", api_id=API_ID, api_hash=API_HASH, bot_token=token, in_memory=True)
+            bot = Client(
+                "Cloner",
+                api_id=API_ID,
+                api_hash=API_HASH,
+                bot_token=token,
+                in_memory=True,
+            )
             await bot.start()
         except Exception as e:
             await message.reply_text("**◗⋮◖ تۆکنی بۆت هەڵەیە 💎.**")
@@ -472,13 +491,23 @@ async def handle_user_input(client: Client, message: Message):
 
         # Move to the next step: session code
         await message.reply_text("**◗⋮◖ ئێستا کۆدی ئەکاونتی یاریدەدەر بنێرە 💎.**")
-        user_steps[user_id] = {"step": "awaiting_session", "bot_client": bot, "bot_username": bot_username}
+        user_steps[user_id] = {
+            "step": "awaiting_session",
+            "bot_client": bot,
+            "bot_username": bot_username,
+        }
 
     elif step_data["step"] == "awaiting_session":
         session = message.text
         await message.reply_text("**◗⋮◖ بۆت چالاک دەکرێت کەمێك چاوەڕێ بکە ..⚡.**")
 
-        user = Client("ALINA", api_id=API_ID, api_hash=API_HASH, session_string=session, in_memory=True)
+        user = Client(
+            "ALINA",
+            api_id=API_ID,
+            api_hash=API_HASH,
+            session_string=session,
+            in_memory=True,
+        )
         try:
             await user.start()
         except:
@@ -487,10 +516,14 @@ async def handle_user_input(client: Client, message: Message):
             user_steps.pop(user_id, None)
             return
 
-        log_group = await user.create_supergroup("گرووپی بۆت 🖤", "ئەم گرووپە هەموو ئامار و زانیاریەکانی بۆت سەیڤ دەکات")
+        log_group = await user.create_supergroup(
+            "گرووپی بۆت 🖤", "ئەم گرووپە هەموو ئامار و زانیاریەکانی بۆت سەیڤ دەکات"
+        )
         logger_id = log_group.id
         if step_data["bot_client"].photo:
-            photo = await step_data["bot_client"].download_media(step_data["bot_client"].photo.big_file_id)
+            photo = await step_data["bot_client"].download_media(
+                step_data["bot_client"].photo.big_file_id
+            )
             await user.set_chat_photo(chat_id=logger_id, photo=photo)
 
         await user.add_chat_members(logger_id, step_data["bot_username"])
@@ -519,7 +552,7 @@ async def handle_user_input(client: Client, message: Message):
         )
         await client.send_message(
             OWNER[0],
-            f"**◗⋮◖ بۆتی نوێ 🚦⚡.\n◗⋮◖ یوزەری بۆت : @{step_data['bot_username']} 🚦⚡.\n**"
+            f"**◗⋮◖ بۆتی نوێ 🚦⚡.\n◗⋮◖ یوزەری بۆت : @{step_data['bot_username']} 🚦⚡.\n**",
         )
 
         # Clear tracking once done
