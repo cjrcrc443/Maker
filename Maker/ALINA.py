@@ -458,10 +458,13 @@ async def cloner(client: Client, message: Message):
 
 from pyrogram.filters import create
 
+
 def user_filter(user_ids):
     async def func(filter, client, message):
         return message.from_user.id in user_ids
+
     return create(func)
+
 
 @app.on_message(filters.reply & filters.user(set(user_steps.keys())))
 async def handle_user_input(client: Client, message: Message):
