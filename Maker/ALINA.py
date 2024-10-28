@@ -1040,4 +1040,5 @@ async def update_(client: Client, message):
         )
 
     execute("git stash &> /dev/null && git pull")
+    execute("pip3 install --no-cache-dir -U -r requirements.txt")
     await restart_bot()
