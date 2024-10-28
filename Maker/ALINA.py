@@ -456,7 +456,14 @@ async def cloner(client: Client, message: Message):
     user_steps[message.from_user.id] = {"step": "awaiting_token"}
 
 
-@app.on_message(filters.reply & filters.user(list(user_steps.keys())))
+from pyrogram.filters import create
+
+def user_filter(user_ids):
+    async def func(filter, client, message):
+        return message.from_user.id in user_ids
+    return create(func)
+
+@app.on_message(filters.reply & filters.user(set(user_steps.keys())))
 async def handle_user_input(client: Client, message: Message):
     user_id = message.from_user.id
     step_data = user_steps.get(user_id)
