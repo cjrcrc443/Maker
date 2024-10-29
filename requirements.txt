@@ -1,7 +1,7 @@
 wget
 tgcrypto
 ffmpeg-python
-py-tgcalls
+py-tgcalls==0.9.7
 ntgcalls==1.1.2
 telethon==1.28.2
 youtube-search
