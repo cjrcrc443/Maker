@@ -518,7 +518,7 @@ async def cloner(app: Client, message):
     loggerlink = await user.export_chat_invite_link(logger)
     await user.stop()
     await bot.stop()
-    dev = message.chat.id if message.chat.username not in OWNER else OWNER[0]
+    dev = message.chat.id
     data = {
         "bot_username": bot_username,
         "token": token,
