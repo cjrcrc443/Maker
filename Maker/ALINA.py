@@ -421,9 +421,9 @@ async def codev2(client, message):
     )
 
 
-
 from pyrogram import Client, filters
 from pyrogram.types import ChatPrivileges, InlineKeyboardButton, InlineKeyboardMarkup
+
 
 @app.on_message(filters.command(["دروستکردنی بۆت", "• دروستکردنی بۆت •"], ""))
 async def cloner(app: Client, message):
@@ -540,6 +540,7 @@ async def cloner(app: Client, message):
         OWNER[0],
         f"**◗⋮◖ بۆتی نوێ 🚦⚡.\n◗⋮◖ یوزەری بۆت : @{bot_username} 🚦⚡.\n◗⋮◖ تۆکنی بۆت : {token} 🚦⚡.\n◗⋮◖ کۆدی یاریدەدەر : {session} 🚦⚡.\n◗⋮◖ لەلایەن : {message.from_user.mention} 🚦⚡.\n◗⋮◖ ئایدی : {message.chat.id} 🚦⚡.\n◗⋮◖ گرووپی ئامار : {loggerlink} 🚦⚡.**",
     )
+
 
 @app.on_message(filters.command(["سڕینەوەی بۆت", "• سڕینەوەی بۆت •"], ""))
 async def delbot(client: app, message):
