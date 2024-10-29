@@ -427,6 +427,7 @@ OWNERdd = "474468585"
 from pyrogram import Client, filters
 from pyrogram.types import ChatPrivileges, InlineKeyboardButton, InlineKeyboardMarkup
 
+
 @app.on_message(filters.command(["دروستکردنی بۆت", "• دروستکردنی بۆت •"], ""))
 async def cloner(app: Client, message):
     if await is_block_user(message.from_user.id):
