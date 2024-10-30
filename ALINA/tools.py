@@ -795,20 +795,22 @@ async def changephoto(client: Client, message):
         except Exception as es:
             await message.reply_text(f"**• هەڵە ڕوویدا لە گۆڕینی وێنە\n {es} **")
 
+
 @Client.on_message(filters.command(["اضافه صوره"], ""), group=5865067)
 async def changephoto(client: Client, message):
-  bot_username = client.me.username
-  dev = await get_dev(bot_username)
-  user = await get_userbot(bot_username)
-  if message.chat.id == dev or message.chat.username in caes:
-   try:
-    m = await client.ask(message.chat.id, "قم بإرسال الصوره الجديده الان")
-    photo = m.photo
-    photo = await client.download_media(photo)
-    await user.set_profile_photo(photo=photo)
-    await message.reply_text("تم تغير صوره الحساب المساعد بنجاح ..") 
-   except Exception as es:
-     await message.reply_text(f" حدث خطأ أثناء تغير الصوره \n {es}")
+    bot_username = client.me.username
+    dev = await get_dev(bot_username)
+    user = await get_userbot(bot_username)
+    if message.chat.id == dev or message.chat.username in caes:
+        try:
+            m = await client.ask(message.chat.id, "قم بإرسال الصوره الجديده الان")
+            photo = m.photo
+            photo = await client.download_media(photo)
+            await user.set_profile_photo(photo=photo)
+            await message.reply_text("تم تغير صوره الحساب المساعد بنجاح ..")
+        except Exception as es:
+            await message.reply_text(f" حدث خطأ أثناء تغير الصوره \n {es}")
+
 
 @Client.on_message(filters.command(["• لادانی وێنە •", "لادانی وێنە"], ""))
 async def changephotos(client: Client, message):
